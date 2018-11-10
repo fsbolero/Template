@@ -1,8 +1,8 @@
 module Client.Main
 
 open Elmish
-open MiniBlazor
-open MiniBlazor.Html
+open Bolero
+open Bolero.Html
 
 type Model =
     {

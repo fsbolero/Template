@@ -1,6 +1,12 @@
 STORAGE: NONE
 RESTRICTION: || (== netcoreapp2.1) (== netstandard2.0)
 NUGET
+  remote: https://ci.appveyor.com/nuget/bolero
+    Bolero (0.1.21)
+      Elmish (>= 2.0)
+      FSharp.Core (>= 4.5)
+      Microsoft.AspNetCore.Blazor.Browser (>= 0.6)
+      Microsoft.AspNetCore.Http.Abstractions (>= 2.1)
   remote: https://api.nuget.org/v3/index.json
     Elmish (2.0.3)
       FSharp.Core (>= 4.5.2)
@@ -1503,11 +1509,3 @@ NUGET
       System.Xml.ReaderWriter (>= 4.3)
       System.Xml.XDocument (>= 4.3)
       System.Xml.XPath (>= 4.3)
-  remote: ..\miniblazor\build
-    MiniBlazor (0.1.0)
-      Elmish (>= 2.0)
-      FSharp.Core (>= 4.5)
-      Microsoft.AspNetCore.Blazor.Browser (>= 0.6 < 0.7)
-      Microsoft.AspNetCore.Http.Abstractions (>= 2.1.1)
-      Microsoft.JSInterop (>= 0.6 < 0.7)
-      Mono.WebAssembly.Interop (>= 0.6 < 0.7)
