@@ -26,7 +26,7 @@ let update message model =
 let view model dispatch =
     concat [
         button [on.click (fun _ -> dispatch Decrement)] [text "-"]
-        span [] [text (" " + string model.value + " ")]
+        span [] [textf " %i " model.value]
         button [on.click (fun _ -> dispatch Increment)] [text "+"]
     ]
 
