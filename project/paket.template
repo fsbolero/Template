@@ -1,0 +1,18 @@
+type file
+id Bolero.Templates
+authors IntelliFactory
+description
+    A set of tools and libraries to run F# applications in WebAssembly using Blazor.
+files
+    ../content/**/.template.config/*   ==> content
+    ../content/**/*.sln                ==> content
+    ../content/**/paket.*              ==> content
+    ../content/**/.paket/*             ==> content
+    ../content/**/*.fs                 ==> content
+    ../content/**/*.fsi                ==> content
+    ../content/**/*.fsx                ==> content
+    ../content/**/*.fsproj             ==> content
+    ../content/**/*.html               ==> content
+    !../**/paket-files/**/*
+    !../**/bin/**/*
+    !../**/obj/**/*

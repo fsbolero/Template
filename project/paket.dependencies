@@ -1,0 +1,16 @@
+version 5.186.3
+source https://api.nuget.org/v3/index.json
+framework: netcoreapp2.0
+storage: none
+
+clitool dotnet-fake ~> 5.0
+
+group fake
+source https://api.nuget.org/v3/index.json
+framework: netstandard2.0
+storage: none
+
+nuget Fake.Core.Target
+nuget Fake.IO.FileSystem
+nuget Fake.DotNet.Cli
+nuget Fake.DotNet.Paket

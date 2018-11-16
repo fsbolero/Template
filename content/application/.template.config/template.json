@@ -1,0 +1,14 @@
+{
+  "author": "IntelliFactory",
+  "classifications": [ "Bolero", "Web", "Blazor" ],
+  "name": "Bolero Hosted Application",
+  "tags": {
+    "language": "F#",
+    "type": "project"
+  },
+  "identity": "Bolero.Application.Template",
+  "groupIdentity": "Bolero",
+  "shortName": "bolero-app",
+  "sourceName": "Bolero.Template",
+  "preferNameDirectory": true
+}

@@ -11,6 +11,22 @@ To get started, you need the following installed:
 
 To learn more, you can check [the documentation](https://github.com/intellifactory/bolero/wiki).
 
+## Creating a project based on this template
+
+To create a project based on this template, first install the template to your local dotnet:
+
+```
+dotnet new -i Bolero.Templates
+```
+
+Then, you can create a project like so:
+
+```
+dotnet new bolero-app -o your-app-name
+```
+
+This will create a project in a new folder named `your-app-name`.
+
 ## Using this template
 
 Visual Studio Code or Visual Studio is recommended to edit this project.
@@ -36,3 +52,7 @@ dotnet run -p src/Server
     * `Main.fs` contains the main body of the page.
 
 * `src/Server` is the host ASP.NET Core application, and contains your server-side code.
+
+## Learn more about Bolero
+
+To learn more about Bolero, you can check [the documentation](https://github.com/intellifactory/bolero/wiki).
