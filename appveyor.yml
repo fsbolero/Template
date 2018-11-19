@@ -1,0 +1,19 @@
+version: 0.1.{build}
+image: Visual Studio 2017
+
+build:
+  verbosity: minimal
+
+branches:
+  only:
+  - master
+
+init:
+- git config --global core.autocrlf input
+
+build_script:
+- ps: .\build.cmd -t release -v "$env:APPVEYOR_BUILD_VERSION"
+
+artifacts:
+- path: build\*.nupkg
+  name: nuget
