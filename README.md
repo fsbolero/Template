@@ -27,6 +27,18 @@ dotnet new bolero-app -o your-app-name
 
 This will create a project in a new folder named `your-app-name`.
 
+## Template options
+
+You can use the following options to customize the project being created:
+
+* `--server=true|false`:
+
+    If `true`, the solution includes a `Server` project, which is an ASP.NET Core server that hosts the application.
+    
+    If `false`, the solution only contains the `Client` project that is compiled to WebAssembly.
+    
+    The default is `server=true`.
+
 ## Using this template
 
 Visual Studio Code or Visual Studio is recommended to edit this project.
@@ -41,6 +53,9 @@ To run it:
 
 ```shell
 dotnet run -p src/Server
+
+# Or if you created the project with --server=false:
+dotnet run -p src/Client
 ```
 
 ## Project structure
