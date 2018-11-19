@@ -1,4 +1,4 @@
-namespace Client
+namespace Bolero.Template.Client
 
 open Microsoft.AspNetCore.Blazor.Builder
 open Microsoft.AspNetCore.Blazor.Hosting

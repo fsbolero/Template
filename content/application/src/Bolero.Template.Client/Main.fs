@@ -1,4 +1,4 @@
-module Client.Main
+module Bolero.Template.Client.Main
 
 open Elmish
 open Bolero

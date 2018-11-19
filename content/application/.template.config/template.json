@@ -10,5 +10,39 @@
   "groupIdentity": "Bolero",
   "shortName": "bolero-app",
   "sourceName": "Bolero.Template",
-  "preferNameDirectory": true
+  "preferNameDirectory": true,
+  "symbols": {
+    "server": {
+      "type": "parameter",
+      "isRequired": false,
+      "choices": [
+        {
+          "choice": "true",
+          "description": "Include an ASP.NET Core server-side host"
+        },
+        {
+          "choice": "false",
+          "description": "Do not include an ASP.NET Core server-side host"
+        }
+      ],
+      "defaultValue": "true"
+    }
+  },
+  "sources": [
+    {
+      "exclude": [ "*.sln", "src/Bolero.Template.Server/**/*", "**/.template.config/**/*" ],
+      "modifiers": [
+        {
+          "condition": "(server == \"true\")",
+          "include": [ "src/Bolero.Template.Server/**/*", "Bolero.Template__server.sln" ],
+          "rename": { "Bolero.Template__server.sln": "Bolero.Template.sln" }
+        },
+        {
+          "condition": "(server == \"false\")",
+          "include": [ "Bolero.Template__noserver.sln" ],
+          "rename": { "Bolero.Template__noserver.sln": "Bolero.Template.sln" }
+        }
+      ]
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-namespace Server
+namespace Bolero.Template.Server
 
 open System
 open Microsoft.AspNetCore
@@ -6,6 +6,7 @@ open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
+open Bolero.Template
 
 type Startup() =
 

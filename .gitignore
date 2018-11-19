@@ -4,3 +4,4 @@ paket-files/
 build/
 .fake/
 .vs/
+*.user
