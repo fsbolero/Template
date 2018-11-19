@@ -2,14 +2,14 @@
 
 This template can be used as a base to create a Bolero application.
 
+To learn more, you can check [the documentation](https://github.com/intellifactory/bolero/wiki).
+
 ## Requirements
 
 To get started, you need the following installed:
 
 * .NET Core SDK 2.1.403 with .NET Core Runtime 2.1.3. Download it [here](https://www.microsoft.com/net/download/dotnet-core/2.1).
 * On Linux / OSX: Mono 5.x. Download it [here](https://www.mono-project.com/download/stable/).
-
-To learn more, you can check [the documentation](https://github.com/intellifactory/bolero/wiki).
 
 ## Creating a project based on this template
 
