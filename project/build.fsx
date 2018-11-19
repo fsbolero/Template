@@ -23,7 +23,8 @@ Target.create "pack" <| fun o ->
 Target.description "Test all the template projects by building them."
 Target.create "test-build" <| fun _ ->
     forEachProject <| fun dir ->
-        dotnet dir [] "build" ""
+        Directory.GetFiles(dir, "*.sln")
+        |> Seq.iter (dotnet dir [] "build" "%s")
 
 Target.description "Update the dependencies (ie. paket.lock) of all template projects."
 Target.create "update-deps" <| fun _ ->
