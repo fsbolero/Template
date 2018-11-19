@@ -1,0 +1,23 @@
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = true
+
+[*.{sln,fsproj,csproj,dependencies,lock,fs,fsi,fsx}]
+end_of_line = crlf
+
+[*.{fs,fsi,fsx,cs,dependencies,references,template,md}]
+indent_size = 4
+
+[.vscode/*.json]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*proj]
+insert_final_newline = false
+charset = utf-8-bom
