@@ -7,10 +7,16 @@ open Fake.Core.TargetOperators
 open Fake.IO.FileSystemOperators
 open Utility
 
+let contentBaseDir = slnDir </> "content"
+
 let forEachProject f =
-    slnDir </> "content"
+    contentBaseDir
     |> Directory.GetDirectories
     |> Array.Parallel.iter f
+
+let forEachPaketDirectory f =
+    Directory.GetFiles(contentBaseDir, "paket.dependencies", SearchOption.AllDirectories)
+    |> Array.Parallel.iter (Path.GetDirectoryName >> f)
 
 Target.description "Create the NuGet package containing the templates."
 Target.create "pack" <| fun o ->
@@ -28,7 +34,7 @@ Target.create "test-build" <| fun _ ->
 
 Target.description "Update the dependencies (ie. paket.lock) of all template projects."
 Target.create "update-deps" <| fun _ ->
-    forEachProject <| fun dir ->
+    forEachPaketDirectory <| fun dir ->
         shell dir ".paket/paket.exe" "update"
 
 Target.description "Run the full release pipeline."

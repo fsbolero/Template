@@ -30,17 +30,36 @@
   },
   "sources": [
     {
-      "exclude": [ "*.sln", "src/Bolero.Template.Server/**/*", "**/.template.config/**/*" ],
+      "exclude": [
+        "Bolero.Template.sln",
+        "paket.dependencies",
+        "paket.lock",
+        "noserver/**/*",
+        "src/Bolero.Template.Server/**/*",
+        "**/.template.config/**/*"
+      ],
       "modifiers": [
         {
           "condition": "(server == \"true\")",
-          "include": [ "src/Bolero.Template.Server/**/*", "Bolero.Template__server.sln" ],
-          "rename": { "Bolero.Template__server.sln": "Bolero.Template.sln" }
+          "include": [
+            "src/Bolero.Template.Server/**/*",
+            "Bolero.Template.sln",
+            "paket.dependencies",
+            "paket.lock"
+          ]
         },
         {
           "condition": "(server == \"false\")",
-          "include": [ "Bolero.Template__noserver.sln" ],
-          "rename": { "Bolero.Template__noserver.sln": "Bolero.Template.sln" }
+          "include": [
+            "noserver/Bolero.Template.sln",
+            "noserver/paket.dependencies",
+            "noserver/paket.lock"
+          ],
+          "rename": {
+            "noserver/Bolero.Template.sln": "Bolero.Template.sln",
+            "noserver/paket.dependencies": "paket.dependencies",
+            "noserver/paket.lock": "paket.lock"
+          }
         }
       ]
     }
