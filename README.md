@@ -1,6 +1,9 @@
 # Bolero Simple Template
 
-This template can be used as a base to create a Bolero application.
+[![Build status](https://ci.appveyor.com/api/projects/status/2mo3n85bv4d5iv56?svg=true)](https://ci.appveyor.com/project/IntelliFactory/bolero-template)
+
+
+This template can be used as a base to create a [Bolero](https://github.com/intellifactory/bolero) application.
 
 To learn more, you can check [the documentation](https://github.com/intellifactory/bolero/wiki).
 
