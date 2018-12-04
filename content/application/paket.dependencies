@@ -10,3 +10,6 @@ nuget Microsoft.AspNetCore.Blazor.Build ~> 0.7.0
 clitool Microsoft.AspNetCore.Blazor.Cli ~> 0.7.0
 nuget Bolero
 nuget Bolero.Build
+
+# Force <2.2 to prevent this issue: https://github.com/aspnet/Razor/issues/2553
+nuget Microsoft.AspNetCore.Razor.Design ~> 2.1.0

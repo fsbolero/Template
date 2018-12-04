@@ -28,7 +28,7 @@ NUGET
       System.Text.Encodings.Web (>= 4.5)
     Microsoft.AspNetCore.Http.Features (2.2)
       Microsoft.Extensions.Primitives (>= 2.2)
-    Microsoft.AspNetCore.Razor.Design (2.2)
+    Microsoft.AspNetCore.Razor.Design (2.1.2)
     Microsoft.Extensions.DependencyInjection (2.2)
       Microsoft.Extensions.DependencyInjection.Abstractions (>= 2.2)
     Microsoft.Extensions.DependencyInjection.Abstractions (2.2)
