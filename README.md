@@ -24,10 +24,10 @@ dotnet new -i Bolero.Templates
 Then, you can create a project like so:
 
 ```
-dotnet new bolero-app -o your-app-name
+dotnet new bolero-app -o YourAppName
 ```
 
-This will create a project in a new folder named `your-app-name`.
+This will create a project in a new folder named `YourAppName`.
 
 ## Template options
 
@@ -54,21 +54,21 @@ dotnet build
 To run it:
 
 ```shell
-dotnet run -p src/Server
+dotnet run -p src/YourAppName.Server
 
 # Or if you created the project with --server=false:
-dotnet run -p src/Client
+dotnet run -p src/YourAppName.Client
 ```
 
 ## Project structure
 
-* `src/Client` is the project that gets compiled to WebAssembly, and contains your client-side code.
+* `src/YourAppName.Client` is the project that gets compiled to WebAssembly, and contains your client-side code.
 
     * `Startup.fs` sets up Blazor to get the application started.
 
     * `Main.fs` contains the main body of the page.
 
-* `src/Server` is the host ASP.NET Core application, and contains your server-side code.
+* `src/YourAppName.Server` is the host ASP.NET Core application, and contains your server-side code.
 
 ## Learn more about Bolero
 
