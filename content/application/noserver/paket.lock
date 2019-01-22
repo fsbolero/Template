@@ -2,12 +2,12 @@ STORAGE: NONE
 RESTRICTION: == netstandard2.0
 NUGET
   remote: https://ci.appveyor.com/nuget/bolero
-    Bolero (0.1.72)
+    Bolero (0.2.110)
       Elmish (>= 2.0)
       FSharp.Core (>= 4.5)
       Microsoft.AspNetCore.Blazor.Browser (>= 0.7)
       Microsoft.AspNetCore.Http.Abstractions (>= 2.1)
-    Bolero.Build (0.1.72)
+    Bolero.Build (0.2.110)
   remote: https://api.nuget.org/v3/index.json
     Elmish (2.0.3)
       FSharp.Core (>= 4.5.2)
@@ -39,10 +39,10 @@ NUGET
     Mono.WebAssembly.Interop (0.7)
       Microsoft.JSInterop (>= 0.7)
     System.Buffers (4.5)
-    System.Memory (4.5.1)
+    System.Memory (4.5.2)
       System.Buffers (>= 4.4)
       System.Numerics.Vectors (>= 4.4)
-      System.Runtime.CompilerServices.Unsafe (>= 4.5)
+      System.Runtime.CompilerServices.Unsafe (>= 4.5.2)
     System.Numerics.Vectors (4.5)
     System.Runtime.CompilerServices.Unsafe (4.5.2)
     System.Text.Encodings.Web (4.5)

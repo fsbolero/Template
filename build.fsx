@@ -26,6 +26,7 @@ Target.create "pack" <| fun o ->
         { p with
             OutputPath = buildOutputDir
             Version = version o
+            ToolPath = ".paket/paket"
         }
 
 Target.description "Test all the template projects by building them."
