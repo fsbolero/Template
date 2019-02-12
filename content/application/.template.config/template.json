@@ -15,6 +15,7 @@
     "server": {
       "type": "parameter",
       "isRequired": false,
+      "description": "Whether to include an ASP.NET Core server-side host",
       "choices": [
         {
           "choice": "true",
@@ -26,6 +27,26 @@
         }
       ],
       "defaultValue": "true"
+    },
+    "hotreload": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Whether to include hot reload for HTML templates (true requires server=true)",
+      "choices": [
+        {
+          "choice": "true",
+          "description": "Include hot reload for HTML templates"
+        },
+        {
+          "choice": "false",
+          "description": "Do not include hot reload for HTML templates"
+        }
+      ],
+      "defaultValue": "true"
+    },
+    "hotreload_actual": {
+      "type": "computed",
+      "value": "(hotreload == \"true\" && server == \"true\")"
     }
   },
   "sources": [
@@ -35,6 +56,7 @@
         "paket.dependencies",
         "paket.lock",
         "noserver/**/*",
+        "src/Bolero.Template.Client/*.html",
         "src/Bolero.Template.Server/**/*",
         "**/.template.config/**/*"
       ],
@@ -60,8 +82,33 @@
             "noserver/paket.dependencies": "paket.dependencies",
             "noserver/paket.lock": "paket.lock"
           }
+        },
+        {
+          "condition": "(hotreload == \"true\")",
+          "include": [
+            "src/Bolero.Template.Client/*.html"
+          ]
         }
       ]
     }
-  ]
+  ],
+  "SpecialCustomOperations": {
+    "*": {
+      "flagPrefix": "//#",
+      "operations": [
+        {
+          "type": "conditional",
+          "configuration": {
+            "if": [ "//#if" ],
+            "else": [ "//#else" ],
+            "elseif": [ "//#elseif" ],
+            "endif": [ "//#endif" ],
+            "true": true,
+            "wholeLine": true,
+            "evaluator": "C++"
+          }
+        }
+      ]
+    }
+  }
 }

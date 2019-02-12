@@ -6,6 +6,9 @@ open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
+//#if (hotreload_actual)
+open Bolero.Templating.Server
+//#endif
 open Bolero.Template
 
 type Startup() =
@@ -13,11 +16,23 @@ type Startup() =
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     member this.ConfigureServices(services: IServiceCollection) =
-        ()
+        services
+//#if (hotreload_actual)
+#if DEBUG
+            .AddHotReload(templateDir = "../Bolero.Template.Client")
+#endif
+//#endif
+        |> ignore
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member this.Configure(app: IApplicationBuilder, env: IHostingEnvironment) =
-        app.UseBlazor<Client.Startup>()
+        app
+//#if (hotreload_actual)
+#if DEBUG
+            .UseHotReload()
+#endif
+//#endif
+            .UseBlazor<Client.Startup>()
         |> ignore
 
 module Program =

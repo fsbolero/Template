@@ -2,4 +2,9 @@ FSharp.Core
 Microsoft.AspNetCore.Blazor.Build
 Microsoft.AspNetCore.Blazor.Cli
 Bolero
+  exclude Bolero.Server.dll
+//#if (hotreload_actual)
+Bolero.HotReload
+  exclude Bolero.Templating.Server.dll
+//#endif
 Bolero.Build

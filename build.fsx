@@ -17,8 +17,9 @@ let buildOutputDir = slnDir </> "build"
 let packageOutputFile o = buildOutputDir </> sprintf "Bolero.Templates.%s.nupkg" (version o)
 let variantsToTest =
     [
-        "NoServer", "--server=false"
-        "WithServer", "--server=true"
+        "Server.Reload", "--server=true --hotreload=true"
+        "Server.NoReload", "--server=true --hotreload=false"
+        "NoServer.NoReload", "--server=false --hotreload=false"
     ]
 
 Target.description "Create the NuGet package containing the templates."
@@ -36,10 +37,11 @@ Target.create "test-build" <| fun o ->
     dotnet slnDir [] "new" "-i %s" (packageOutputFile o)
 
     // For each template variant, create and build a new project
-    let baseDir = __SOURCE_DIRECTORY__ </> "test-build"
-    if cleanTest o && Directory.Exists(baseDir) then
-        Directory.Delete(baseDir, recursive = true)
-    let baseDir = baseDir </> System.DateTime.Now.ToString("yyyy-MM-dd.HH.mm.ss")
+    let testsDir = __SOURCE_DIRECTORY__ </> "test-build"
+    if cleanTest o && Directory.Exists(testsDir) then
+        Directory.Delete(testsDir, recursive = true)
+    let now = System.DateTime.Now
+    let baseDir = testsDir </> now.ToString("yyyy-MM-dd.HH.mm.ss")
     Directory.CreateDirectory(baseDir) |> ignore
     for name, args in variantsToTest do
         // Prepend a letter and change extension to avoid generating

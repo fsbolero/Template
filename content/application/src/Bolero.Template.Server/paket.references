@@ -1,3 +1,6 @@
 Microsoft.AspNetCore.Blazor.Server
 Microsoft.AspNetCore.App
+//#if (hotreload_actual)
+Bolero.HotReload
+//#endif
 FSharp.Core
