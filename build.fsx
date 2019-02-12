@@ -48,7 +48,7 @@ Target.create "test-build" <| fun o ->
         // identifiers that start with a number.
         let projectName = "Test." + name
         dotnet baseDir [] "new" "bolero-app %s -o %s" args projectName
-        dotnet (baseDir </> projectName) [] "build" ""
+        dotnet (baseDir </> projectName) [] "build" "-v n"
 
 Target.description "Update the dependencies (ie. paket.lock) of all template projects."
 Target.create "update-deps" <| fun _ ->
