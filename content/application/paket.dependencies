@@ -1,4 +1,4 @@
-version 5.193.0
+version 5.196.2
 source https://api.nuget.org/v3/index.json
 source https://ci.appveyor.com/nuget/bolero
 storage: none
