@@ -6,6 +6,7 @@ paket-files/
 !.paket/paket.bootstrapper.proj
 !.paket/paket.bootstrapper.props
 !.paket/Paket.Restore.targets
+!.paket/debug.targets
 
 # Build artifacts
 bin/

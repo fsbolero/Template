@@ -11,7 +11,7 @@ files
     content/**/paket.references                 ==> content
     content/**/.paket/paket.bootstrapper.proj   ==> content
     content/**/.paket/paket.bootstrapper.props  ==> content
-    content/**/.paket/Paket.Restore.targets     ==> content
+    content/**/.paket/*.targets                 ==> content
     content/**/*.fs                             ==> content
     content/**/*.fsi                            ==> content
     content/**/*.fsx                            ==> content

@@ -11,3 +11,4 @@ test-build/
 !.paket/paket.bootstrapper.props
 !.paket/Paket.Restore.targets
 !.paket/Utility.fsx
+!.paket/debug.targets

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Target Name="ShowVars" BeforeTargets="PaketRestore">
+    <Message Importance="High" Text="OS = $(OS)" />
+    <Message Importance="High" Text="PaketBootStrapperExePath = $(PaketBootStrapperExePath)" />
+    <Message Importance="High" Text="PaketBootStrapperExeDir = $(PaketBootStrapperExeDir)" />
+    <Message Importance="High" Text="PaketToolsPath = $(PaketToolsPath)" />
+    <Message Importance="High" Text="PaketBootstrapperStyle = $(PaketBootstrapperStyle)" />
+    <Message Importance="High" Text="PaketExeImage = $(PaketExeImage)" />
+    <Message Importance="High" Text="PaketBootstrapperExePath = $(PaketBootstrapperExePath)" />
+    <Message Importance="High" Text="PaketExePath = $(PaketExePath)" />
+    <Message Importance="High" Text="PaketBoostrapperCommand = $(PaketBoostrapperCommand)" />
+  </Target>
+</Project>
