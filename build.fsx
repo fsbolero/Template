@@ -60,13 +60,20 @@ Target.create "update-deps" <| fun _ ->
 Target.description "Run the full release pipeline."
 Target.create "release" ignore
 
+Target.create "pre" <| fun _ ->
+    shell "." "git" "checkout .paket/Paket.Restore.targets"
+
 // Main dep path with soft dependencies
-"update-deps"
+"pre"
+    ==> "update-deps"
     ?=> "pack"
     ==> "test-build"
     ==> "release"
 
 // Extra hard dependencies to ensure release runs everything
+"pre" ==> "pack"
 "update-deps" ==> "release"
+
+Target.create "donothing" ignore
 
 Target.runOrDefaultWithArguments "pack"
