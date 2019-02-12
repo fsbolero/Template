@@ -9,6 +9,7 @@ open Utility
 
 // Command-line parameters
 let version = getArg "-v" "0.1.0"
+let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
 
 // Constants
 let contentBaseDir = slnDir </> "content"
@@ -35,15 +36,17 @@ Target.create "test-build" <| fun o ->
     dotnet slnDir [] "new" "-i %s" (packageOutputFile o)
 
     // For each template variant, create and build a new project
-    let baseDir = Path.GetTempPath()
+    let baseDir = __SOURCE_DIRECTORY__ </> "test-build"
+    if cleanTest o && Directory.Exists(baseDir) then
+        Directory.Delete(baseDir, recursive = true)
+    let baseDir = baseDir </> System.DateTime.Now.ToString("yyyy-MM-dd.HH.mm.ss")
+    Directory.CreateDirectory(baseDir) |> ignore
     for name, args in variantsToTest do
         // Prepend a letter and change extension to avoid generating
         // identifiers that start with a number.
-        let projectName = "A" + Path.GetRandomFileName()
-        let projectName = Path.ChangeExtension(projectName, name)
+        let projectName = "Test." + name
         dotnet baseDir [] "new" "bolero-app %s -o %s" args projectName
         dotnet (baseDir </> projectName) [] "build" ""
-        Directory.Delete(baseDir </> projectName, true)
 
 Target.description "Update the dependencies (ie. paket.lock) of all template projects."
 Target.create "update-deps" <| fun _ ->

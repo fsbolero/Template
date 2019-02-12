@@ -1,4 +1,4 @@
-#load ".fake/build.fsx/intellisense.fsx"
+#load "../.fake/build.fsx/intellisense.fsx"
 
 open Fake.Core
 open Fake.DotNet

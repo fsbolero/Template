@@ -12,7 +12,7 @@ init:
 - git config --global core.autocrlf input
 
 build_script:
-- ps: .\build.cmd -t release -v "$env:APPVEYOR_BUILD_VERSION"
+- ps: .\build.cmd -t release -v "$env:APPVEYOR_BUILD_VERSION" --clean-test true
 
 artifacts:
 - path: build\*.nupkg

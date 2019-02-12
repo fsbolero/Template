@@ -5,6 +5,7 @@ build/
 .fake/
 .vs/
 *.user
+test-build/
 .paket/*
 !.paket/paket.bootstrapper.proj
 !.paket/paket.bootstrapper.props
