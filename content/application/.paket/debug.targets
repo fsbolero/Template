@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <Target Name="ShowVars" BeforeTargets="PaketRestore">
+    <ReadLinesFromFile File="$(MSBuildThisFileDirectory)Paket.Restore.targets">
+      <Output TaskParameter="Lines" PropertyName="PaketRestoreTargets" />
+    </ReadLinesFromFile>
     <Message Importance="High" Text="OS = $(OS)" />
     <Message Importance="High" Text="PaketBootStrapperExePath = $(PaketBootStrapperExePath)" />
     <Message Importance="High" Text="PaketBootStrapperExeDir = $(PaketBootStrapperExeDir)" />
@@ -10,5 +13,6 @@
     <Message Importance="High" Text="PaketBootstrapperExePath = $(PaketBootstrapperExePath)" />
     <Message Importance="High" Text="PaketExePath = $(PaketExePath)" />
     <Message Importance="High" Text="PaketBoostrapperCommand = $(PaketBoostrapperCommand)" />
+    <Message Importance="High" Text="Paket.Restore.targets = $(PaketRestoreTargets)" />
   </Target>
 </Project>
