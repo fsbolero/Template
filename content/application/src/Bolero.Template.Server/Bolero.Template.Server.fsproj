@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <Target Name="ShowVars" BeforeTargets="Restore">
+  <Target Name="ShowVars" BeforeTargets="PaketRestore">
     <Message Importance="High" Text="PaketToolsPath = $(PaketToolsPath)" />
     <Message Importance="High" Text="PaketBootstrapperStyle = $(PaketBootstrapperStyle)" />
     <Message Importance="High" Text="PaketExeImage = $(PaketExeImage)" />
