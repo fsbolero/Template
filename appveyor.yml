@@ -4,10 +4,6 @@ image: Visual Studio 2017
 build:
   verbosity: minimal
 
-branches:
-  only:
-  - master
-
 init:
 - git config --global core.autocrlf input
 
