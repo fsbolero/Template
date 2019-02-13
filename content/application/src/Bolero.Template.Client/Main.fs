@@ -27,7 +27,7 @@ let update message model =
     | Decrement -> { model with value = model.value - 1 }
 
 //#if (hotreload_actual)
-type Button = Template<"button.html">
+type Button = Template<"wwwroot/button.html">
 //#endif
 
 let view model dispatch =

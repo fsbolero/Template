@@ -19,7 +19,7 @@ type Startup() =
         services
 //#if (hotreload_actual)
 #if DEBUG
-            .AddHotReload(templateDir = "../Bolero.Template.Client")
+            .AddHotReload(templateDir = "../Bolero.Template.Client/wwwroot")
 #endif
 //#endif
         |> ignore
