@@ -12,7 +12,9 @@ nuget Bolero
 nuget Bolero.Build
 //#if (hotreload_actual)
 nuget Bolero.HotReload
+nuget Bolero.HotReload.Server
 //#endif
 
 # Force <2.2 to prevent this issue: https://github.com/aspnet/Razor/issues/2553
 nuget Microsoft.AspNetCore.Razor.Design ~> 2.1.0
+nuget Microsoft.AspNetCore.SignalR ~> 1.0
