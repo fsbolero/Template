@@ -33,13 +33,27 @@ This will create a project in a new folder named `YourAppName`.
 
 You can use the following options to customize the project being created:
 
+* `--minimal=true|false`:
+
+    If `true`, the created project is a minimal application skeleton with empty content.
+
+    If `false` (the default), the created project includes Bolero features such as routed pages, HTML templates and remoting.
+
 * `--server=true|false`:
 
-    If `true`, the solution includes a `Server` project, which is an ASP.NET Core server that hosts the application.
-    
+    If `true` (the default), the solution includes a `Server` project, which is an ASP.NET Core server that hosts the application.
+
     If `false`, the solution only contains the `Client` project that is compiled to WebAssembly.
-    
-    The default is `server=true`.
+
+    This is ignored if `minimal=false`, because the full-fledged project needs the server side for remoting.
+
+* `--hotreload=true|false`:
+
+    Enable hot reloading for HTML templates.
+
+    The default is `true`.
+
+    This is ignored if `server=false`, because hot reloading requires a server side.
 
 ## Using this template
 
@@ -56,7 +70,7 @@ To run it:
 ```shell
 dotnet run -p src/YourAppName.Server
 
-# Or if you created the project with --server=false:
+# Or if you created the project with --minimal=true --server=false:
 dotnet run -p src/YourAppName.Client
 ```
 

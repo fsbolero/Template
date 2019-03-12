@@ -1,0 +1,20 @@
+[
+  {
+    "title": "The Fellowship of the Ring",
+    "author": "J.R.R Tolkien",
+    "publishDate": "1954-07-29",
+    "isbn": "978-0345339706"
+  },
+  {
+    "title": "The Two Towers",
+    "author": "J.R.R Tolkien",
+    "publishDate": "1954-11-11",
+    "isbn": "978-0345339713"
+  },
+  {
+    "title": "The Return of the King",
+    "author": "J.R.R Tolkien",
+    "publishDate": "1955-10-20",
+    "isbn": "978-0345339737"
+  }
+]

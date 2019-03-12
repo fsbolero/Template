@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <title>Bolero Application</title>
+    <base href="/">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-    <h1>A simple counter with Bolero</h1>
-    <div id="main"></div>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item has-text-weight-bold is-size-5" href="https://fsbolero.io">
+          <img style="height:40px" src="https://github.com/fsbolero/website/raw/master/src/Website/img/wasm-fsharp.png" />
+          &nbsp;
+          Bolero
+        </a>
+      </div>
+    </nav>
+    <div id="main">Loading...</div>
     <script src="_framework/blazor.webassembly.js"></script>
   </body>
 </html>

@@ -1,0 +1,26 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#main {
+  flex: 1;
+}
+
+#main > .columns {
+  min-height: 100%;
+}
+
+.sidebar {
+  width: 250px;
+  background: whitesmoke;
+  min-height: 100%;
+}
+
+#counter {
+  width: 80px;
+}

@@ -12,10 +12,26 @@
   "sourceName": "Bolero.Template",
   "preferNameDirectory": true,
   "symbols": {
+    "minimal": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Whether to create a minimal application",
+      "choices": [
+        {
+          "choice": "true",
+          "description": "Create a minimal application with empty content"
+        },
+        {
+          "choice": "false",
+          "description": "Create a full-featured application with routing, remoting, etc."
+        }
+      ],
+      "defaultValue": "false"
+    },
     "server": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Whether to include an ASP.NET Core server-side host",
+      "description": "Whether to include an ASP.NET Core server-side host (false requires minimal=true)",
       "choices": [
         {
           "choice": "true",
@@ -44,34 +60,31 @@
       ],
       "defaultValue": "true"
     },
+    "server_actual": {
+      "type": "computed",
+      "value": "(server == \"true\" || minimal == \"false\")"
+    },
     "hotreload_actual": {
       "type": "computed",
-      "value": "(hotreload == \"true\" && server == \"true\")"
+      "value": "(hotreload == \"true\" && server_actual == \"true\")"
     }
   },
   "sources": [
     {
       "exclude": [
-        "Bolero.Template.sln",
-        "paket.dependencies",
-        "paket.lock",
         "noserver/**/*",
-        "src/Bolero.Template.Client/*.html",
-        "src/Bolero.Template.Server/**/*",
+        "src/Bolero.Template.Client/Main.minimal.fs",
         "**/.template.config/**/*"
       ],
       "modifiers": [
         {
-          "condition": "(server == \"true\")",
-          "include": [
-            "src/Bolero.Template.Server/**/*",
+          "condition": "(server_actual == \"false\")",
+          "exclude": [
             "Bolero.Template.sln",
             "paket.dependencies",
-            "paket.lock"
-          ]
-        },
-        {
-          "condition": "(server == \"false\")",
+            "paket.lock",
+            "src/Bolero.Template.Server/**/*"
+          ],
           "include": [
             "noserver/Bolero.Template.sln",
             "noserver/paket.dependencies",
@@ -84,10 +97,17 @@
           }
         },
         {
-          "condition": "(hotreload == \"true\")",
+          "condition": "(minimal == \"true\")",
+          "exclude": [
+            "src/Bolero.Template.Client/wwwroot/main.html",
+            "src/Bolero.Template.Client/Main.fs"
+          ],
           "include": [
-            "src/Bolero.Template.Client/*.html"
-          ]
+            "src/Bolero.Template.Client/Main.minimal.fs"
+          ],
+          "rename": {
+            "src/Bolero.Template.Client/Main.minimal.fs": "src/Bolero.Template.Client/Main.fs"
+          }
         }
       ]
     }
