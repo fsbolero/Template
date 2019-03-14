@@ -5,7 +5,7 @@
 
 This template can be used as a base to create a [Bolero](https://github.com/intellifactory/bolero) application.
 
-To learn more, you can check [the documentation](https://github.com/intellifactory/bolero/wiki).
+To learn more, you can check [the documentation](https://fsbolero.io/docs).
 
 ## Requirements
 
@@ -86,4 +86,4 @@ dotnet run -p src/YourAppName.Client
 
 ## Learn more about Bolero
 
-To learn more about Bolero, you can check [the documentation](https://github.com/intellifactory/bolero/wiki).
+To learn more about Bolero, you can check [the documentation](https://fsbolero.io/docs).
