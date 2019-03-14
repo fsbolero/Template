@@ -17,6 +17,7 @@ files
     content/**/*.fsx                            ==> content
     content/**/*.fsproj                         ==> content
     content/**/*.html                           ==> content
+    content/**/data/*.json                      ==> content
     !**/paket-files/**/*
     !**/bin/**/*
     !**/obj/**/*

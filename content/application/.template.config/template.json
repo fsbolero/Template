@@ -99,6 +99,7 @@
         {
           "condition": "(minimal == \"true\")",
           "exclude": [
+            "src/Bolero.Template.Server/data/books.json",
             "src/Bolero.Template.Client/wwwroot/main.html",
             "src/Bolero.Template.Client/Main.fs"
           ],
