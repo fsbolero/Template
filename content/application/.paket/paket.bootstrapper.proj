@@ -5,13 +5,35 @@
     <PropertyGroup>
         <RepoRoot>$(MSBuildThisFileDirectory.TrimEnd('\\').TrimEnd('/'))</RepoRoot>
 
-        <PaketBootstrapperExe>$(RepoRoot)\paket.bootstrapper.exe</PaketBootstrapperExe>
-        <PaketBootstrapperExe Condition=" '$(OS)' != 'Windows_NT' ">$(RepoRoot)/paket.bootstrapper</PaketBootstrapperExe>
-        <PaketExe>$(RepoRoot)\paket.exe</PaketExe>
-        <PaketExe Condition=" '$(OS)' != 'Windows_NT' ">$(RepoRoot)/paket</PaketExe>
+        <PaketBootstrapperExeWin>$(RepoRoot)\paket.bootstrapper.exe</PaketBootstrapperExeWin>
+        <PaketBootstrapperExeNonWin>$(RepoRoot)/paket.bootstrapper</PaketBootstrapperExeNonWin>
+        <PaketBootstrapperExe>$(PaketBootstrapperExeWin)</PaketBootstrapperExe>
+        <PaketBootstrapperExe Condition=" '$(OS)' != 'Windows_NT' ">$(PaketBootstrapperExeNonWin)</PaketBootstrapperExe>
+
+        <PaketExeWin>$(RepoRoot)\paket.exe</PaketExeWin>
+        <PaketExeNonWin>$(RepoRoot)/paket</PaketExeNonWin>
+        <PaketExe>$(PaketExeWin)</PaketExe>
+        <PaketExe Condition=" '$(OS)' != 'Windows_NT' ">$(PaketExeNonWin)</PaketExe>
     </PropertyGroup>
 
-    <Target Name="InstallPaketBootstrapper" Condition="Exists('$(PaketBootstrapperExe)') == false">
+    <Target Name="RemoveWinPaket" Condition=" '$(OS)' != 'Windows_NT' ">
+        <Message Text='Removing Windows version of paket' Importance="High"/>
+        <RemoveDir Directories="$(RepoRoot)/.store" />
+        <Delete Files='$(PaketBootstrapperExeWin)' />
+        <Delete Files='$(PaketExeWin)' />
+    </Target>
+
+    <Target Name="RemoveNonWinPaket" Condition=" '$(OS)' == 'Windows_NT' ">
+        <Message Text='Removing non Windows version of paket' Importance="High"/>
+        <RemoveDir Directories="$(RepoRoot)/.store" />
+        <Delete Files='$(PaketBootstrapperExeNonWin)' />
+        <Delete Files='$(PaketExeNonWin)' />
+    </Target>
+
+    <Target Name="RemoveOtherOSsPaket" DependsOnTargets="RemoveWinPaket;RemoveNonWinPaket">
+    </Target>
+
+    <Target Name="InstallPaketBootstrapper" DependsOnTargets="RemoveOtherOSsPaket" Condition="Exists('$(PaketBootstrapperExe)') == false">
         <Message Text='Installing paket.bootstrapper' Importance="High"/>
         <PropertyGroup>
             <InstallBootstrapperCommand>dotnet tool install paket.bootstrapper --tool-path "$(RepoRoot)"</InstallBootstrapperCommand>
