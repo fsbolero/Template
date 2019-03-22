@@ -6,9 +6,9 @@ open Bolero
 open Bolero.Html
 open Bolero.Json
 open Bolero.Remoting
+open Bolero.Remoting.Client
 //#if (hotreload_actual)
 open Bolero.Templating.Client
-
 //#endif
 
 /// Routing endpoints definition.
@@ -24,6 +24,10 @@ type Model =
         counter: int
         books: Book[] option
         error: string option
+        username: string
+        password: string
+        signedInAs: option<string>
+        signInFailed: bool
     }
 
 and Book =
@@ -41,14 +45,32 @@ let initModel =
         counter = 0
         books = None
         error = None
+        username = ""
+        password = ""
+        signedInAs = None
+        signInFailed = false
     }
 
 /// Remote service definition.
 type BookService =
     {
+        /// Get the list of all books in the collection.
         getBooks: unit -> Async<Book[]>
+
+        /// Add a book in the collection.
         addBook: Book -> Async<unit>
+
+        /// Remove a book from the collection, identified by its ISBN.
         removeBookByIsbn: string -> Async<unit>
+
+        /// Sign into the application.
+        signIn : string * string -> Async<option<string>>
+
+        /// Get the user's name, or None if they are not authenticated.
+        getUsername : unit -> Async<string>
+
+        /// Sign out from the application.
+        signOut : unit -> Async<unit>
     }
 
     interface IRemoteService with
@@ -62,48 +84,83 @@ type Message =
     | SetCounter of int
     | GetBooks
     | GotBooks of Book[]
+    | SetUsername of string
+    | SetPassword of string
+    | GetSignedInAs
+    | RecvSignedInAs of RemoteResponse<string>
+    | SendSignIn
+    | RecvSignIn of option<string>
+    | SendSignOut
+    | RecvSignOut
     | Error of exn
+    | ClearError
 
-let update bookService message model =
+let update remote message model =
+    let onSignIn = function
+        | Some _ -> Cmd.ofMsg GetBooks
+        | None -> Cmd.none
     match message with
     | SetPage page ->
-        let cmd =
-            match page with
-            | Data when Option.isNone model.books -> Cmd.ofMsg GetBooks
-            | _ -> Cmd.none
-        { model with page = page }, cmd
+        { model with page = page }, Cmd.none
+
     | Increment ->
         { model with counter = model.counter + 1 }, Cmd.none
     | Decrement ->
         { model with counter = model.counter - 1 }, Cmd.none
     | SetCounter value ->
         { model with counter = value }, Cmd.none
+
     | GetBooks ->
-        let cmd = Cmd.ofAsync bookService.getBooks () GotBooks Error
+        let cmd = Cmd.ofAsync remote.getBooks () GotBooks Error
         { model with books = None }, cmd
     | GotBooks books ->
         { model with books = Some books }, Cmd.none
+
+    | SetUsername s ->
+        { model with username = s }, Cmd.none
+    | SetPassword s ->
+        { model with password = s }, Cmd.none
+    | GetSignedInAs ->
+        model, Cmd.ofRemote remote.getUsername () RecvSignedInAs Error
+    | RecvSignedInAs resp ->
+        let username = resp.TryGetResponse()
+        { model with signedInAs = username }, onSignIn username
+    | SendSignIn ->
+        model, Cmd.ofAsync remote.signIn (model.username, model.password) RecvSignIn Error
+    | RecvSignIn username ->
+        { model with signedInAs = username; signInFailed = Option.isNone username }, onSignIn username
+    | SendSignOut ->
+        model, Cmd.ofAsync remote.signOut () (fun () -> RecvSignOut) Error
+    | RecvSignOut ->
+        { model with signedInAs = None; signInFailed = false }, Cmd.none
+
+    | Error RemoteUnauthorizedException ->
+        { model with error = Some "You have been logged out."; signedInAs = None }, Cmd.none
     | Error exn ->
         { model with error = Some exn.Message }, Cmd.none
+    | ClearError ->
+        { model with error = None }, Cmd.none
 
 /// Connects the routing system to the Elmish application.
 let router = Router.infer SetPage (fun model -> model.page)
 
 type Main = Template<"wwwroot/main.html">
 
-let home model dispatch =
+let homePage model dispatch =
     Main.Home().Elt()
 
-let counter model dispatch =
+let counterPage model dispatch =
     Main.Counter()
         .Decrement(fun _ -> dispatch Decrement)
         .Increment(fun _ -> dispatch Increment)
         .Value(model.counter, fun v -> dispatch (SetCounter v))
         .Elt()
 
-let data model dispatch =
+let dataPage model (username: string) dispatch =
     Main.Data()
         .Reload(fun _ -> dispatch GetBooks)
+        .Username(username)
+        .SignOut(fun _ -> dispatch SendSignOut)
         .Rows(cond model.books <| function
             | None ->
                 Main.EmptyData().Elt()
@@ -115,6 +172,22 @@ let data model dispatch =
                         td [] [text (book.publishDate.ToString("yyyy-MM-dd"))]
                         td [] [text book.isbn]
                     ])
+        .Elt()
+
+let signIinPage model dispatch =
+    Main.SignIn()
+        .Username(model.username, fun s -> dispatch (SetUsername s))
+        .Password(model.password, fun s -> dispatch (SetPassword s))
+        .SignIn(fun _ -> dispatch SendSignIn)
+        .ErrorNotification(
+            cond model.signInFailed <| function
+            | false -> empty
+            | true ->
+                Main.ErrorNotification()
+                    .HideClass("is-hidden")
+                    .Text("Sign in failed. Use any username and the password \"password\".")
+                    .Elt()
+        )
         .Elt()
 
 let menuItem (model: Model) (page: Page) (text: string) =
@@ -133,14 +206,21 @@ let view model dispatch =
         ])
         .Body(
             cond model.page <| function
-            | Home -> home model dispatch
-            | Counter -> counter model dispatch
-            | Data -> data model dispatch
+            | Home -> homePage model dispatch
+            | Counter -> counterPage model dispatch
+            | Data ->
+                cond model.signedInAs <| function
+                | Some username -> dataPage model username dispatch
+                | None -> signIinPage model dispatch
         )
         .Error(
             cond model.error <| function
             | None -> empty
-            | Some err -> div [attr.classes ["notification"; "is-warning"]] [text err]
+            | Some err ->
+                Main.ErrorNotification()
+                    .Text(err)
+                    .Hide(fun _ -> dispatch ClearError)
+                    .Elt()
         )
         .Elt()
 
@@ -150,7 +230,7 @@ type MyApp() =
     override this.Program =
         let bookService = this.Remote<BookService>()
         let update = update bookService
-        Program.mkProgram (fun _ -> initModel, Cmd.none) update view
+        Program.mkProgram (fun _ -> initModel, Cmd.ofMsg GetSignedInAs) update view
         |> Program.withRouter router
 //#if (hotreload_actual)
 #if DEBUG

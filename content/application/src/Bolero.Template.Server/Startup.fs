@@ -1,11 +1,14 @@
 namespace Bolero.Template.Server
 
+open System
 open System.IO
 open Microsoft.AspNetCore
+open Microsoft.AspNetCore.Authentication.Cookies
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Bolero
+open Bolero.Remoting
 open Bolero.Remoting.Server
 open Bolero.Template
 //#if (hotreload_actual)
@@ -24,16 +27,32 @@ type BookService(env: IHostingEnvironment) =
 
     override this.Handler =
         {
-            getBooks = fun () -> async {
+            getBooks = Remote.authorize <| fun _ () -> async {
                 return books.ToArray()
             }
 
-            addBook = fun book -> async {
+            addBook = Remote.authorize <| fun _ book -> async {
                 books.Add(book)
             }
 
-            removeBookByIsbn = fun isbn -> async {
+            removeBookByIsbn = Remote.authorize <| fun _ isbn -> async {
                 books.RemoveAll(fun b -> b.isbn = isbn) |> ignore
+            }
+
+            signIn = Remote.withContext <| fun http (username, password) -> async {
+                if password = "password" then
+                    do! http.AsyncSignIn(username, TimeSpan.FromDays(365.))
+                    return Some username
+                else
+                    return None
+            }
+
+            signOut = Remote.withContext <| fun http () -> async {
+                return! http.AsyncSignOut()
+            }
+
+            getUsername = Remote.authorize <| fun http () -> async {
+                return http.User.Identity.Name
             }
         }
 //#endif
@@ -45,6 +64,10 @@ type Startup() =
     member this.ConfigureServices(services: IServiceCollection) =
         services
 //#if (!minimal)
+            .AddAuthorization()
+            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie()
+                .Services
             .AddRemoting<BookService>()
 //#endif
 //#if (hotreload_actual)
@@ -58,6 +81,7 @@ type Startup() =
     member this.Configure(app: IApplicationBuilder, env: IHostingEnvironment) =
         app
 //#if (!minimal)
+            .UseAuthentication()
             .UseRemoting()
 //#endif
 //#if (hotreload_actual)

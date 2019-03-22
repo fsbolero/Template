@@ -1,6 +1,6 @@
 version 5.196.2
 source https://api.nuget.org/v3/index.json
-source https://ci.appveyor.com/nuget/bolero
+source https://ci.appveyor.com/nuget/bolero 
 storage: none
 framework: netstandard2.0, netcoreapp2.1
 
@@ -10,9 +10,11 @@ nuget Microsoft.AspNetCore.Blazor.Build ~> 0.7.0
 clitool Microsoft.AspNetCore.Blazor.Cli ~> 0.7.0
 nuget Bolero
 nuget Bolero.Build
+//#if (server_actual)
+nuget Bolero.Server
+//#endif
 //#if (hotreload_actual)
 nuget Bolero.HotReload
-nuget Bolero.HotReload.Server
 //#endif
 
 # Force <2.2 to prevent this issue: https://github.com/aspnet/Razor/issues/2553

@@ -15,21 +15,31 @@
     <section class="section">
       ${Body}
 
-      ${Error}
+      <div id="notification-area">
+        <div>${Error}</div>
+      </div>
 
       <template id="Home">
         <div class="content">
           <h1 class="title">Welcome to Bolero!</h1>
           <p>This application demonstrates Bolero's major features.</p>
           <ul>
-            <li>The entire application is driven by
-              <a target="_blank" href="https://fsbolero.github.io/docs/Elmish">Elmish</a>.</li>
-            <li>The menu on the left switches pages based on
-              <a target="_blank" href="https://fsbolero.github.io/docs/Routing">routes</a>.</li>
-            <li>The <a href="/counter">Counter</a> page demonstrates event handlers and data binding in
-              <a target="_blank" href="https://fsbolero.github.io/docs/Templating">HTML templates</a>.</li>
-            <li>The <a href="/data">Download data</a> page demonstrates the use of
-              <a target="_blank" href="https://fsbolero.github.io/docs/Remoting">remote functions</a>.</li>
+            <li>
+              The entire application is driven by
+              <a target="_blank" href="https://fsbolero.github.io/docs/Elmish">Elmish</a>.
+            </li>
+            <li>
+              The menu on the left switches pages based on
+              <a target="_blank" href="https://fsbolero.github.io/docs/Routing">routes</a>.
+            </li>
+            <li>
+              The <a href="/counter">Counter</a> page demonstrates event handlers and data binding in
+              <a target="_blank" href="https://fsbolero.github.io/docs/Templating">HTML templates</a>.
+            </li>
+            <li>
+              The <a href="/data">Download data</a> page demonstrates the use of
+              <a target="_blank" href="https://fsbolero.github.io/docs/Remoting">remote functions</a>.
+            </li>
           </ul>
           <p>Enjoy writing awesome apps!</p>
         </div>
@@ -52,6 +62,10 @@
           Download data
           <button class="button" onclick="${Reload}">Reload</button>
         </h1>
+        <p>
+          Signed in as ${Username}.
+          <button class="button" onclick="${SignOut}">Sign out</button>
+        </p>
         <table class="table is-fullwidth">
           <thead>
             <tr>
@@ -68,6 +82,37 @@
             </template>
           </tbody>
         </table>
+      </template>
+
+      <template id="SignIn">
+        <h1 class="title">Sign in</h1>
+        <form onsubmit="${SignIn}">
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input" bind="${Username}" />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" bind="${Password}" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input type="submit" value="Sign in" />
+            </div>
+          </div>
+          ${ErrorNotification}
+        </form>
+      </template>
+
+      <template id="ErrorNotification">
+        <div class="notification is-warning">
+          <button class="delete ${HideClass}" onclick="${Hide}"></button>
+          ${Text}
+        </div>
       </template>
 
     </section>
