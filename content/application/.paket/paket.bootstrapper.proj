@@ -6,31 +6,31 @@
         <RepoRoot>$(MSBuildThisFileDirectory.TrimEnd('\\').TrimEnd('/'))</RepoRoot>
 
         <PaketBootstrapperExeWin>$(RepoRoot)\paket.bootstrapper.exe</PaketBootstrapperExeWin>
-        <PaketBootstrapperExeNonWin>$(RepoRoot)/paket.bootstrapper</PaketBootstrapperExeNonWin>
+        <PaketBootstrapperExeUnix>$(RepoRoot)/paket.bootstrapper</PaketBootstrapperExeUnix>
         <PaketBootstrapperExe>$(PaketBootstrapperExeWin)</PaketBootstrapperExe>
-        <PaketBootstrapperExe Condition=" '$(OS)' != 'Windows_NT' ">$(PaketBootstrapperExeNonWin)</PaketBootstrapperExe>
+        <PaketBootstrapperExe Condition=" '$(OS)' != 'Windows_NT' ">$(PaketBootstrapperExeUnix)</PaketBootstrapperExe>
 
         <PaketExeWin>$(RepoRoot)\paket.exe</PaketExeWin>
-        <PaketExeNonWin>$(RepoRoot)/paket</PaketExeNonWin>
+        <PaketExeUnix>$(RepoRoot)/paket</PaketExeUnix>
         <PaketExe>$(PaketExeWin)</PaketExe>
-        <PaketExe Condition=" '$(OS)' != 'Windows_NT' ">$(PaketExeNonWin)</PaketExe>
+        <PaketExe Condition=" '$(OS)' != 'Windows_NT' ">$(PaketExeUnix)</PaketExe>
     </PropertyGroup>
 
-    <Target Name="RemoveWinPaket" Condition=" '$(OS)' != 'Windows_NT' ">
+    <Target Name="RemoveWinPaket" Condition=" '$(OS)' != 'Windows_NT' AND Exists('$(PaketBootstrapperExeWin)') ">
         <Message Text='Removing Windows version of paket' Importance="High"/>
-        <RemoveDir Directories="$(RepoRoot)/.store" />
+        <RemoveDir Directories="$(RepoRoot)/.store;$(RepoRoot)/../paket-files" />
         <Delete Files='$(PaketBootstrapperExeWin)' />
         <Delete Files='$(PaketExeWin)' />
     </Target>
 
-    <Target Name="RemoveNonWinPaket" Condition=" '$(OS)' == 'Windows_NT' ">
-        <Message Text='Removing non Windows version of paket' Importance="High"/>
-        <RemoveDir Directories="$(RepoRoot)/.store" />
-        <Delete Files='$(PaketBootstrapperExeNonWin)' />
-        <Delete Files='$(PaketExeNonWin)' />
+    <Target Name="RemoveUnixPaket" Condition=" '$(OS)' == 'Windows_NT' AND Exists('$(PaketBootstrapperExeUnix)') ">
+        <Message Text='Removing Unix version of paket' Importance="High"/>
+        <RemoveDir Directories="$(RepoRoot)/.store;$(RepoRoot)/../paket-files" />
+        <Delete Files='$(PaketBootstrapperExeUnix)' />
+        <Delete Files='$(PaketExeUnix)' />
     </Target>
 
-    <Target Name="RemoveOtherOSsPaket" DependsOnTargets="RemoveWinPaket;RemoveNonWinPaket">
+    <Target Name="RemoveOtherOSsPaket" DependsOnTargets="RemoveWinPaket;RemoveUnixPaket">
     </Target>
 
     <Target Name="InstallPaketBootstrapper" DependsOnTargets="RemoveOtherOSsPaket" Condition="Exists('$(PaketBootstrapperExe)') == false">
