@@ -16,57 +16,32 @@
       "type": "parameter",
       "isRequired": false,
       "description": "Whether to create a minimal application",
-      "choices": [
-        {
-          "choice": "true",
-          "description": "Create a minimal application with empty content"
-        },
-        {
-          "choice": "false",
-          "description": "Create a full-featured application with routing, remoting, etc."
-        }
-      ],
+      "dataType": "bool",
       "defaultValue": "false"
     },
     "server": {
       "type": "parameter",
       "isRequired": false,
       "description": "Whether to include an ASP.NET Core server-side host (false requires minimal=true)",
-      "choices": [
-        {
-          "choice": "true",
-          "description": "Include an ASP.NET Core server-side host"
-        },
-        {
-          "choice": "false",
-          "description": "Do not include an ASP.NET Core server-side host"
-        }
-      ],
+      "dataType": "bool",
       "defaultValue": "true"
     },
     "hotreload": {
       "type": "parameter",
       "isRequired": false,
       "description": "Whether to include hot reload for HTML templates (true requires server=true)",
-      "choices": [
-        {
-          "choice": "true",
-          "description": "Include hot reload for HTML templates"
-        },
-        {
-          "choice": "false",
-          "description": "Do not include hot reload for HTML templates"
-        }
-      ],
+      "dataType": "bool",
       "defaultValue": "true"
     },
     "server_actual": {
       "type": "computed",
-      "value": "(server == \"true\" || minimal == \"false\")"
+      "dataType": "bool",
+      "value": "(server || !minimal)"
     },
     "hotreload_actual": {
       "type": "computed",
-      "value": "(hotreload == \"true\" && server_actual == \"true\")"
+      "dataType": "bool",
+      "value": "(hotreload && server_actual)"
     }
   },
   "sources": [
@@ -78,7 +53,7 @@
       ],
       "modifiers": [
         {
-          "condition": "(server_actual == \"false\")",
+          "condition": "(!server_actual)",
           "exclude": [
             "Bolero.Template.sln",
             "paket.dependencies",
@@ -97,7 +72,7 @@
           }
         },
         {
-          "condition": "(minimal == \"true\")",
+          "condition": "(minimal)",
           "exclude": [
             "src/Bolero.Template.Server/data/books.json",
             "src/Bolero.Template.Client/wwwroot/main.html",
