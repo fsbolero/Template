@@ -10,6 +10,7 @@ open Utility
 // Command-line parameters
 let version = getArg "-v" "0.1.0"
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
+let forceVersion = getArgOpt "--force-version"
 
 // Constants
 let contentBaseDir = slnDir </> "content"
@@ -53,10 +54,26 @@ Target.create "test-build" <| fun o ->
         dotnet (baseDir </> projectName) [] "build" "-v n"
 
 Target.description "Update the dependencies (ie. paket.lock) of all template projects."
-Target.create "update-deps" <| fun _ ->
+Target.create "update-deps" <| fun o ->
     Directory.GetFiles(contentBaseDir, "paket.dependencies", SearchOption.AllDirectories)
-    |> Array.Parallel.iter (Path.GetDirectoryName >> fun dir ->
-        shell dir ".paket/paket.exe" "update"
+    |> Array.Parallel.iter (fun paketDeps ->
+        let dir = Path.GetDirectoryName paketDeps
+        let run() =
+            shell dir ".paket/paket.exe" "update"
+        match forceVersion o with
+        | None -> run()
+        | Some forceVersion ->
+            let baseDeps = File.ReadAllLines paketDeps
+            let forcedDeps =
+                baseDeps
+                |> Array.map (fun l ->
+                    if l.StartsWith "nuget Bolero" then
+                        sprintf "%s ~> %s.0" l forceVersion
+                    else
+                        l)
+            File.WriteAllLines(paketDeps, forcedDeps)
+            run()
+            File.WriteAllLines(paketDeps, baseDeps)
     )
 
 Target.description "Run the full release pipeline."

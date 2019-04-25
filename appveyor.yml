@@ -8,7 +8,12 @@ init:
 - git config --global core.autocrlf input
 
 build_script:
-- ps: .\build.cmd -t release -v "$env:APPVEYOR_BUILD_VERSION" --clean-test true
+- ps: |
+    $forceVersion = @()
+    if ("$env:APPVEYOR_REPO_BRANCH" -match 'v?\d*\.\d*') {
+      $forceVersion = "--force-version",$env:APPVEYOR_REPO_BRANCH
+    }
+    .\build.cmd -t release -v "$env:APPVEYOR_BUILD_VERSION" --clean-test true $forceVersion
 
 for:
 # Publish to NuGet only from Windows on master
