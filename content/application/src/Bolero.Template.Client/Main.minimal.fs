@@ -7,15 +7,22 @@ open Bolero.Html
 open Bolero.Templating.Client
 //#endif
 
-type Model = unit
+type Model =
+    {
+        x: string
+    }
 
-let initModel = ()
+let initModel =
+    {
+        x = ""
+    }
 
-type Message = unit
+type Message =
+    | Ping
 
 let update message model =
     match message with
-    | _ -> model
+    | Ping -> model
 
 let view model dispatch =
     empty
