@@ -11,10 +11,11 @@ build_script:
 - ps: .\build.cmd -t release -v "$env:APPVEYOR_BUILD_VERSION" --clean-test true
 
 for:
-# Publish to NuGet and github.io only from Windows on master
+# Publish to NuGet only from Windows on master
 - branches:
     only:
     - master
+    - /v?\d*\.\d*/
   artifacts:
   - path: build\*.nupkg
     name: nuget
