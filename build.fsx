@@ -13,6 +13,7 @@ let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
     |> CreateProcess.redirectOutput
     |> Proc.run
     |> fun r -> r.Result.Output.Trim()
+)
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
 let forceVersion = getArgOpt "--force-version"
 
