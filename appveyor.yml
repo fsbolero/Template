@@ -21,7 +21,6 @@ build_script:
     }
     .\build.cmd -t release -v "$env:SEMVER" --clean-test true $forceVersion
 
-for:
-  artifacts:
-  - path: build\*.nupkg
-    name: nuget
+artifacts:
+- path: build\*.nupkg
+  name: nuget
