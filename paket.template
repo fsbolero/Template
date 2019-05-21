@@ -6,12 +6,7 @@ description
 files
     content/**/.template.config/*               ==> content
     content/**/*.sln                            ==> content
-    content/**/paket.dependencies               ==> content
-    content/**/paket.lock                       ==> content
-    content/**/paket.references                 ==> content
-    content/**/.paket/paket.bootstrapper.proj   ==> content
-    content/**/.paket/paket.bootstrapper.props  ==> content
-    content/**/.paket/Paket.Restore.targets     ==> content
+    content/**/nuget.config                     ==> content
     content/**/*.fs                             ==> content
     content/**/*.fsi                            ==> content
     content/**/*.fsx                            ==> content

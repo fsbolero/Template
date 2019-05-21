@@ -2,13 +2,18 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RunCommand>dotnet</RunCommand>
-    <RunArguments>blazor serve</RunArguments>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.fs" />
     <Compile Include="Startup.fs" />
-    <None Include="paket.references" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="Bolero" Version="0.5.27-preview" />
+    <PackageReference Include="Bolero.Build" Version="0.5.27-preview" />
+    <!-- //#if (hotreload_actual) -->
+    <PackageReference Include="Bolero.HotReload" Version="0.5.27-preview" />
+    <!-- //#endif -->
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0-preview5-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0-preview5-*" />
+  </ItemGroup>
 </Project>

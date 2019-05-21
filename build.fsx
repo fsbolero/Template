@@ -55,31 +55,8 @@ Target.create "test-build" <| fun o ->
         // Prepend a letter and change extension to avoid generating
         // identifiers that start with a number.
         let projectName = "Test." + name
-        dotnet baseDir [] "new" "bolero-app %s -o %s" args projectName
+        dotnet baseDir [] "new" "bolero-app --nightly %s -o %s" args projectName
         dotnet (baseDir </> projectName) [] "build" "-v n"
-
-Target.description "Update the dependencies (ie. paket.lock) of all template projects."
-Target.create "update-deps" <| fun o ->
-    Directory.GetFiles(contentBaseDir, "paket.dependencies", SearchOption.AllDirectories)
-    |> Array.Parallel.iter (fun paketDeps ->
-        let dir = Path.GetDirectoryName paketDeps
-        let run() =
-            shell dir ".paket/paket.exe" "update"
-        match forceVersion o with
-        | None -> run()
-        | Some forceVersion ->
-            let baseDeps = File.ReadAllLines paketDeps
-            let forcedDeps =
-                baseDeps
-                |> Array.map (fun l ->
-                    if l.StartsWith "nuget Bolero" then
-                        sprintf "%s ~> %s.0" l forceVersion
-                    else
-                        l)
-            File.WriteAllLines(paketDeps, forcedDeps)
-            run()
-            File.WriteAllLines(paketDeps, baseDeps)
-    )
 
 Target.description "Run the full release pipeline."
 Target.create "release" ignore
@@ -89,15 +66,8 @@ Target.create "pre" <| fun _ ->
 
 // Main dep path with soft dependencies
 "pre"
-    ==> "update-deps"
-    ?=> "pack"
+    ==> "pack"
     ==> "test-build"
     ==> "release"
-
-// Extra hard dependencies to ensure release runs everything
-"pre" ==> "pack"
-"update-deps" ==> "release"
-
-Target.create "donothing" ignore
 
 Target.runOrDefaultWithArguments "pack"

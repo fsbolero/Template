@@ -16,7 +16,7 @@ open Bolero.Templating.Server
 //#endif
 
 //#if (!minimal)
-type BookService(env: IHostingEnvironment) =
+type BookService(env: IWebHostEnvironment) =
     inherit RemoteHandler<Client.Main.BookService>()
 
     let books =
@@ -78,7 +78,7 @@ type Startup() =
         |> ignore
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    member this.Configure(app: IApplicationBuilder, env: IHostingEnvironment) =
+    member this.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
         app
 //#if (!minimal)
             .UseAuthentication()

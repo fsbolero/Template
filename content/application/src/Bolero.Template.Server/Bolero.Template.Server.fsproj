@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Startup.fs" />
-    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
+    <PackageReference Include="Bolero.Server" Version="0.5.27-preview" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.0-preview5-*" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

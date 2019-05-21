@@ -15,21 +15,28 @@
     "minimal": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Whether to create a minimal application",
+      "description": "Create a minimal application",
       "dataType": "bool",
       "defaultValue": "false"
     },
     "server": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Whether to include an ASP.NET Core server-side host (false requires minimal=true)",
+      "description": "Include an ASP.NET Core server-side host (false requires minimal=true)",
       "dataType": "bool",
       "defaultValue": "true"
     },
     "hotreload": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Whether to include hot reload for HTML templates (true requires server=true)",
+      "description": "Include hot reload for HTML templates (true requires server=true)",
+      "dataType": "bool",
+      "defaultValue": "true"
+    },
+    "nightly": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Reference the nightly release of Bolero",
       "dataType": "bool",
       "defaultValue": "true"
     },
@@ -47,28 +54,28 @@
   "sources": [
     {
       "exclude": [
-        "noserver/**/*",
+        "Bolero.Template.noserver.sln",
         "src/Bolero.Template.Client/Main.minimal.fs",
         "**/.template.config/**/*"
       ],
       "modifiers": [
         {
+          "condition": "(!nightly)",
+          "exclude": [
+            "nuget.config"
+          ]
+        },
+        {
           "condition": "(!server_actual)",
           "exclude": [
             "Bolero.Template.sln",
-            "paket.dependencies",
-            "paket.lock",
             "src/Bolero.Template.Server/**/*"
           ],
           "include": [
-            "noserver/Bolero.Template.sln",
-            "noserver/paket.dependencies",
-            "noserver/paket.lock"
+            "Bolero.Template.noserver.sln"
           ],
           "rename": {
-            "noserver/Bolero.Template.sln": "Bolero.Template.sln",
-            "noserver/paket.dependencies": "paket.dependencies",
-            "noserver/paket.lock": "paket.lock"
+            "Bolero.Template.noserver.sln": "Bolero.Template.sln"
           }
         },
         {
