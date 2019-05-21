@@ -1,4 +1,4 @@
-version: 0.4.{build}
+version: build {build}
 image: Visual Studio 2017
 
 build:
@@ -7,20 +7,20 @@ build:
 init:
 - git config --global core.autocrlf input
 
+before_build:
+- ps: |
+    dotnet tool install nbgv --tool-path .paket
+    $env:SEMVER = .paket/nbgv get-version -v SemVer2
+    Update-AppveyorBuild -Version "$env:SEMVER ($env:APPVEYOR_BUILD_ID)"
+
 build_script:
 - ps: |
     $forceVersion = @()
     if ("$env:APPVEYOR_REPO_BRANCH" -match 'v?\d*\.\d*') {
       $forceVersion = "--force-version",$env:APPVEYOR_REPO_BRANCH
     }
-    .\build.cmd -t release -v "$env:APPVEYOR_BUILD_VERSION" --clean-test true $forceVersion
+    .\build.cmd -t release -v "$env:SEMVER" --clean-test true $forceVersion
 
-for:
-# Publish to NuGet only from Windows on master
-- branches:
-    only:
-    - master
-    - /v?\d*\.\d*/
-  artifacts:
-  - path: build\*.nupkg
-    name: nuget
+artifacts:
+- path: build\*.nupkg
+  name: nuget

@@ -8,7 +8,12 @@ open Fake.IO.FileSystemOperators
 open Utility
 
 // Command-line parameters
-let version = getArg "-v" "0.1.0"
+let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
+    CreateProcess.fromRawCommand ".paket/nbgv" ["get-version"; "-v"; "SemVer2"]
+    |> CreateProcess.redirectOutput
+    |> Proc.run
+    |> fun r -> r.Result.Output.Trim()
+)
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
 let forceVersion = getArgOpt "--force-version"
 
