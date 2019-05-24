@@ -38,7 +38,14 @@
       "isRequired": false,
       "description": "Reference the nightly release of Bolero",
       "dataType": "bool",
-      "defaultValue": "true"
+      "defaultValue": "false"
+    },
+    "paket": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Use Paket for NuGet package management",
+      "dataType": "bool",
+      "defaultValue": "false"
     },
     "server_actual": {
       "type": "computed",
@@ -56,15 +63,11 @@
       "exclude": [
         "Bolero.Template.noserver.sln",
         "src/Bolero.Template.Client/Main.minimal.fs",
-        "**/.template.config/**/*"
+        "**/.template.config/**/*",
+        "convert-paket.*",
+        "nuget.config"
       ],
       "modifiers": [
-        {
-          "condition": "(!nightly)",
-          "exclude": [
-            "nuget.config"
-          ]
-        },
         {
           "condition": "(!server_actual)",
           "exclude": [
@@ -91,6 +94,18 @@
           "rename": {
             "src/Bolero.Template.Client/Main.minimal.fs": "src/Bolero.Template.Client/Main.fs"
           }
+        },
+        {
+          "condition": "(nightly && !paket)",
+          "include": ["nuget.config"]
+        },
+        {
+          "condition": "(paket && OS == \"Windows_NT\")",
+          "include": ["convert-paket.cmd"]
+        },
+        {
+          "condition": "(paket && OS != \"Windows_NT\")",
+          "include": ["convert-paket.sh"]
         }
       ]
     }
@@ -113,5 +128,31 @@
         }
       ]
     }
-  }
+  },
+  "postActions": [
+    {
+      "condition": "(paket && OS == \"Windows_NT\")",
+      "description": "Convert project to Paket",
+      "manualInstructions": [{"text": "Run convert-paket.cmd"}],
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "args": {"executable": "cmd", "args": "/c .\\convert-paket.cmd"},
+      "continueOnError": false
+    },
+    {
+      "condition": "(paket && OS != \"Windows_NT\")",
+      "description": "Make scripts executable",
+      "manualInstructions": [{"text": "Run 'chmod +x convert-paket.sh'"}],
+      "actionId": "cb9a6cf3-4f5c-4860-b9d2-03a574959774",
+      "args": {"+x": "convert-paket.sh"},
+      "continueOnError": true
+    },
+    {
+      "condition": "(paket && OS != \"Windows_NT\")",
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "description": "Convert project to Paket",
+      "manualInstructions": [{"text": "Run convert-paket.sh"}],
+      "args": {"executable": "sh", "args": "-c ./convert-paket.sh"},
+      "continueOnError": false
+    }
+  ]
 }
