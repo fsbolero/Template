@@ -11,7 +11,7 @@ To learn more, you can check [the documentation](https://fsbolero.io/docs).
 
 To get started, you need the following installed:
 
-* .NET Core SDK 2.1.403 or newer. Download it [here](https://www.microsoft.com/net/download/dotnet-core/2.1).
+* .NET Core SDK 3.0-preview5 or newer. Download it [here](https://dotnet.microsoft.com/download/dotnet-core/3.0).
 
 ## Creating a project based on this template
 
