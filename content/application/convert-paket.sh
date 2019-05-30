@@ -9,5 +9,3 @@ echo 'source https://ci.appveyor.com/nuget/bolero' >>paket.dependencies
 # //#endif
 
 .paket/paket convert-from-nuget --force
-
-rm ./convert-paket.sh

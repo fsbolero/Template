@@ -133,7 +133,7 @@
     {
       "condition": "(paket && OS == \"Windows_NT\")",
       "description": "Convert project to Paket",
-      "manualInstructions": [{"text": "Run convert-paket.cmd"}],
+      "manualInstructions": [{"text": "Run convert-paket.cmd (you may then delete this file)"}],
       "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
       "args": {"executable": "cmd", "args": "/c .\\convert-paket.cmd"},
       "continueOnError": false
@@ -150,7 +150,7 @@
       "condition": "(paket && OS != \"Windows_NT\")",
       "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
       "description": "Convert project to Paket",
-      "manualInstructions": [{"text": "Run convert-paket.sh"}],
+      "manualInstructions": [{"text": "Run convert-paket.sh (you may then delete this file)"}],
       "args": {"executable": "sh", "args": "-c ./convert-paket.sh"},
       "continueOnError": false
     }

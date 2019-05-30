@@ -10,5 +10,3 @@ REM //#endif
 
 .paket\paket convert-from-nuget --force
 if errorlevel 1 exit /b %errorlevel%
-
-del .\convert-paket.cmd
