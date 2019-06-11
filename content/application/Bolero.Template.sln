@@ -12,9 +12,9 @@ EndProject
 //#endif
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Bolero.Template.Client", "src\Bolero.Template.Client\Bolero.Template.Client.fsproj", "{1481BBD6-A6DA-4912-A03A-134880D14701}"
-EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Bolero.Template.Server", "src\Bolero.Template.Server\Bolero.Template.Server.fsproj", "{4E2AA925-4694-4593-ADBC-F349D269587A}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Bolero.Template.Client", "src\Bolero.Template.Client\Bolero.Template.Client.fsproj", "{1481BBD6-A6DA-4912-A03A-134880D14701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,18 +26,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x64.Build.0 = Debug|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x86.Build.0 = Debug|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x64.ActiveCfg = Release|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x64.Build.0 = Release|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x86.ActiveCfg = Release|Any CPU
-		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x86.Build.0 = Release|Any CPU
 		{4E2AA925-4694-4593-ADBC-F349D269587A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E2AA925-4694-4593-ADBC-F349D269587A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E2AA925-4694-4593-ADBC-F349D269587A}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -50,13 +38,25 @@ Global
 		{4E2AA925-4694-4593-ADBC-F349D269587A}.Release|x64.Build.0 = Release|Any CPU
 		{4E2AA925-4694-4593-ADBC-F349D269587A}.Release|x86.ActiveCfg = Release|Any CPU
 		{4E2AA925-4694-4593-ADBC-F349D269587A}.Release|x86.Build.0 = Release|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x64.Build.0 = Debug|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Debug|x86.Build.0 = Debug|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x64.ActiveCfg = Release|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x64.Build.0 = Release|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x86.ActiveCfg = Release|Any CPU
+		{1481BBD6-A6DA-4912-A03A-134880D14701}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1481BBD6-A6DA-4912-A03A-134880D14701} = {87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}
 		{4E2AA925-4694-4593-ADBC-F349D269587A} = {87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}
+		{1481BBD6-A6DA-4912-A03A-134880D14701} = {87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8CFD6033-FB8D-48BE-9628-9D83DC023CAB}
