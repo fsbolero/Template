@@ -61,7 +61,6 @@
   "sources": [
     {
       "exclude": [
-        "Bolero.Template.noserver.sln",
         "src/Bolero.Template.Client/Main.minimal.fs",
         "**/.template.config/**/*",
         "convert-paket.*",
@@ -71,15 +70,8 @@
         {
           "condition": "(!server_actual)",
           "exclude": [
-            "Bolero.Template.sln",
             "src/Bolero.Template.Server/**/*"
-          ],
-          "include": [
-            "Bolero.Template.noserver.sln"
-          ],
-          "rename": {
-            "Bolero.Template.noserver.sln": "Bolero.Template.sln"
-          }
+          ]
         },
         {
           "condition": "(minimal)",
