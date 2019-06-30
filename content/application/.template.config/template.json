@@ -7,7 +7,7 @@
     "type": "project"
   },
   "identity": "Bolero.Application.Template",
-  "groupIdentity": "Bolero",
+  "groupIdentity": "Bolero.Application",
   "shortName": "bolero-app",
   "sourceName": "Bolero.Template",
   "preferNameDirectory": true,

@@ -33,27 +33,39 @@ This will create a project in a new folder named `YourAppName`.
 
 You can use the following options to customize the project being created:
 
-* `--minimal=true|false`:
+* Project content options:
 
-    If `true`, the created project is a minimal application skeleton with empty content.
+    * `--minimal`, `-m`:
 
-    If `false` (the default), the created project includes Bolero features such as routed pages, HTML templates and remoting.
+        If `true`, the created project is a minimal application skeleton with empty content.
 
-* `--server=true|false`:
+        If `false` (the default), the created project includes Bolero features such as routed pages, HTML templates and remoting.
 
-    If `true` (the default), the solution includes a `Server` project, which is an ASP.NET Core server that hosts the application.
+    * `--server`, `-s`:
 
-    If `false`, the solution only contains the `Client` project that is compiled to WebAssembly.
+        If `true` (the default), the solution includes a `Server` project, which is an ASP.NET Core server that hosts the application.
 
-    This is ignored if `minimal=false`, because the full-fledged project needs the server side for remoting.
+        If `false`, the solution only contains the `Client` project that is compiled to WebAssembly.
 
-* `--hotreload=true|false`:
+        This is ignored if `minimal=false`, because the full-fledged project needs the server side for remoting.
 
-    Enable hot reloading for HTML templates.
+    * `--hotreload`, `-ho`:
 
-    The default is `true`.
+        Enable hot reloading for HTML templates.
 
-    This is ignored if `server=false`, because hot reloading requires a server side.
+        The default is `true`.
+
+        This is ignored if `server=false`, because hot reloading requires a server side.
+
+* Package management options:
+
+    * `--nightly`, `-ni`:
+
+        Reference the nightly release of Bolero.
+
+    * `--paket`, `-p`:
+
+        Use [Paket](https://fsprojects.github.io/paket) for package management.
 
 ## Using this template
 
