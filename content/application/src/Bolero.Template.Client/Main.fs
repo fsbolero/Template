@@ -174,7 +174,7 @@ let dataPage model (username: string) dispatch =
                     ])
         .Elt()
 
-let signIinPage model dispatch =
+let signInPage model dispatch =
     Main.SignIn()
         .Username(model.username, fun s -> dispatch (SetUsername s))
         .Password(model.password, fun s -> dispatch (SetPassword s))
@@ -211,7 +211,7 @@ let view model dispatch =
             | Data ->
                 cond model.signedInAs <| function
                 | Some username -> dataPage model username dispatch
-                | None -> signIinPage model dispatch
+                | None -> signInPage model dispatch
         )
         .Error(
             cond model.error <| function
