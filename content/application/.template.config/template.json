@@ -26,13 +26,13 @@
       "dataType": "bool",
       "defaultValue": "true"
     },
-    "hotreload": {
-      "type": "parameter",
-      "isRequired": false,
-      "description": "Include hot reload for HTML templates (true requires server=true)",
-      "dataType": "bool",
-      "defaultValue": "true"
-    },
+    // "hotreload": {
+    //   "type": "parameter",
+    //   "isRequired": false,
+    //   "description": "Include hot reload for HTML templates (true requires server=true)",
+    //   "dataType": "bool",
+    //   "defaultValue": "true"
+    // },
     "nightly": {
       "type": "parameter",
       "isRequired": false,
@@ -51,11 +51,11 @@
       "type": "computed",
       "dataType": "bool",
       "value": "(server || !minimal)"
-    },
-    "hotreload_actual": {
-      "type": "computed",
-      "dataType": "bool",
-      "value": "(hotreload && server_actual)"
+    // },
+    // "hotreload_actual": {
+    //   "type": "computed",
+    //   "dataType": "bool",
+    //   "value": "(hotreload && server_actual)"
     }
   },
   "sources": [

@@ -23,11 +23,14 @@ let buildOutputDir = slnDir </> "build"
 let packageOutputFile o = buildOutputDir </> sprintf "Bolero.Templates.%s.nupkg" (version o)
 let variantsToTest =
     [
-        "Server.Reload", "--server --hotreload --minimal=false"
-        "Server.NoReload", "--server --hotreload=false --minimal=false"
-        "Minimal.Server.Reload", "--server --hotreload --minimal"
-        "Minimal.Server.NoReload", "--server --hotreload=false --minimal"
-        "Minimal.NoServer.NoReload", "--server=false --hotreload=false --minimal"
+        // "Server.Reload", "--server --hotreload --minimal=false"
+        // "Server.NoReload", "--server --hotreload=false --minimal=false"
+        // "Minimal.Server.Reload", "--server --hotreload --minimal"
+        // "Minimal.Server.NoReload", "--server --hotreload=false --minimal"
+        // "Minimal.NoServer.NoReload", "--server=false --hotreload=false --minimal"
+        "Server.NoReload", "--server --minimal=false"
+        "Minimal.Server.NoReload", "--server --minimal"
+        "Minimal.NoServer.NoReload", "--server=false --minimal"
     ]
 
 Target.description "Create the NuGet package containing the templates."

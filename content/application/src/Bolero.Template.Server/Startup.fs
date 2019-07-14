@@ -62,6 +62,7 @@ type Startup() =
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     member this.ConfigureServices(services: IServiceCollection) =
+        services.AddMvcCore() |> ignore
         services
 //#if (!minimal)
             .AddAuthorization()
@@ -89,7 +90,11 @@ type Startup() =
             .UseHotReload()
 #endif
 //#endif
-            .UseBlazor<Client.Startup>()
+            .UseClientSideBlazorFiles<Client.Startup>()
+            .UseRouting()
+            .UseEndpoints(fun endpoints ->
+                endpoints.MapDefaultControllerRoute() |> ignore
+                endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html") |> ignore)
         |> ignore
 
 module Program =
