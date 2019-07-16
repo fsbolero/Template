@@ -63,7 +63,7 @@
       "exclude": [
         "src/Bolero.Template.Client/Main.minimal.fs",
         "**/.template.config/**/*",
-        "convert-paket.*",
+        ".paket/*",
         "nuget.config"
       ],
       "modifiers": [
@@ -93,11 +93,11 @@
         },
         {
           "condition": "(paket && OS == \"Windows_NT\")",
-          "include": ["convert-paket.cmd"]
+          "include": [".paket/convert-paket.cmd"]
         },
         {
           "condition": "(paket && OS != \"Windows_NT\")",
-          "include": ["convert-paket.sh"]
+          "include": [".paket/convert-paket.sh"]
         }
       ]
     }
@@ -125,9 +125,9 @@
     {
       "condition": "(paket && OS == \"Windows_NT\")",
       "description": "Convert project to Paket",
-      "manualInstructions": [{"text": "Run convert-paket.cmd (you may then delete this file)"}],
+      "manualInstructions": [{"text": "Run .paket\\convert-paket.cmd"}],
       "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
-      "args": {"executable": "cmd", "args": "/c .\\convert-paket.cmd"},
+      "args": {"executable": "cmd", "args": "/c .paket\\convert-paket.cmd"},
       "continueOnError": false
     },
     {
@@ -135,15 +135,15 @@
       "description": "Make scripts executable",
       "manualInstructions": [{"text": "Run 'chmod +x convert-paket.sh'"}],
       "actionId": "cb9a6cf3-4f5c-4860-b9d2-03a574959774",
-      "args": {"+x": "convert-paket.sh"},
+      "args": {"+x": ".paket/convert-paket.sh"},
       "continueOnError": true
     },
     {
       "condition": "(paket && OS != \"Windows_NT\")",
       "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
       "description": "Convert project to Paket",
-      "manualInstructions": [{"text": "Run convert-paket.sh (you may then delete this file)"}],
-      "args": {"executable": "sh", "args": "-c ./convert-paket.sh"},
+      "manualInstructions": [{"text": "Run .paket/convert-paket.sh"}],
+      "args": {"executable": "sh", "args": "-c .paket/convert-paket.sh"},
       "continueOnError": false
     }
   ]
