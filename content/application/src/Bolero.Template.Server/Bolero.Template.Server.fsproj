@@ -8,7 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
-    <PackageReference Include="Bolero.Server" Version="0.6.3-preview*" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.0-preview6.*" />
+    <PackageReference Include="Bolero.Server" Version="0.7.8-preview*" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.0-preview7.*" />
   </ItemGroup>
 </Project>
