@@ -87,7 +87,7 @@ type Message =
     | SetUsername of string
     | SetPassword of string
     | GetSignedInAs
-    | RecvSignedInAs of RemoteResponse<string>
+    | RecvSignedInAs of option<string>
     | SendSignIn
     | RecvSignIn of option<string>
     | SendSignOut
@@ -121,9 +121,8 @@ let update remote message model =
     | SetPassword s ->
         { model with password = s }, Cmd.none
     | GetSignedInAs ->
-        model, Cmd.ofRemote remote.getUsername () RecvSignedInAs Error
-    | RecvSignedInAs resp ->
-        let username = resp.TryGetResponse()
+        model, Cmd.ofAuthorized remote.getUsername () RecvSignedInAs Error
+    | RecvSignedInAs username ->
         { model with signedInAs = username }, onSignIn username
     | SendSignIn ->
         model, Cmd.ofAsync remote.signIn (model.username, model.password) RecvSignIn Error
