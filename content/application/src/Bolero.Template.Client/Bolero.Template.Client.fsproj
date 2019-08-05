@@ -11,7 +11,7 @@
     <PackageReference Include="Bolero" Version="0.7.8-preview*" />
     <PackageReference Include="Bolero.Build" Version="0.7.8-preview*" />
     <!-- //#if (hotreload_actual) -->
-    <PackageReference Include="Bolero.HotReload" Version="0.7.8-preview*" />
+    <PackageReference Include="Bolero.HotReload" Version="0.7.2-preview*" />
     <!-- //#endif -->
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0-preview7.*" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0-preview7.*" />
