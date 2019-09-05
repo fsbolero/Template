@@ -16,7 +16,7 @@ open Bolero.Templating.Server
 //#endif
 
 //#if (!minimal)
-type BookService(env: IWebHostEnvironment) =
+type BookService(ctx: IRemoteContext, env: IWebHostEnvironment) =
     inherit RemoteHandler<Client.Main.BookService>()
 
     let books =
@@ -27,32 +27,32 @@ type BookService(env: IWebHostEnvironment) =
 
     override this.Handler =
         {
-            getBooks = Remote.authorize <| fun _ () -> async {
+            getBooks = ctx.Authorize <| fun () -> async {
                 return books.ToArray()
             }
 
-            addBook = Remote.authorize <| fun _ book -> async {
+            addBook = ctx.Authorize <| fun book -> async {
                 books.Add(book)
             }
 
-            removeBookByIsbn = Remote.authorize <| fun _ isbn -> async {
+            removeBookByIsbn = ctx.Authorize <| fun isbn -> async {
                 books.RemoveAll(fun b -> b.isbn = isbn) |> ignore
             }
 
-            signIn = Remote.withContext <| fun http (username, password) -> async {
+            signIn = fun (username, password) -> async {
                 if password = "password" then
-                    do! http.AsyncSignIn(username, TimeSpan.FromDays(365.))
+                    do! ctx.HttpContext.AsyncSignIn(username, TimeSpan.FromDays(365.))
                     return Some username
                 else
                     return None
             }
 
-            signOut = Remote.withContext <| fun http () -> async {
-                return! http.AsyncSignOut()
+            signOut = fun () -> async {
+                return! ctx.HttpContext.AsyncSignOut()
             }
 
-            getUsername = Remote.authorize <| fun http () -> async {
-                return http.User.Identity.Name
+            getUsername = fun () -> async {
+                return ctx.HttpContext.User.Identity.Name
             }
         }
 //#endif
@@ -73,7 +73,7 @@ type Startup() =
 //#endif
 //#if (hotreload_actual)
 #if DEBUG
-            .AddHotReload(templateDir = "../Bolero.Template.Client")
+            .AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.Client")
 #endif
 //#endif
         |> ignore
@@ -85,14 +85,14 @@ type Startup() =
             .UseAuthentication()
             .UseRemoting()
 //#endif
-//#if (hotreload_actual)
-#if DEBUG
-            .UseHotReload()
-#endif
-//#endif
             .UseClientSideBlazorFiles<Client.Startup>()
             .UseRouting()
             .UseEndpoints(fun endpoints ->
+//#if (hotreload_actual)
+#if DEBUG
+                endpoints.UseHotReload()
+#endif
+//#endif
                 endpoints.MapDefaultControllerRoute() |> ignore
                 endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html") |> ignore)
         |> ignore

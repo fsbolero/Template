@@ -233,5 +233,5 @@ type MyApp() =
         |> Program.withRouter router
 //#if (hotreload_actual)
 #if DEBUG
-        |> Program.withHotReloading
+        |> Program.withHotReload
 #endif

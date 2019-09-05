@@ -34,5 +34,5 @@ type MyApp() =
         Program.mkSimple (fun _ -> initModel) update view
 //#if (hotreload_actual)
 #if DEBUG
-        |> Program.withHotReloading
+        |> Program.withHotReload
 #endif
