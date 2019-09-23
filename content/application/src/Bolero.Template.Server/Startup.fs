@@ -51,7 +51,7 @@ type BookService(ctx: IRemoteContext, env: IWebHostEnvironment) =
                 return! ctx.HttpContext.AsyncSignOut()
             }
 
-            getUsername = fun () -> async {
+            getUsername = ctx.Authorize <| fun () -> async {
                 return ctx.HttpContext.User.Identity.Name
             }
         }
