@@ -1,27 +1,26 @@
 version: build {build}
-image: Visual Studio 2017
+image: Ubuntu
 
 build:
   verbosity: minimal
 
 init:
-- cmd: choco install dotnetcore-sdk --version 3.0.100-preview8-013656
-- git config --global core.autocrlf input
+  - git config --global core.autocrlf input
+  - sudo apt-get update
+  - sudo apt-get install -y dotnet-sdk-3.0
 
 before_build:
-- ps: |
-    dotnet tool install nbgv --tool-path .paket
-    $env:SEMVER = .paket/nbgv get-version -v SemVer2
-    Update-AppveyorBuild -Version "$env:SEMVER ($env:APPVEYOR_BUILD_ID)"
+  - dotnet tool install nbgv --tool-path .paket
+  - export SEMVER="$(.paket/nbgv get-version -v SemVer2)"
+  - echo $SEMVER
+  - echo $APPVEYOR_BUILD_ID
+  - appveyor UpdateBuild -Version "$SEMVER ($APPVEYOR_BUILD_ID)"
 
 build_script:
-- ps: |
-    $forceVersion = @()
-    if ("$env:APPVEYOR_REPO_BRANCH" -match 'v?\d*\.\d*') {
-      $forceVersion = "--force-version",$env:APPVEYOR_REPO_BRANCH
-    }
-    .\build.cmd -t release -v "$env:SEMVER" --clean-test true $forceVersion
+  - FORCE_VERSION=
+  - if echo "$APPVEYOR_REPO_BRANCH" | grep -q 'v?\d*\.\d*'; then FORCE_VERSION="--force-version $APPVEYOR_REPO_BRANCH"; fi
+  - ./build.sh -t release -v "$SEMVER" --clean-test true $FORCE_VERSION
 
 artifacts:
-- path: build\*.nupkg
+- path: build/*.nupkg
   name: nuget
