@@ -13,7 +13,6 @@ let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
     dotnetOutput "nbgv" "get-version -v SemVer2"
 )
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
-let forceVersion = getArgOpt "--force-version"
 
 // Constants
 let contentBaseDir = slnDir </> "content"

@@ -6,20 +6,14 @@ build:
 
 init:
   - git config --global core.autocrlf input
-  - sudo apt-get update
-  - sudo apt-get install -y dotnet-sdk-3.0
 
 before_build:
-  - dotnet tool install nbgv --tool-path .paket
-  - export SEMVER="$(.paket/nbgv get-version -v SemVer2)"
-  - echo $SEMVER
-  - echo $APPVEYOR_BUILD_ID
+  - dotnet tool restore
+  - export SEMVER="$(dotnet nbgv get-version -v SemVer2)"
   - appveyor UpdateBuild -Version "$SEMVER ($APPVEYOR_BUILD_ID)"
 
 build_script:
-  - FORCE_VERSION=
-  - if echo "$APPVEYOR_REPO_BRANCH" | grep -q 'v?\d*\.\d*'; then FORCE_VERSION="--force-version $APPVEYOR_REPO_BRANCH"; fi
-  - ./build.sh -t release -v "$SEMVER" --clean-test true $FORCE_VERSION
+  - ./build.sh -t release -v "$SEMVER" --clean-test true
 
 artifacts:
 - path: build/*.nupkg
