@@ -3,7 +3,7 @@ source https://api.nuget.org/v3/index.json
 framework: netcoreapp2.0
 storage: none
 
-clitool dotnet-fake ~> 5.0
+github fsbolero/bolero tools/Utility.fsx
 
 group fake
 source https://api.nuget.org/v3/index.json

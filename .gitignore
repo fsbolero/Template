@@ -6,8 +6,4 @@ build/
 .vs/
 *.user
 test-build/
-.paket/*
-!.paket/paket.bootstrapper.proj
-!.paket/paket.bootstrapper.props
-!.paket/Paket.Restore.targets
-!.paket/Utility.fsx
+.paket/

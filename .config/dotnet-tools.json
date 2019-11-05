@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "paket": {
+      "version": "5.231.0",
+      "commands": [
+        "paket"
+      ]
+    },
+    "nbgv": {
+      "version": "3.0.26",
+      "commands": [
+        "nbgv"
+      ]
+    },
+    "fake-cli": {
+      "version": "5.18.3",
+      "commands": [
+        "fake"
+      ]
+    }
+  }
+}

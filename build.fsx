@@ -1,18 +1,16 @@
 #r "paket: groupref fake //"
-#load ".paket/Utility.fsx"
+#load "paket-files/fsbolero/bolero/tools/Utility.fsx"
 
 open System.IO
 open Fake.Core
 open Fake.Core.TargetOperators
+open Fake.DotNet
 open Fake.IO.FileSystemOperators
 open Utility
 
 // Command-line parameters
 let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
-    CreateProcess.fromRawCommand ".paket/nbgv" ["get-version"; "-v"; "SemVer2"]
-    |> CreateProcess.redirectOutput
-    |> Proc.run
-    |> fun r -> r.Result.Output.Trim()
+    dotnetOutput "nbgv" "get-version -v SemVer2"
 )
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
 let forceVersion = getArgOpt "--force-version"
@@ -32,17 +30,17 @@ let variantsToTest =
 
 Target.description "Create the NuGet package containing the templates."
 Target.create "pack" <| fun o ->
-    Fake.DotNet.Paket.pack <| fun p ->
+    Paket.pack <| fun p ->
         { p with
             OutputPath = buildOutputDir
             Version = version o
-            ToolPath = ".paket/paket"
+            ToolType = ToolType.CreateLocalTool()
         }
 
 Target.description "Test all the template projects by building them."
 Target.create "test-build" <| fun o ->
     // Install the newly created template
-    dotnet slnDir [] "new" "-i %s" (packageOutputFile o)
+    dotnet "new" "-i %s" (packageOutputFile o)
 
     // For each template variant, create and build a new project
     let testsDir = __SOURCE_DIRECTORY__ </> "test-build"
@@ -55,18 +53,14 @@ Target.create "test-build" <| fun o ->
         // Prepend a letter and change extension to avoid generating
         // identifiers that start with a number.
         let projectName = "Test." + name
-        dotnet baseDir [] "new" "bolero-app --nightly %s -o %s" args projectName
-        dotnet (baseDir </> projectName) [] "build" "-v n"
+        dotnet' baseDir [] "new" "bolero-app --nightly %s -o %s" args projectName
+        dotnet' (baseDir </> projectName) [] "build" "-v n"
 
 Target.description "Run the full release pipeline."
 Target.create "release" ignore
 
-Target.create "pre" <| fun _ ->
-    shell "." "git" "checkout .paket/Paket.Restore.targets"
-
 // Main dep path with soft dependencies
-"pre"
-    ==> "pack"
+"pack"
     ==> "test-build"
     ==> "release"
 
