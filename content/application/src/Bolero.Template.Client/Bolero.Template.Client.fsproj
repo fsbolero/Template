@@ -8,10 +8,10 @@
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Bolero" Version="0.10.1-preview*" />
-    <PackageReference Include="Bolero.Build" Version="0.10.1-preview*" />
+    <PackageReference Include="Bolero" Version="0.10.1-preview9" />
+    <PackageReference Include="Bolero.Build" Version="0.10.1-preview9" />
     <!-- //#if (hotreload_actual) -->
-    <PackageReference Include="Bolero.HotReload" Version="0.10.3-preview*" />
+    <PackageReference Include="Bolero.HotReload" Version="0.10.4-preview9" />
     <!-- //#endif -->
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0-preview9.*" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0-preview9.*" />
