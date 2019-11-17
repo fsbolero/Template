@@ -10,7 +10,7 @@ open Utility
 
 // Command-line parameters
 let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
-    dotnetOutput "nbgv" "get-version -v SemVer2"
+    (dotnetOutput "nbgv" "get-version -v SemVer2").Trim()
 )
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
 let forceVersion = getArgOpt "--force-version"

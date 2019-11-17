@@ -4,6 +4,9 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <!-- //#if (!minimal) -->
+    <Compile Include="BookService.fs" />
+    <!-- //#endif -->
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
