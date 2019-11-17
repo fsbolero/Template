@@ -17,7 +17,12 @@ type Startup() =
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     member this.ConfigureServices(services: IServiceCollection) =
+//#if (razor_actual)
+        services.AddMvc().AddRazorRuntimeCompilation() |> ignore
+        services.AddServerSideBlazor() |> ignore
+//#else
         services.AddMvcCore() |> ignore
+//#endif
         services
 //#if (!minimal)
             .AddAuthorization()
@@ -40,16 +45,22 @@ type Startup() =
             .UseAuthentication()
             .UseRemoting()
 //#endif
-            .UseClientSideBlazorFiles<Client.Startup>()
+            .UseStaticFiles()
             .UseRouting()
+            .UseClientSideBlazorFiles<Client.Main.MyApp>()
             .UseEndpoints(fun endpoints ->
 //#if (hotreload_actual)
 #if DEBUG
                 endpoints.UseHotReload()
 #endif
 //#endif
+//#if (razor_actual)
+                endpoints.MapBlazorHub() |> ignore
+                endpoints.MapFallbackToPage("/_Host") |> ignore)
+//#else
                 endpoints.MapDefaultControllerRoute() |> ignore
                 endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html") |> ignore)
+//#endif
         |> ignore
 
 module Program =

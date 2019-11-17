@@ -33,6 +33,13 @@
       "dataType": "bool",
       "defaultValue": "true"
     },
+    "razor": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Use Razor on the server side (true requires server=true)",
+      "dataType": "bool",
+      "defaultValue": "true"
+    },
     "nightly": {
       "type": "parameter",
       "isRequired": false,
@@ -56,6 +63,11 @@
       "type": "computed",
       "dataType": "bool",
       "value": "(hotreload && server_actual)"
+    },
+    "razor_actual": {
+      "type": "computed",
+      "dataType": "bool",
+      "value": "(razor && server_actual)"
     }
   },
   "sources": [
@@ -87,6 +99,19 @@
           "rename": {
             "src/Bolero.Template.Client/Main.minimal.fs": "src/Bolero.Template.Client/Main.fs"
           }
+        },
+        {
+          "condition": "(!razor_actual)",
+          "exclude": [
+            "src/Bolero.Template.Server/Pages/_Host.cshtml",
+            "src/Bolero.Template.Server/HostModel.fs"
+          ]
+        },
+        {
+          "condition": "(razor_actual)",
+          "exclude": [
+            "src/Bolero.Template.Client/wwwroot/index.json"
+          ]
         },
         {
           "condition": "(nightly && !paket)",

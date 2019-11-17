@@ -7,12 +7,20 @@
     <!-- //#if (!minimal) -->
     <Compile Include="BookService.fs" />
     <!-- //#endif -->
+    <!-- //#if (razor_actual) -->
+    <Compile Include="HostModel.fs" />
+    <!-- //#endif -->
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
     <PackageReference Include="Bolero.Server" Version="0.10.1-preview9" />
+    <!-- //#if (hotreload_actual) -->
     <PackageReference Include="Bolero.HotReload.Server" Version="0.10.4-preview9" />
+    <!-- //#endif -->
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.0-preview9.*" />
+    <!-- //#if (razor_actual) -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.*" />
+    <!-- //#endif -->
   </ItemGroup>
 </Project>
