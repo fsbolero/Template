@@ -22,14 +22,28 @@
     "server": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Include an ASP.NET Core server-side host (false requires minimal=true)",
+      "description": "Include an ASP.NET Core server-side host (ignored if minimal=false)",
+      "dataType": "bool",
+      "defaultValue": "true"
+    },
+    "html": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Use HTML templates (ignored if minimal=true)",
       "dataType": "bool",
       "defaultValue": "true"
     },
     "hotreload": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Include hot reload for HTML templates (true requires server=true)",
+      "description": "Include hot reload for HTML templates (ignored if html=false or server=false)",
+      "dataType": "bool",
+      "defaultValue": "true"
+    },
+    "razor": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Use Razor on the server side (ignored if server=false)",
       "dataType": "bool",
       "defaultValue": "true"
     },
@@ -55,7 +69,12 @@
     "hotreload_actual": {
       "type": "computed",
       "dataType": "bool",
-      "value": "(hotreload && server_actual)"
+      "value": "(hotreload && html && server_actual)"
+    },
+    "razor_actual": {
+      "type": "computed",
+      "dataType": "bool",
+      "value": "(razor && server_actual)"
     }
   },
   "sources": [
@@ -77,6 +96,7 @@
           "condition": "(minimal)",
           "exclude": [
             "src/Bolero.Template.Server/data/books.json",
+            "src/Bolero.Template.Server/BookService.fs",
             "src/Bolero.Template.Client/wwwroot/main.html",
             "src/Bolero.Template.Client/Main.fs"
           ],
@@ -86,6 +106,25 @@
           "rename": {
             "src/Bolero.Template.Client/Main.minimal.fs": "src/Bolero.Template.Client/Main.fs"
           }
+        },
+        {
+          "condition": "(!html)",
+          "exclude": [
+            "src/Bolero.Template.Client/wwwroot/main.html"
+          ]
+        },
+        {
+          "condition": "(!razor_actual)",
+          "exclude": [
+            "src/Bolero.Template.Server/Pages/_Host.cshtml",
+            "src/Bolero.Template.Server/HostModel.fs"
+          ]
+        },
+        {
+          "condition": "(razor_actual)",
+          "exclude": [
+            "src/Bolero.Template.Client/wwwroot/index.json"
+          ]
         },
         {
           "condition": "(nightly && !paket)",

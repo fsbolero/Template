@@ -143,6 +143,7 @@ let update remote message model =
 /// Connects the routing system to the Elmish application.
 let router = Router.infer SetPage (fun model -> model.page)
 
+//#if (html)
 type Main = Template<"wwwroot/main.html">
 
 let homePage model dispatch =
@@ -222,6 +223,194 @@ let view model dispatch =
                     .Elt()
         )
         .Elt()
+//#else
+let homePage model dispatch =
+    div [attr.``class`` "content"] [
+        h1 [attr.``class`` "title"] [text "Welcome to Bolero!"]
+        p [] [text "This application demonstrates Bolero's major features."]
+        ul [] [
+            li [] [
+                text "The entire application is driven by "
+                a [
+                    attr.target "_blank"
+                    attr.href "https://fsbolero.github.io/docs/Elmish"
+                ] [text "Elmish"]
+                text "."
+            ]
+            li [] [
+                text "The menu on the left switches pages based on "
+                a [
+                    attr.target "_blank"
+                    attr.href "https://fsbolero.github.io/docs/Routing"
+                ] [text "routes"]
+                text "."
+            ]
+            li [] [
+                text "The "
+                a [router.HRef Counter] [text "Counter"]
+                text " page demonstrates event handlers and data binding in "
+                a [
+                    attr.target "_blank"
+                    attr.href "https://fsbolero.github.io/docs/Templating"
+                ] [text "HTML templates"]
+                text "."
+            ]
+            li [] [
+                text "The "
+                a [router.HRef Data] [text "Download data"]
+                text " page demonstrates the use of "
+                a [
+                    attr.target "_blank"
+                    attr.href "https://fsbolero.github.io/docs/Remoting"
+                ] [text "remote functions"]
+                text "."
+            ]
+            p [] [text "Enjoy writing awesome apps!"]
+        ]
+    ]
+
+let counterPage model dispatch =
+    concat [
+        h1 [attr.``class`` "title"] [text "A simple counter"]
+        p [] [
+            button [
+                on.click (fun _ -> dispatch Decrement)
+                attr.``class`` "button"
+            ] [text "-"]
+            input [
+                attr.``type`` "number"
+                attr.id "counter"
+                attr.``class`` "input"
+                bind.inputInt model.counter (fun v -> dispatch (SetCounter v))
+            ]
+            button [
+                on.click (fun _ -> dispatch Increment)
+                attr.``class`` "button"
+            ] [text "+"]
+        ]
+    ]
+
+let dataPage model (username: string) dispatch =
+    concat [
+        h1 [attr.``class`` "title"] [
+            text "Download data "
+            button [
+                attr.``class`` "button"
+                on.click (fun _ -> dispatch GetBooks)
+            ] [text "Reload"]
+        ]
+        p [] [
+            textf "Signed in as %s. " username
+            button [
+                attr.``class`` "button"
+                on.click (fun _ -> dispatch SendSignOut)
+            ] [text "Sign out"]
+        ]
+        table [attr.``class`` "table is-fullwidth"] [
+            thead [] [
+                tr [] [
+                    th [] [text "Title"]
+                    th [] [text "Author"]
+                    th [] [text "Published"]
+                    th [] [text "ISBN"]
+                ]
+            ]
+            tbody [] [
+                cond model.books <| function
+                | None ->
+                    tr [] [
+                        td [attr.colspan 4] [text "Downloading book list..."]
+                    ]
+                | Some books ->
+                    forEach books <| fun book ->
+                        tr [] [
+                            td [] [text book.title]
+                            td [] [text book.author]
+                            td [] [text (book.publishDate.ToString("yyyy-MM-dd"))]
+                            td [] [text book.isbn]
+                        ]
+            ]
+        ]
+    ]
+
+let field content = div [attr.``class`` "field"] content
+let control content = div [attr.``class`` "control"] content
+
+let inputField fieldLabel inputAttrs =
+    field [
+        label [attr.``class`` "label"] [text fieldLabel]
+        control [input (attr.``class`` "input" :: inputAttrs)]
+    ]
+
+let errorNotification errorText closeCallback =
+    div [attr.``class`` "notification is-warning"] [
+        cond closeCallback <| function
+        | None -> empty
+        | Some closeCallback -> button [attr.``class`` "delete"; on.click closeCallback] []
+        text errorText
+    ]
+
+let signInPage model dispatch =
+    concat [
+        h1 [attr.``class`` "title"] [text "Sign in"]
+        form [on.submit (fun _ -> dispatch SendSignIn)] [
+            inputField "Username" [
+                bind.input model.username (fun s -> dispatch (SetUsername s))
+            ]
+            inputField "Password" [
+                attr.``type`` "password"
+                bind.input model.password (fun s -> dispatch (SetPassword s))
+            ]
+            field [
+                control [
+                    input [attr.``type`` "submit"; attr.value "Sign in"]
+                ]
+            ]
+            cond model.signInFailed <| function
+            | false -> empty
+            | true -> errorNotification "Sign in failed. Use any username and the password \"password\"." None
+        ]
+    ]
+
+let menuItem (model: Model) (page: Page) (itemText: string) =
+    li [] [
+        a [
+            attr.``class`` (if model.page = page then "is-active" else "")
+            router.HRef page
+        ] [text itemText]
+    ]
+
+let view model dispatch =
+    div [attr.``class`` "columns"] [
+        aside [attr.``class`` "column sidebar is-narrow"] [
+            section [attr.``class`` "section"] [
+                nav [attr.``class`` "menu"] [
+                    ul [attr.``class`` "menu-list"] [
+                        menuItem model Home "Home"
+                        menuItem model Counter "Counter"
+                        menuItem model Data "Download data"
+                    ]
+                ]
+            ]
+        ]
+        div [attr.``class`` "column"] [
+            section [attr.``class`` "section"] [
+                cond model.page <| function
+                | Home -> homePage model dispatch
+                | Counter -> counterPage model dispatch
+                | Data ->
+                    cond model.signedInAs <| function
+                    | Some username -> dataPage model username dispatch
+                    | None -> signInPage model dispatch
+                div [attr.id "notification-area"] [
+                    cond model.error <| function
+                    | None -> empty
+                    | Some err -> errorNotification err (Some (fun _ -> dispatch ClearError))
+                ]
+            ]
+        ]
+    ]
+//#endif
 
 type MyApp() =
     inherit ProgramComponent<Model, Message>()

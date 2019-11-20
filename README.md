@@ -49,6 +49,12 @@ You can use the following options to customize the project being created:
 
         This is ignored if `minimal=false`, because the full-fledged project needs the server side for remoting.
 
+    * `--razor`, `-r`:
+
+        If `true` (the default if `server=true`), the server-side project includes a Razor page that can be configured to serve the application as client-side or server-side Blazor ([learn about the difference](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.0)). When the application is in Development environment, both modes are available by passing `?server=true` or `false` in the URL.
+
+        If `false` (the default and only possible value if `server=false`), the application is served as client-side Blazor in a plain HTML file.
+
     * `--hotreload`, `-ho`:
 
         Enable hot reloading for HTML templates.

@@ -10,7 +10,7 @@ open Utility
 
 // Command-line parameters
 let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
-    dotnetOutput "nbgv" "get-version -v SemVer2"
+    (dotnetOutput "nbgv" "get-version -v SemVer2").Trim()
 )
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
 
@@ -20,10 +20,14 @@ let buildOutputDir = slnDir </> "build"
 let packageOutputFile o = buildOutputDir </> sprintf "Bolero.Templates.%s.nupkg" (version o)
 let variantsToTest =
     [
-        "Server.Reload", "--server --hotreload --minimal=false"
-        "Server.NoReload", "--server --hotreload=false --minimal=false"
-        "Minimal.Server.Reload", "--server --hotreload --minimal"
-        "Minimal.Server.NoReload", "--server --hotreload=false --minimal"
+        "NoRazor.Reload", "--server --hotreload --minimal=false --razor=false"
+        "NoRazor.NoReload", "--server --hotreload=false --minimal=false --razor=false"
+        "NoRazor.NoHtml", "--server --html=false --minimal=false --razor=false"
+        "Razor.Reload", "--server --hotreload --minimal=false --razor"
+        "Razor.NoReload", "--server --hotreload=false --minimal=false --razor"
+        "Razor.NoHtml", "--server --html=false --minimal=false --razor"
+        "Minimal.Server.Reload", "--server --hotreload --minimal --razor=false"
+        "Minimal.Server.NoReload", "--server --hotreload=false --minimal --razor=false"
         "Minimal.NoServer.NoReload", "--server=false --hotreload=false --minimal"
     ]
 
