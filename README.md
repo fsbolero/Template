@@ -55,13 +55,19 @@ You can use the following options to customize the project being created:
 
         If `false` (the default and only possible value if `server=false`), the application is served as client-side Blazor in a plain HTML file.
 
+    * `--html`, `-ht`:
+
+        If `true` (the default if `minimal=false`), the client-side content is represented using a [HTML template](https://fsbolero.io/docs/Templating).
+
+        If `false` (the default and only possible value if `minimal=true`), the client-side content is represented using [F# functions](https://fsbolero.io/docs/HTML).
+
     * `--hotreload`, `-ho`:
 
         Enable hot reloading for HTML templates.
 
         The default is `true`.
 
-        This is ignored if `server=false`, because hot reloading requires a server side.
+        This is ignored if `html=false` for obvious reasons, and if `server=false` because hot reloading requires a server side.
 
 * Package management options:
 
