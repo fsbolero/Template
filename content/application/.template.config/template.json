@@ -22,21 +22,28 @@
     "server": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Include an ASP.NET Core server-side host (false requires minimal=true)",
+      "description": "Include an ASP.NET Core server-side host (ignored if minimal=false)",
+      "dataType": "bool",
+      "defaultValue": "true"
+    },
+    "html": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Use HTML templates (ignored if minimal=true)",
       "dataType": "bool",
       "defaultValue": "true"
     },
     "hotreload": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Include hot reload for HTML templates (true requires server=true)",
+      "description": "Include hot reload for HTML templates (ignored if html=false or server=false)",
       "dataType": "bool",
       "defaultValue": "true"
     },
     "razor": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Use Razor on the server side (true requires server=true)",
+      "description": "Use Razor on the server side (ignored if server=false)",
       "dataType": "bool",
       "defaultValue": "true"
     },
@@ -62,7 +69,7 @@
     "hotreload_actual": {
       "type": "computed",
       "dataType": "bool",
-      "value": "(hotreload && server_actual)"
+      "value": "(hotreload && html && server_actual)"
     },
     "razor_actual": {
       "type": "computed",
@@ -99,6 +106,12 @@
           "rename": {
             "src/Bolero.Template.Client/Main.minimal.fs": "src/Bolero.Template.Client/Main.fs"
           }
+        },
+        {
+          "condition": "(!html)",
+          "exclude": [
+            "src/Bolero.Template.Client/wwwroot/main.html"
+          ]
         },
         {
           "condition": "(!razor_actual)",

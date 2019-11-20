@@ -21,10 +21,12 @@ let buildOutputDir = slnDir </> "build"
 let packageOutputFile o = buildOutputDir </> sprintf "Bolero.Templates.%s.nupkg" (version o)
 let variantsToTest =
     [
-        "Server.Reload", "--server --hotreload --minimal=false --razor=false"
-        "Server.NoReload", "--server --hotreload=false --minimal=false --razor=false"
+        "NoRazor.Reload", "--server --hotreload --minimal=false --razor=false"
+        "NoRazor.NoReload", "--server --hotreload=false --minimal=false --razor=false"
+        "NoRazor.NoHtml", "--server --html=false --minimal=false --razor=false"
         "Razor.Reload", "--server --hotreload --minimal=false --razor"
         "Razor.NoReload", "--server --hotreload=false --minimal=false --razor"
+        "Razor.NoHtml", "--server --html=false --minimal=false --razor"
         "Minimal.Server.Reload", "--server --hotreload --minimal --razor=false"
         "Minimal.Server.NoReload", "--server --hotreload=false --minimal --razor=false"
         "Minimal.NoServer.NoReload", "--server=false --hotreload=false --minimal"
