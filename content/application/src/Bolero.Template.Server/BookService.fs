@@ -9,12 +9,12 @@ open Bolero.Remoting.Server
 open Bolero.Template
 
 type BookService(ctx: IRemoteContext, env: IWebHostEnvironment) =
-    inherit RemoteHandler<Client.Main.BookService>()
+    inherit RemoteHandler<Shared.BookService>()
 
     let books =
         Path.Combine(env.ContentRootPath, "data/books.json")
         |> File.ReadAllText
-        |> Json.Deserialize<Client.Main.Book[]>
+        |> Json.Deserialize<Shared.Book[]>
         |> ResizeArray
 
     override this.Handler =

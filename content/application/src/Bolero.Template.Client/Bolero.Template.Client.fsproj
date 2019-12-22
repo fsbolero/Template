@@ -8,6 +8,9 @@
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
+    <!-- //#if (server_actual) -->
+    <ProjectReference Include="..\Bolero.Template.Shared\Bolero.Template.Shared.fsproj" />
+    <!-- //#endif -->
     <PackageReference Include="Bolero" Version="0.10.1-preview9" />
     <PackageReference Include="Bolero.Build" Version="0.10.1-preview9" />
     <!-- //#if (hotreload_actual) -->

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Model.fs" />
+    <!-- //#if (!minimal) -->
+    <Compile Include="BookService.fs" />
+    <!-- //#endif -->
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Bolero" Version="0.10.1-preview9" />
+  </ItemGroup>
+</Project>

@@ -13,6 +13,7 @@
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bolero.Template.Shared\Bolero.Template.Shared.fsproj" />
     <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
     <PackageReference Include="Bolero.Server" Version="0.10.1-preview9" />
     <!-- //#if (hotreload_actual) -->

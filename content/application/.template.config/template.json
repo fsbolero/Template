@@ -89,6 +89,7 @@
         {
           "condition": "(!server_actual)",
           "exclude": [
+            "src/Bolero.Template.Shared/**/*",
             "src/Bolero.Template.Server/**/*"
           ]
         },
@@ -97,6 +98,7 @@
           "exclude": [
             "src/Bolero.Template.Server/data/books.json",
             "src/Bolero.Template.Server/BookService.fs",
+            "src/Bolero.Template.Shared/BookService.fs",
             "src/Bolero.Template.Client/wwwroot/main.html",
             "src/Bolero.Template.Client/Main.fs"
           ],
