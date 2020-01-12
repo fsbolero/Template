@@ -1,4 +1,3 @@
-version 5.206.0
 source https://api.nuget.org/v3/index.json
 framework: netcoreapp2.0
 storage: none

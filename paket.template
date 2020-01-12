@@ -7,11 +7,8 @@ files
     content/**/.template.config/*               ==> content
     content/**/*.sln                            ==> content
     content/**/nuget.config                     ==> content
-    content/**/*.cmd                            ==> content
-    content/**/*.sh                             ==> content
+    content/**/paket.dependencies               ==> content
     content/**/*.fs                             ==> content
-    content/**/*.fsi                            ==> content
-    content/**/*.fsx                            ==> content
     content/**/*.fsproj                         ==> content
     content/**/*.html                           ==> content
     content/**/*.cshtml                         ==> content

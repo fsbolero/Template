@@ -131,12 +131,11 @@
           "include": ["nuget.config"]
         },
         {
-          "condition": "(paket && OS == \"Windows_NT\")",
-          "include": [".paket/convert-paket.cmd"]
-        },
-        {
-          "condition": "(paket && OS != \"Windows_NT\")",
-          "include": [".paket/convert-paket.sh"]
+          "condition": "(!paket)",
+          "exclude": [
+            ".config/dotnet-tools.json",
+            "paket.dependencies"
+          ]
         }
       ]
     }
@@ -164,25 +163,12 @@
     {
       "condition": "(paket && OS == \"Windows_NT\")",
       "description": "Convert project to Paket",
-      "manualInstructions": [{"text": "Run .paket\\convert-paket.cmd"}],
       "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
-      "args": {"executable": "cmd", "args": "/c .paket\\convert-paket.cmd"},
-      "continueOnError": false
-    },
-    {
-      "condition": "(paket && OS != \"Windows_NT\")",
-      "description": "Make scripts executable",
-      "manualInstructions": [{"text": "Run 'chmod +x convert-paket.sh'"}],
-      "actionId": "cb9a6cf3-4f5c-4860-b9d2-03a574959774",
-      "args": {"+x": ".paket/convert-paket.sh"},
-      "continueOnError": true
-    },
-    {
-      "condition": "(paket && OS != \"Windows_NT\")",
-      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
-      "description": "Convert project to Paket",
-      "manualInstructions": [{"text": "Run .paket/convert-paket.sh"}],
-      "args": {"executable": "sh", "args": "-c .paket/convert-paket.sh"},
+      "args": {
+        "redirectStandardOutput": "false",
+        "executable": "dotnet",
+        "args": "paket convert-from-nuget --force"
+      },
       "continueOnError": false
     }
   ]
