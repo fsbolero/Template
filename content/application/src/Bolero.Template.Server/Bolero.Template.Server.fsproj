@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <!-- //#if (!minimal) -->
@@ -14,13 +14,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
-    <PackageReference Include="Bolero.Server" Version="0.10.1-preview9" />
+    <PackageReference Include="Bolero.Server" Version="0.11.18-preview31" />
     <!-- //#if (hotreload_actual) -->
-    <PackageReference Include="Bolero.HotReload.Server" Version="0.10.4-preview9" />
+    <PackageReference Include="Bolero.HotReload.Server" Version="0.11.4-preview31" />
     <!-- //#endif -->
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.0-preview9.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.1-preview4.19579.2" />
     <!-- //#if (razor_actual) -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1" />
     <!-- //#endif -->
   </ItemGroup>
 </Project>

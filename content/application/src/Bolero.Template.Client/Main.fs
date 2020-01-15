@@ -281,7 +281,7 @@ let counterPage model dispatch =
                 attr.``type`` "number"
                 attr.id "counter"
                 attr.``class`` "input"
-                bind.inputInt model.counter (fun v -> dispatch (SetCounter v))
+                bind.input.int model.counter (fun v -> dispatch (SetCounter v))
             ]
             button [
                 on.click (fun _ -> dispatch Increment)
@@ -355,11 +355,11 @@ let signInPage model dispatch =
         h1 [attr.``class`` "title"] [text "Sign in"]
         form [on.submit (fun _ -> dispatch SendSignIn)] [
             inputField "Username" [
-                bind.input model.username (fun s -> dispatch (SetUsername s))
+                bind.input.string model.username (fun s -> dispatch (SetUsername s))
             ]
             inputField "Password" [
                 attr.``type`` "password"
-                bind.input model.password (fun s -> dispatch (SetPassword s))
+                bind.input.string model.password (fun s -> dispatch (SetPassword s))
             ]
             field [
                 control [

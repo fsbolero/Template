@@ -3,5 +3,5 @@ source https://api.nuget.org/v3/index.json
 source https://ci.appveyor.com/nuget/bolero
 source https://ci.appveyor.com/nuget/bolero.templating.hotreload
 //#endif
-framework: netcoreapp3.0, netstandard2.0
+framework: netcoreapp3.1, netstandard2.1
 storage: none
