@@ -8,8 +8,8 @@
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Bolero" Version="0.11.18-preview31" />
-    <PackageReference Include="Bolero.Build" Version="0.11.18-preview31" />
+    <PackageReference Include="Bolero" Version="0.11.21-preview31" />
+    <PackageReference Include="Bolero.Build" Version="0.11.21-preview31" />
     <!-- //#if (hotreload_actual) -->
     <PackageReference Include="Bolero.HotReload" Version="0.11.4-preview31" />
     <!-- //#endif -->

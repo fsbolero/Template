@@ -14,7 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
-    <PackageReference Include="Bolero.Server" Version="0.11.18-preview31" />
+    <PackageReference Include="Bolero.Server" Version="0.11.21-preview31" />
     <!-- //#if (hotreload_actual) -->
     <PackageReference Include="Bolero.HotReload.Server" Version="0.11.4-preview31" />
     <!-- //#endif -->
