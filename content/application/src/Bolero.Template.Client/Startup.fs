@@ -1,24 +1,14 @@
 namespace Bolero.Template.Client
 
-open Microsoft.AspNetCore.Blazor.Hosting
-open Microsoft.AspNetCore.Components.Builder
-open Microsoft.Extensions.DependencyInjection
+open Microsoft.AspNetCore.Components.WebAssembly.Hosting
 open Bolero.Remoting.Client
-
-type Startup() =
-
-    member __.ConfigureServices(services: IServiceCollection) =
-        services.AddRemoting()
-
-    member __.Configure(app: IComponentsApplicationBuilder) =
-        app.AddComponent<Main.MyApp>("#main")
 
 module Program =
 
     [<EntryPoint>]
     let Main args =
-        BlazorWebAssemblyHost.CreateDefaultBuilder()
-            .UseBlazorStartup<Startup>()
-            .Build()
-            .Run()
+        let builder = WebAssemblyHostBuilder.CreateDefault(args)
+        builder.RootComponents.Add<Main.MyApp>("#main")
+        builder.Services.AddRemoting() |> ignore
+        builder.Build().RunAsync() |> ignore
         0

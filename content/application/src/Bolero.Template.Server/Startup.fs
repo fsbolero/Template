@@ -47,7 +47,7 @@ type Startup() =
 //#endif
             .UseStaticFiles()
             .UseRouting()
-            .UseClientSideBlazorFiles<Client.Main.MyApp>()
+            .UseBlazorFrameworkFiles()
             .UseEndpoints(fun endpoints ->
 //#if (hotreload_actual)
 #if DEBUG
@@ -58,8 +58,8 @@ type Startup() =
                 endpoints.MapBlazorHub() |> ignore
                 endpoints.MapFallbackToPage("/_Host") |> ignore)
 //#else
-                endpoints.MapDefaultControllerRoute() |> ignore
-                endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html") |> ignore)
+                endpoints.MapControllers() |> ignore
+                endpoints.MapFallbackToFile("index.html") |> ignore)
 //#endif
         |> ignore
 
@@ -69,6 +69,7 @@ module Program =
     let main args =
         WebHost
             .CreateDefaultBuilder(args)
+            .UseStaticWebAssets()
             .UseStartup<Startup>()
             .Build()
             .Run()

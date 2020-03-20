@@ -1,6 +1,6 @@
 {
   "author": "IntelliFactory",
-  "classifications": [ "Bolero", "Web", "Blazor" ],
+  "classifications": [ "Web", "Blazor", "Bolero" ],
   "name": "Bolero Hosted Application",
   "tags": {
     "language": "F#",

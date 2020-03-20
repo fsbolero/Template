@@ -25,7 +25,7 @@ let update message model =
     | Ping -> model
 
 let view model dispatch =
-    empty
+    text "Hello, world!"
 
 type MyApp() =
     inherit ProgramComponent<Model, Message>()
