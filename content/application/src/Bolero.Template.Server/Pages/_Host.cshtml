@@ -1,7 +1,7 @@
 @page "/"
 @namespace Bolero.Template.Server
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model HostModel
+@using Bolero.Server.RazorHost
+@inject IBoleroHostConfig BoleroHostConfig
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,7 +21,7 @@
         </a>
       </div>
     </nav>
-    <div id="main">@(await Html.RenderComponentAsync<Bolero.Template.Client.Main.MyApp>(Model.IsServer ? RenderMode.ServerPrerendered : RenderMode.Static))</div>
-    <script src="_framework/blazor.@(Model.IsServer ? "server" : "webassembly").js"></script>
+    <div id="main">@(await Html.RenderComponentAsync<Bolero.Template.Client.Main.MyApp>(BoleroHostConfig))</div>
+    @Html.RenderBoleroScript(BoleroHostConfig)
   </body>
 </html>

@@ -2,7 +2,7 @@ STORAGE: NONE
 RESTRICTION: == netcoreapp2.0
 GITHUB
   remote: fsbolero/bolero
-    tools/Utility.fsx (b0730da96ac615821763e40d6e69627f8f22afce)
+    tools/Utility.fsx (b507741a14a779bedc64e976698e58da6b258ce7)
 GROUP fake
 STORAGE: NONE
 RESTRICTION: == netstandard2.0

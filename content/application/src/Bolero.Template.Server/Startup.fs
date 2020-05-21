@@ -7,6 +7,9 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Bolero
 open Bolero.Remoting.Server
+//#if (razor_actual)
+open Bolero.Server.RazorHost
+//#endif
 open Bolero.Template
 //#if (hotreload_actual)
 open Bolero.Templating.Server
@@ -30,6 +33,9 @@ type Startup() =
                 .AddCookie()
                 .Services
             .AddRemoting<BookService>()
+//#endif
+//#if (razor_actual)
+            .AddBoleroHost()
 //#endif
 //#if (hotreload_actual)
 #if DEBUG

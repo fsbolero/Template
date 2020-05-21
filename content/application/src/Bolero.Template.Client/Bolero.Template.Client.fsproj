@@ -9,12 +9,12 @@
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Bolero" Version="0.12.12-preview32" />
-    <PackageReference Include="Bolero.Build" Version="0.12.12-preview32" />
+    <PackageReference Include="Bolero" Version="0.13.23" />
+    <PackageReference Include="Bolero.Build" Version="0.13.23" />
     <!-- //#if (hotreload_actual) -->
-    <PackageReference Include="Bolero.HotReload" Version="0.12.5-preview32" />
+    <PackageReference Include="Bolero.HotReload" Version="0.13.7" />
     <!-- //#endif -->
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0-preview2.20160.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0-preview2.20160.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0" />
   </ItemGroup>
 </Project>
