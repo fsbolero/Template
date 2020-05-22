@@ -7,9 +7,6 @@
     <!-- //#if (!minimal) -->
     <Compile Include="BookService.fs" />
     <!-- //#endif -->
-    <!-- //#if (razor_actual) -->
-    <Compile Include="HostModel.fs" />
-    <!-- //#endif -->
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
