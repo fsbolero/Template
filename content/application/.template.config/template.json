@@ -47,6 +47,13 @@
       "dataType": "bool",
       "defaultValue": "true"
     },
+    "pwa": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "Create the client side as a progressive web app",
+      "dataType": "bool",
+      "defaultValue": "false"
+    },
     "nightly": {
       "type": "parameter",
       "isRequired": false,
@@ -135,6 +142,15 @@
           "exclude": [
             ".config/dotnet-tools.json",
             "paket.dependencies"
+          ]
+        },
+        {
+          "condition": "(!pwa)",
+          "exclude": [
+            "content/application/src/Bolero.Template.Client/wwwroot/icon-512.png",
+            "content/application/src/Bolero.Template.Client/wwwroot/manifest.json",
+            "content/application/src/Bolero.Template.Client/wwwroot/service-worker.js",
+            "content/application/src/Bolero.Template.Client/wwwroot/service-worker.published.js"
           ]
         }
       ]
