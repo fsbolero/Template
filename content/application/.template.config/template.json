@@ -147,10 +147,10 @@
         {
           "condition": "(!pwa)",
           "exclude": [
-            "content/application/src/Bolero.Template.Client/wwwroot/icon-512.png",
-            "content/application/src/Bolero.Template.Client/wwwroot/manifest.json",
-            "content/application/src/Bolero.Template.Client/wwwroot/service-worker.js",
-            "content/application/src/Bolero.Template.Client/wwwroot/service-worker.published.js"
+            "src/Bolero.Template.Client/wwwroot/icon-512.png",
+            "src/Bolero.Template.Client/wwwroot/manifest.json",
+            "src/Bolero.Template.Client/wwwroot/service-worker.js",
+            "src/Bolero.Template.Client/wwwroot/service-worker.published.js"
           ]
         }
       ]
