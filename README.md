@@ -63,13 +63,17 @@ You can use the following options to customize the project being created:
 
         This is ignored if `server=false`, because hot reloading requires a server side.
 
+    * `--pwa`, `-p`:
+
+        Create the client side as a progressive web app.
+
 * Package management options:
 
     * `--nightly`, `-ni`:
 
         Reference the nightly release of Bolero.
 
-    * `--paket`, `-p`:
+    * `--paket`, `-pa`:
 
         Use [Paket](https://fsprojects.github.io/paket) for package management.
 
