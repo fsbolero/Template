@@ -130,7 +130,7 @@
         {
           "condition": "(razor_actual)",
           "exclude": [
-            "src/Bolero.Template.Client/wwwroot/index.json"
+            "src/Bolero.Template.Client/wwwroot/index.html"
           ]
         },
         {
