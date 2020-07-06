@@ -11,13 +11,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
-    <PackageReference Include="Bolero.Server" Version="0.13.23" />
+    <PackageReference Include="Bolero.Server" Version="0.*" />
     <!-- //#if (hotreload_actual) -->
-    <PackageReference Include="Bolero.HotReload.Server" Version="0.13.8" />
+    <PackageReference Include="Bolero.HotReload.Server" Version="0.*" />
     <!-- //#endif -->
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.*" />
     <!-- //#if (razor_actual) -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.*" />
     <!-- //#endif -->
   </ItemGroup>
 </Project>
