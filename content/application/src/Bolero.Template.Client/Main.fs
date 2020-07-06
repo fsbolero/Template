@@ -4,7 +4,6 @@ open System
 open Elmish
 open Bolero
 open Bolero.Html
-open Bolero.Json
 open Bolero.Remoting
 open Bolero.Remoting.Client
 //#if (hotreload_actual)
@@ -34,7 +33,6 @@ and Book =
     {
         title: string
         author: string
-        [<DateTimeFormat "yyyy-MM-dd">]
         publishDate: DateTime
         isbn: string
     }
