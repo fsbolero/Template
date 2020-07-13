@@ -15,9 +15,13 @@
     <!-- //#if (hotreload_actual) -->
     <PackageReference Include="Bolero.HotReload.Server" Version="0.*" />
     <!-- //#endif -->
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.*" />
     <!-- //#if (razor_actual) -->
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.*" />
     <!-- //#endif -->
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.Json" Version="3.1.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.*" />
+    <PackageReference Include="Microsoft.JSInterop" Version="3.1.*" />
   </ItemGroup>
 </Project>
