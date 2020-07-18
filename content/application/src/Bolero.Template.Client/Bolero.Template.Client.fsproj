@@ -17,7 +17,7 @@
     <!-- //#if (hotreload_actual) -->
     <PackageReference Include="Bolero.HotReload" Version="0.*" />
     <!-- //#endif -->
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.*" />
   </ItemGroup>
   <!-- //#if (pwa) -->
