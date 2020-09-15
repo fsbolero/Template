@@ -109,7 +109,7 @@ let update remote message model =
         { model with counter = value }, Cmd.none
 
     | GetBooks ->
-        let cmd = Cmd.ofAsync remote.getBooks () GotBooks Error
+        let cmd = Cmd.OfAsync.either remote.getBooks () GotBooks Error
         { model with books = None }, cmd
     | GotBooks books ->
         { model with books = Some books }, Cmd.none
@@ -119,15 +119,15 @@ let update remote message model =
     | SetPassword s ->
         { model with password = s }, Cmd.none
     | GetSignedInAs ->
-        model, Cmd.ofAuthorized remote.getUsername () RecvSignedInAs Error
+        model, Cmd.OfAuthorized.either remote.getUsername () RecvSignedInAs Error
     | RecvSignedInAs username ->
         { model with signedInAs = username }, onSignIn username
     | SendSignIn ->
-        model, Cmd.ofAsync remote.signIn (model.username, model.password) RecvSignIn Error
+        model, Cmd.OfAsync.either remote.signIn (model.username, model.password) RecvSignIn Error
     | RecvSignIn username ->
         { model with signedInAs = username; signInFailed = Option.isNone username }, onSignIn username
     | SendSignOut ->
-        model, Cmd.ofAsync remote.signOut () (fun () -> RecvSignOut) Error
+        model, Cmd.OfAsync.either remote.signOut () (fun () -> RecvSignOut) Error
     | RecvSignOut ->
         { model with signedInAs = None; signInFailed = false }, Cmd.none
 
