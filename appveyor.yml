@@ -5,15 +5,15 @@ build:
   verbosity: minimal
 
 init:
+  - sudo apt update && sudo apt-get install -y dotnet-sdk-5.0
   - git config --global core.autocrlf input
 
 before_build:
   - dotnet tool restore
-  - export SEMVER="$(dotnet nbgv get-version -v SemVer2)"
-  - appveyor UpdateBuild -Version "$SEMVER ($APPVEYOR_BUILD_ID)"
+  - dotnet nbgv cloud
 
 build_script:
-  - ./build.sh -t release -v "$SEMVER" --clean-test true
+  - ./build.sh -t release --clean-test true
 
 artifacts:
 - path: build/*.nupkg
