@@ -13,12 +13,9 @@ open Bolero.Template
 type BookService(ctx: IRemoteContext, env: IWebHostEnvironment) =
     inherit RemoteHandler<Client.Main.BookService>()
 
-    let serializerOptions = JsonSerializerOptions()
-    do serializerOptions.Converters.Add(JsonFSharpConverter())
-
     let books =
         let json = Path.Combine(env.ContentRootPath, "data/books.json") |> File.ReadAllText
-        JsonSerializer.Deserialize<Client.Main.Book[]>(json, serializerOptions)
+        JsonSerializer.Deserialize<Client.Main.Book[]>(json)
         |> ResizeArray
 
     override this.Handler =
