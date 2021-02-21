@@ -11,6 +11,10 @@
     <base href="/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
     <link rel="stylesheet" href="css/index.css">
+    <!-- //#if (pwa) -->
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <!-- //#endif -->
   </head>
   <body>
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -24,5 +28,8 @@
     </nav>
     <div id="main">@(await Html.RenderComponentAsync<Bolero.Template.Client.Main.MyApp>(BoleroHostConfig))</div>
     @Html.RenderBoleroScript(BoleroHostConfig)
+    <!-- //#if (pwa) -->
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <!-- //#endif -->
   </body>
 </html>
