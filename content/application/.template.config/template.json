@@ -22,7 +22,7 @@
     "server": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Include an ASP.NET Core server-side host (ignored if minimal=false)",
+      "description": "Include an ASP.NET Core server-side host",
       "dataType": "bool",
       "defaultValue": "true"
     },
@@ -71,7 +71,7 @@
     "server_actual": {
       "type": "computed",
       "dataType": "bool",
-      "value": "(server || !minimal)"
+      "value": "(server)"
     },
     "hotreload_actual": {
       "type": "computed",
@@ -93,6 +93,12 @@
         "nuget.config"
       ],
       "modifiers": [
+        {
+          "condition": "(server_actual)",
+          "rename": {
+            "src/Bolero.Template.Client/wwwroot/books.json": "src/Bolero.Template.Server/data/books.json"
+          }
+        },
         {
           "condition": "(!server_actual)",
           "exclude": [

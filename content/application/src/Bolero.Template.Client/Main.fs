@@ -1,11 +1,18 @@
 module Bolero.Template.Client.Main
 
 open System
+//#if (!server_actual)
+open System.Net.Http
+open System.Net.Http.Json
+open Microsoft.AspNetCore.Components
+//#endif
 open Elmish
 open Bolero
 open Bolero.Html
+//#if (server_actual)
 open Bolero.Remoting
 open Bolero.Remoting.Client
+//#endif
 //#if (hotreload_actual)
 open Bolero.Templating.Client
 //#endif
@@ -23,10 +30,12 @@ type Model =
         counter: int
         books: Book[] option
         error: string option
+//#if (server_actual)
         username: string
         password: string
         signedInAs: option<string>
         signInFailed: bool
+//#endif
     }
 
 and Book =
@@ -43,12 +52,15 @@ let initModel =
         counter = 0
         books = None
         error = None
+//#if (server_actual)
         username = ""
         password = ""
         signedInAs = None
         signInFailed = false
+//#endif
     }
 
+//#if (server_actual)
 /// Remote service definition.
 type BookService =
     {
@@ -73,6 +85,7 @@ type BookService =
 
     interface IRemoteService with
         member this.BasePath = "/books"
+//#endif
 
 /// The Elmish application's update messages.
 type Message =
@@ -82,6 +95,7 @@ type Message =
     | SetCounter of int
     | GetBooks
     | GotBooks of Book[]
+//#if (server_actual)
     | SetUsername of string
     | SetPassword of string
     | GetSignedInAs
@@ -90,13 +104,18 @@ type Message =
     | RecvSignIn of option<string>
     | SendSignOut
     | RecvSignOut
+//#endif
     | Error of exn
     | ClearError
 
+//#if (server_actual)
 let update remote message model =
     let onSignIn = function
         | Some _ -> Cmd.ofMsg GetBooks
         | None -> Cmd.none
+//#else
+let update (http: HttpClient) message model =
+//#endif
     match message with
     | SetPage page ->
         { model with page = page }, Cmd.none
@@ -109,11 +128,17 @@ let update remote message model =
         { model with counter = value }, Cmd.none
 
     | GetBooks ->
+//#if (server_actual)
         let cmd = Cmd.OfAsync.either remote.getBooks () GotBooks Error
+//#else
+        let getBooks() = http.GetFromJsonAsync<Book[]>("/books.json")
+        let cmd = Cmd.OfTask.either getBooks () GotBooks Error
+//#endif
         { model with books = None }, cmd
     | GotBooks books ->
         { model with books = Some books }, Cmd.none
 
+//#if (server_actual)
     | SetUsername s ->
         { model with username = s }, Cmd.none
     | SetPassword s ->
@@ -133,6 +158,7 @@ let update remote message model =
 
     | Error RemoteUnauthorizedException ->
         { model with error = Some "You have been logged out."; signedInAs = None }, Cmd.none
+//#endif
     | Error exn ->
         { model with error = Some exn.Message }, Cmd.none
     | ClearError ->
@@ -154,11 +180,17 @@ let counterPage model dispatch =
         .Value(model.counter, fun v -> dispatch (SetCounter v))
         .Elt()
 
+//#if (server_actual)
 let dataPage model (username: string) dispatch =
+//#else
+let dataPage model dispatch =
+//#endif
     Main.Data()
         .Reload(fun _ -> dispatch GetBooks)
+//#if (server_actual)
         .Username(username)
         .SignOut(fun _ -> dispatch SendSignOut)
+//#endif
         .Rows(cond model.books <| function
             | None ->
                 Main.EmptyData().Elt()
@@ -172,6 +204,7 @@ let dataPage model (username: string) dispatch =
                     ])
         .Elt()
 
+//#if (server_actual)
 let signInPage model dispatch =
     Main.SignIn()
         .Username(model.username, fun s -> dispatch (SetUsername s))
@@ -187,6 +220,7 @@ let signInPage model dispatch =
                     .Elt()
         )
         .Elt()
+//#endif
 
 let menuItem (model: Model) (page: Page) (text: string) =
     Main.MenuItem()
@@ -207,9 +241,13 @@ let view model dispatch =
             | Home -> homePage model dispatch
             | Counter -> counterPage model dispatch
             | Data ->
+//#if (server_actual)
                 cond model.signedInAs <| function
                 | Some username -> dataPage model username dispatch
                 | None -> signInPage model dispatch
+//#else
+                dataPage model dispatch
+//#endif
         )
         .Error(
             cond model.error <| function
@@ -256,12 +294,16 @@ let homePage model dispatch =
             li [] [
                 text "The "
                 a [router.HRef Data] [text "Download data"]
+//#if (server_actual)
                 text " page demonstrates the use of "
                 a [
                     attr.target "_blank"
                     attr.href "https://fsbolero.github.io/docs/Remoting"
                 ] [text "remote functions"]
                 text "."
+//#else
+                text " page demonstrates the use of HTTP requests to the server."
+//#endif
             ]
             p [] [text "Enjoy writing awesome apps!"]
         ]
@@ -288,7 +330,11 @@ let counterPage model dispatch =
         ]
     ]
 
+//#if (server_actual)
 let dataPage model (username: string) dispatch =
+//#else
+let dataPage model dispatch =
+//#endif
     concat [
         h1 [attr.``class`` "title"] [
             text "Download data "
@@ -297,6 +343,7 @@ let dataPage model (username: string) dispatch =
                 on.click (fun _ -> dispatch GetBooks)
             ] [text "Reload"]
         ]
+//#if (server_actual)
         p [] [
             textf "Signed in as %s. " username
             button [
@@ -304,6 +351,7 @@ let dataPage model (username: string) dispatch =
                 on.click (fun _ -> dispatch SendSignOut)
             ] [text "Sign out"]
         ]
+//#endif
         table [attr.``class`` "table is-fullwidth"] [
             thead [] [
                 tr [] [
@@ -331,6 +379,15 @@ let dataPage model (username: string) dispatch =
         ]
     ]
 
+let errorNotification errorText closeCallback =
+    div [attr.``class`` "notification is-warning"] [
+        cond closeCallback <| function
+        | None -> empty
+        | Some closeCallback -> button [attr.``class`` "delete"; on.click closeCallback] []
+        text errorText
+    ]
+
+//#if (server_actual)
 let field content = div [attr.``class`` "field"] content
 let control content = div [attr.``class`` "control"] content
 
@@ -338,14 +395,6 @@ let inputField fieldLabel inputAttrs =
     field [
         label [attr.``class`` "label"] [text fieldLabel]
         control [input (attr.``class`` "input" :: inputAttrs)]
-    ]
-
-let errorNotification errorText closeCallback =
-    div [attr.``class`` "notification is-warning"] [
-        cond closeCallback <| function
-        | None -> empty
-        | Some closeCallback -> button [attr.``class`` "delete"; on.click closeCallback] []
-        text errorText
     ]
 
 let signInPage model dispatch =
@@ -370,6 +419,7 @@ let signInPage model dispatch =
         ]
     ]
 
+//#endif
 let menuItem (model: Model) (page: Page) (itemText: string) =
     li [] [
         a [
@@ -397,9 +447,13 @@ let view model dispatch =
                 | Home -> homePage model dispatch
                 | Counter -> counterPage model dispatch
                 | Data ->
+//#if (server_actual)
                     cond model.signedInAs <| function
                     | Some username -> dataPage model username dispatch
                     | None -> signInPage model dispatch
+//#else
+                    dataPage model dispatch
+//#endif
                 div [attr.id "notification-area"] [
                     cond model.error <| function
                     | None -> empty
@@ -413,10 +467,20 @@ let view model dispatch =
 type MyApp() =
     inherit ProgramComponent<Model, Message>()
 
+//#if (!server_actual)
+    [<Inject>]
+    member val HttpClient = Unchecked.defaultof<HttpClient> with get, set
+
+//#endif
     override this.Program =
+//#if (server_actual)
         let bookService = this.Remote<BookService>()
         let update = update bookService
         Program.mkProgram (fun _ -> initModel, Cmd.ofMsg GetSignedInAs) update view
+//#else
+        let update = update this.HttpClient
+        Program.mkProgram (fun _ -> initModel, Cmd.ofMsg GetBooks) update view
+//#endif
         |> Program.withRouter router
 //#if (hotreload_actual)
 #if DEBUG

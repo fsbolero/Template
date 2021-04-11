@@ -17,6 +17,9 @@
     <PackageReference Include="Bolero.HotReload" Version="0.*" />
     <!-- //#endif -->
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.*" />
+    <!-- //#if (server_actual) -->
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.*" />
+    <!-- //#endif -->
   </ItemGroup>
   <!-- //#if (pwa) -->
   <ItemGroup>
