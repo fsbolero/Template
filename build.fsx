@@ -20,32 +20,18 @@ let buildOutputDir = slnDir </> "build"
 let packageOutputFile o = buildOutputDir </> sprintf "Bolero.Templates.%s.nupkg" (version o)
 let variantsToTest =
     [
-        "NoRazor.Server.Reload", "--server --hotreload --minimal=false --razor=false"
-        "NoRazor.Server.NoReload", "--server --hotreload=false --minimal=false --razor=false"
-        "NoRazor.Server.NoHtml", "--server --html=false --minimal=false --razor=false"
-        "NoRazor.Server.Reload.Pwa", "--server --hotreload --minimal=false --razor=false --pwa"
-        "NoRazor.Server.NoReload.Pwa", "--server --hotreload=false --minimal=false --razor=false --pwa"
-        "NoRazor.Server.NoHtml.Pwa", "--server --html=false --minimal=false --razor=false --pwa"
-        "NoRazor.NoServer.NoReload", "--server=false --hotreload=false --minimal=false --razor=false"
-        "NoRazor.NoServer.NoHtml", "--server=false --html=false --minimal=false --razor=false"
-        "NoRazor.NoServer.NoReload.Pwa", "--server=false --hotreload=false --minimal=false --razor=false --pwa"
-        "NoRazor.NoServer.NoHtml.Pwa", "--server=false --html=false --minimal=false --razor=false --pwa"
-        "Razor.Server.Reload", "--server --hotreload --minimal=false --razor"
-        "Razor.Server.NoReload", "--server --hotreload=false --minimal=false --razor"
-        "Razor.Server.NoHtml", "--server --html=false --minimal=false --razor"
-        "Razor.Server.Reload.Pwa", "--server --hotreload --minimal=false --razor --pwa"
-        "Razor.Server.NoReload.Pwa", "--server --hotreload=false --minimal=false --razor --pwa"
-        "Razor.Server.NoHtml.Pwa", "--server --html=false --minimal=false --razor --pwa"
-        "Razor.NoServer.NoReload", "--server --hotreload=false --minimal=false --razor"
-        "Razor.NoServer.NoHtml", "--server --html=false --minimal=false --razor"
-        "Razor.NoServer.NoReload.Pwa", "--server --hotreload=false --minimal=false --razor --pwa"
-        "Razor.NoServer.NoHtml.Pwa", "--server --html=false --minimal=false --razor --pwa"
-        "Minimal.Server.Reload", "--server --hotreload --minimal --razor=false"
-        "Minimal.Server.NoReload", "--server --hotreload=false --minimal --razor=false"
-        "Minimal.NoServer.NoReload", "--server=false --hotreload=false --minimal"
-        "Minimal.Server.Reload.Pwa", "--server --hotreload --minimal --razor=false --pwa"
-        "Minimal.Server.NoReload.Pwa", "--server --hotreload=false --minimal --razor=false --pwa"
-        "Minimal.NoServer.NoReload.Pwa", "--server=false --hotreload=false --minimal --pwa"
+        for pwak, pwav in [("Pwa", "true"); ("NoPwa", "false")] do
+            // Server
+            for hostk, hostv in [("Bolero", "bolero"); ("Razor", "razor"); ("Html", "html")] do
+                for htmlk, reloadv, htmlv in [("Reload", "true", "true"); ("NoReload", "false", "true"); ("NoHtml", "false", "false")] do
+                    for minik, miniv in [("Minimal", "true"); ("Full", "false")] do
+                        if not (miniv = "true" && htmlv = "true") then
+                            $"{minik}.Server{hostk}.{htmlk}.{pwak}", $"--server --minimal={miniv} --hostpage={hostv} --pwa={pwav} --html={htmlv} --hotreload={reloadv}"
+            // Client
+            for htmlk, htmlv in [("Html", "true"); ("NoHtml", "false")] do
+                for minik, miniv in [("Minimal", "true"); ("Full", "false")] do
+                    if not (miniv = "true" && htmlv = "true") then
+                        $"{minik}.NoServer.{htmlk}.{pwak}", $"--server=false --minimal={miniv} --pwa={pwav} --html={htmlv}"
     ]
 
 Target.description "Create the NuGet package containing the templates."

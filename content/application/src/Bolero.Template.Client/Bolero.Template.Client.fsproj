@@ -11,10 +11,10 @@
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Bolero" Version="0.*" />
-    <PackageReference Include="Bolero.Build" Version="0.*" />
+    <PackageReference Include="Bolero" Version="BOLERO_VERSION" />
+    <PackageReference Include="Bolero.Build" Version="BOLERO_VERSION" />
     <!-- //#if (hotreload_actual) -->
-    <PackageReference Include="Bolero.HotReload" Version="0.*" />
+    <PackageReference Include="Bolero.HotReload" Version="BOLERO_VERSION" />
     <!-- //#endif -->
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.*" />
     <!-- //#if (server_actual) -->

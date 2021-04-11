@@ -7,9 +7,7 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Bolero
 open Bolero.Remoting.Server
-//#if (razor_actual)
-open Bolero.Server.RazorHost
-//#endif
+open Bolero.Server
 open Bolero.Template
 //#if (hotreload_actual)
 open Bolero.Templating.Server
@@ -20,7 +18,7 @@ type Startup() =
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     member this.ConfigureServices(services: IServiceCollection) =
-//#if (razor_actual)
+//#if (hostpage == "razor")
         services.AddMvc().AddRazorRuntimeCompilation() |> ignore
         services.AddServerSideBlazor() |> ignore
 //#else
@@ -34,7 +32,7 @@ type Startup() =
                 .Services
             .AddRemoting<BookService>()
 //#endif
-//#if (razor_actual)
+//#if (hostpage != "html")
             .AddBoleroHost()
 //#endif
 //#if (hotreload_actual)
@@ -60,10 +58,13 @@ type Startup() =
                 endpoints.UseHotReload()
 #endif
 //#endif
-//#if (razor_actual)
+//#if (hostpage == "razor")
                 endpoints.MapBlazorHub() |> ignore
                 endpoints.MapFallbackToPage("/_Host") |> ignore)
-//#else
+//#elseif (hostpage == "bolero")
+                endpoints.MapBlazorHub() |> ignore
+                endpoints.MapFallbackToBolero(Index.page) |> ignore)
+//#elseif (hostpage == "html")
                 endpoints.MapControllers() |> ignore
                 endpoints.MapFallbackToFile("index.html") |> ignore)
 //#endif

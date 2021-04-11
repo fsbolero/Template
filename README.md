@@ -47,11 +47,15 @@ You can use the following options to customize the project being created:
 
         If `false`, the solution only contains the `Client` project that is compiled to WebAssembly.
 
-    * `--razor`, `-r`:
+    * `--hostpage`:
 
-        If `true` (the default if `server=true`), the server-side project includes a Razor page that can be configured to serve the application as client-side or server-side Blazor ([learn about the difference](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.0)). When the application is in Development environment, both modes are available by passing `?server=true` or `false` in the URL.
+        Determines how the server-side HTML page content is written. Can be one of:
 
-        If `false` (the default and only possible value if `server=false`), the application is served as client-side Blazor in a plain HTML file.
+        * `bolero`: using Bolero.Html functions.
+
+        * `razor`: using a dynamically-compiled Razor page.
+
+        * `html`: using a plain .html file.
 
     * `--hotreload`, `-ho`:
 

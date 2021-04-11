@@ -40,12 +40,17 @@
       "dataType": "bool",
       "defaultValue": "true"
     },
-    "razor": {
+    "hostpage": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Use Razor on the server side (ignored if server=false)",
-      "dataType": "bool",
-      "defaultValue": "true"
+      "description": "How the static HTML content is generated (ignored if server=false)",
+      "dataType": "choice",
+      "choices": [
+        {"choice":"bolero","description":"A page defined with Bolero's html functions"},
+        {"choice":"html","description":"A plain index.html file"},
+        {"choice":"razor","description":"A dynamically compiled Razor page"}
+      ],
+      "defaultValue":"bolero"
     },
     "pwa": {
       "type": "parameter",
@@ -78,10 +83,18 @@
       "dataType": "bool",
       "value": "(hotreload && html && server_actual)"
     },
-    "razor_actual": {
-      "type": "computed",
-      "dataType": "bool",
-      "value": "(razor && server_actual)"
+    "bolero_version": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "BOLERO_VERSION",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {"condition": "(nightly)", "value": "0.*-*"},
+          {"condition": "(!nightly)", "value": "0.*"}
+        ]
+      }
     }
   },
   "sources": [
@@ -127,14 +140,20 @@
           ]
         },
         {
-          "condition": "(!razor_actual)",
+          "condition": "(hostpage != \"bolero\")",
+          "exclude": [
+            "src/Bolero.Template.Server/Index.fs"
+          ]
+        },
+        {
+          "condition": "(hostpage != \"razor\")",
           "exclude": [
             "src/Bolero.Template.Server/Pages/_Host.cshtml",
             "src/Bolero.Template.Server/HostModel.fs"
           ]
         },
         {
-          "condition": "(razor_actual)",
+          "condition": "(hostpage != \"html\")",
           "exclude": [
             "src/Bolero.Template.Client/wwwroot/index.html"
           ]
