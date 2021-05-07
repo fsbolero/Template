@@ -21,7 +21,7 @@ type Startup() =
 //#if (hostpage == "razor")
         services.AddMvc().AddRazorRuntimeCompilation() |> ignore
 //#else
-        services.AddMvcCore() |> ignore
+        services.AddMvc() |> ignore
 //#endif
         services.AddServerSideBlazor() |> ignore
         services
