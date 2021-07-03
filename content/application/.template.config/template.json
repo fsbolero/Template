@@ -208,6 +208,17 @@
       "args": {
         "redirectStandardOutput": "false",
         "executable": "dotnet",
+        "args": "tool restore"
+      },
+      "continueOnError": false
+    },
+    {
+      "condition": "(paket && OS == \"Windows_NT\")",
+      "description": "Convert project to Paket",
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "args": {
+        "redirectStandardOutput": "false",
+        "executable": "dotnet",
         "args": "paket convert-from-nuget --force"
       },
       "continueOnError": false

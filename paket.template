@@ -4,6 +4,7 @@ authors IntelliFactory
 description
     A set of tools and libraries to run F# applications in WebAssembly using Blazor.
 files
+    content/**/.config/*                        ==> content
     content/**/.template.config/*               ==> content
     content/**/*.sln                            ==> content
     content/**/nuget.config                     ==> content
