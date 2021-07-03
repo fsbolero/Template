@@ -20,10 +20,10 @@ type Startup() =
     member this.ConfigureServices(services: IServiceCollection) =
 //#if (hostpage == "razor")
         services.AddMvc().AddRazorRuntimeCompilation() |> ignore
-        services.AddServerSideBlazor() |> ignore
 //#else
-        services.AddMvcCore() |> ignore
+        services.AddMvc() |> ignore
 //#endif
+        services.AddServerSideBlazor() |> ignore
         services
 //#if (!minimal)
             .AddAuthorization()

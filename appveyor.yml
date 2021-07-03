@@ -5,7 +5,6 @@ build:
   verbosity: minimal
 
 init:
-  - sudo apt update && sudo apt-get install -y dotnet-sdk-5.0
   - git config --global core.autocrlf input
 
 before_build:

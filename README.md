@@ -11,7 +11,7 @@ To learn more, you can check [the documentation](https://fsbolero.io/docs).
 
 To get started, you need the following installed:
 
-* .NET Core SDK 3.0-preview5 or newer. Download it [here](https://dotnet.microsoft.com/download/dotnet-core/3.0).
+* .NET SDK 5.0. Download it [here](https://dotnet.microsoft.com/download/dotnet/5.0).
 
 ## Creating a project based on this template
 
@@ -47,7 +47,7 @@ You can use the following options to customize the project being created:
 
         If `false`, the solution only contains the `Client` project that is compiled to WebAssembly.
 
-    * `--hostpage`:
+    * `--hostpage`, `-hp`:
 
         Determines how the server-side HTML page content is written. Can be one of:
 
@@ -57,7 +57,17 @@ You can use the following options to customize the project being created:
 
         * `html`: using a plain .html file.
 
-    * `--hotreload`, `-ho`:
+        This is ignored if `server=false`.
+
+    * `--html`, `-ht`:
+
+        If `true` (the default), use HTML templates.
+
+        If `false`, use F# functions for HTML content.
+
+        This is ignored if `minimal=true`, because the minimal project doesn't contain any HTML content.
+
+    * `--hotreload`, `-hr`:
 
         Enable hot reloading for HTML templates.
 
@@ -65,7 +75,7 @@ You can use the following options to customize the project being created:
 
         This is ignored if `server=false`, because hot reloading requires a server side.
 
-    * `--pwa`, `-p`:
+    * `--pwa`, `-pwa`:
 
         Create the client side as a progressive web app.
 
@@ -75,7 +85,7 @@ You can use the following options to customize the project being created:
 
         Reference the nightly release of Bolero.
 
-    * `--paket`, `-pa`:
+    * `--paket`, `-p`:
 
         Use [Paket](https://fsprojects.github.io/paket) for package management.
 
