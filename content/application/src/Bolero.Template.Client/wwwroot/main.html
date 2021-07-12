@@ -62,7 +62,7 @@
           Download data
           <button class="button" onclick="${Reload}">Reload</button>
         </h1>
-        <!-- //#if (server_actual) -->
+        <!-- //#if (server) -->
         <p>
           Signed in as ${Username}.
           <button class="button" onclick="${SignOut}">Sign out</button>
@@ -86,7 +86,7 @@
         </table>
       </template>
 
-      <!-- //#if (server_actual) -->
+      <!-- //#if (server) -->
       <template id="SignIn">
         <h1 class="title">Sign in</h1>
         <form onsubmit="${SignIn}">

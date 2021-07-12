@@ -1,7 +1,7 @@
 module Bolero.Template.Client.Main
 
 open System
-//#if (!server_actual)
+//#if (!server)
 open System.Net.Http
 open System.Net.Http.Json
 open Microsoft.AspNetCore.Components
@@ -9,7 +9,7 @@ open Microsoft.AspNetCore.Components
 open Elmish
 open Bolero
 open Bolero.Html
-//#if (server_actual)
+//#if (server)
 open Bolero.Remoting
 open Bolero.Remoting.Client
 //#endif
@@ -30,7 +30,7 @@ type Model =
         counter: int
         books: Book[] option
         error: string option
-//#if (server_actual)
+//#if (server)
         username: string
         password: string
         signedInAs: option<string>
@@ -52,7 +52,7 @@ let initModel =
         counter = 0
         books = None
         error = None
-//#if (server_actual)
+//#if (server)
         username = ""
         password = ""
         signedInAs = None
@@ -60,7 +60,7 @@ let initModel =
 //#endif
     }
 
-//#if (server_actual)
+//#if (server)
 /// Remote service definition.
 type BookService =
     {
@@ -95,7 +95,7 @@ type Message =
     | SetCounter of int
     | GetBooks
     | GotBooks of Book[]
-//#if (server_actual)
+//#if (server)
     | SetUsername of string
     | SetPassword of string
     | GetSignedInAs
@@ -108,7 +108,7 @@ type Message =
     | Error of exn
     | ClearError
 
-//#if (server_actual)
+//#if (server)
 let update remote message model =
     let onSignIn = function
         | Some _ -> Cmd.ofMsg GetBooks
@@ -128,7 +128,7 @@ let update (http: HttpClient) message model =
         { model with counter = value }, Cmd.none
 
     | GetBooks ->
-//#if (server_actual)
+//#if (server)
         let cmd = Cmd.OfAsync.either remote.getBooks () GotBooks Error
 //#else
         let getBooks() = http.GetFromJsonAsync<Book[]>("/books.json")
@@ -138,7 +138,7 @@ let update (http: HttpClient) message model =
     | GotBooks books ->
         { model with books = Some books }, Cmd.none
 
-//#if (server_actual)
+//#if (server)
     | SetUsername s ->
         { model with username = s }, Cmd.none
     | SetPassword s ->
@@ -180,14 +180,14 @@ let counterPage model dispatch =
         .Value(model.counter, fun v -> dispatch (SetCounter v))
         .Elt()
 
-//#if (server_actual)
+//#if (server)
 let dataPage model (username: string) dispatch =
 //#else
 let dataPage model dispatch =
 //#endif
     Main.Data()
         .Reload(fun _ -> dispatch GetBooks)
-//#if (server_actual)
+//#if (server)
         .Username(username)
         .SignOut(fun _ -> dispatch SendSignOut)
 //#endif
@@ -204,7 +204,7 @@ let dataPage model dispatch =
                     ])
         .Elt()
 
-//#if (server_actual)
+//#if (server)
 let signInPage model dispatch =
     Main.SignIn()
         .Username(model.username, fun s -> dispatch (SetUsername s))
@@ -241,7 +241,7 @@ let view model dispatch =
             | Home -> homePage model dispatch
             | Counter -> counterPage model dispatch
             | Data ->
-//#if (server_actual)
+//#if (server)
                 cond model.signedInAs <| function
                 | Some username -> dataPage model username dispatch
                 | None -> signInPage model dispatch
@@ -294,7 +294,7 @@ let homePage model dispatch =
             li [] [
                 text "The "
                 a [router.HRef Data] [text "Download data"]
-//#if (server_actual)
+//#if (server)
                 text " page demonstrates the use of "
                 a [
                     attr.target "_blank"
@@ -330,7 +330,7 @@ let counterPage model dispatch =
         ]
     ]
 
-//#if (server_actual)
+//#if (server)
 let dataPage model (username: string) dispatch =
 //#else
 let dataPage model dispatch =
@@ -343,7 +343,7 @@ let dataPage model dispatch =
                 on.click (fun _ -> dispatch GetBooks)
             ] [text "Reload"]
         ]
-//#if (server_actual)
+//#if (server)
         p [] [
             textf "Signed in as %s. " username
             button [
@@ -387,7 +387,7 @@ let errorNotification errorText closeCallback =
         text errorText
     ]
 
-//#if (server_actual)
+//#if (server)
 let field content = div [attr.``class`` "field"] content
 let control content = div [attr.``class`` "control"] content
 
@@ -447,7 +447,7 @@ let view model dispatch =
                 | Home -> homePage model dispatch
                 | Counter -> counterPage model dispatch
                 | Data ->
-//#if (server_actual)
+//#if (server)
                     cond model.signedInAs <| function
                     | Some username -> dataPage model username dispatch
                     | None -> signInPage model dispatch
@@ -467,13 +467,13 @@ let view model dispatch =
 type MyApp() =
     inherit ProgramComponent<Model, Message>()
 
-//#if (!server_actual)
+//#if (!server)
     [<Inject>]
     member val HttpClient = Unchecked.defaultof<HttpClient> with get, set
 
 //#endif
     override this.Program =
-//#if (server_actual)
+//#if (server)
         let bookService = this.Remote<BookService>()
         let update = update bookService
         Program.mkProgram (fun _ -> initModel, Cmd.ofMsg GetSignedInAs) update view
@@ -486,3 +486,4 @@ type MyApp() =
 #if DEBUG
         |> Program.withHotReload
 #endif
+//#endif

@@ -104,7 +104,7 @@ To run it:
 ```shell
 dotnet run -p src/YourAppName.Server
 
-# Or if you created the project with --minimal=true --server=false:
+# Or if you created the project with --server=false:
 dotnet run -p src/YourAppName.Client
 ```
 

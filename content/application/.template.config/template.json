@@ -73,15 +73,10 @@
       "dataType": "bool",
       "defaultValue": "false"
     },
-    "server_actual": {
-      "type": "computed",
-      "dataType": "bool",
-      "value": "(server)"
-    },
     "hotreload_actual": {
       "type": "computed",
       "dataType": "bool",
-      "value": "(hotreload && html && server_actual)"
+      "value": "(hotreload && html && server)"
     },
     "bolero_version": {
       "type": "generated",
@@ -107,13 +102,13 @@
       ],
       "modifiers": [
         {
-          "condition": "(server_actual)",
+          "condition": "(server)",
           "rename": {
             "src/Bolero.Template.Client/wwwroot/books.json": "src/Bolero.Template.Server/data/books.json"
           }
         },
         {
-          "condition": "(!server_actual)",
+          "condition": "(!server)",
           "exclude": [
             "src/Bolero.Template.Server/**/*"
           ]
@@ -153,7 +148,7 @@
           ]
         },
         {
-          "condition": "(server_actual && hostpage != \"html\")",
+          "condition": "(server && hostpage != \"html\")",
           "exclude": [
             "src/Bolero.Template.Client/wwwroot/index.html"
           ]
@@ -202,7 +197,18 @@
   },
   "postActions": [
     {
-      "condition": "(paket && OS == \"Windows_NT\")",
+      "condition": "(paket)",
+      "description": "Convert project to Paket",
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "args": {
+        "redirectStandardOutput": "false",
+        "executable": "dotnet",
+        "args": "tool restore"
+      },
+      "continueOnError": false
+    },
+    {
+      "condition": "(paket)",
       "description": "Convert project to Paket",
       "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
       "args": {
