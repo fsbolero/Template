@@ -1,7 +1,7 @@
 namespace Bolero.Template.Client
 
 open Microsoft.AspNetCore.Components.WebAssembly.Hosting
-//#if (server_actual)
+//#if (server)
 open Bolero.Remoting.Client
 //#else
 open Microsoft.Extensions.DependencyInjection
@@ -15,7 +15,7 @@ module Program =
     let Main args =
         let builder = WebAssemblyHostBuilder.CreateDefault(args)
         builder.RootComponents.Add<Main.MyApp>("#main")
-//#if (server_actual)
+//#if (server)
         builder.Services.AddRemoting(builder.HostEnvironment) |> ignore
 //#else
         builder.Services.AddScoped<HttpClient>(fun _ ->
