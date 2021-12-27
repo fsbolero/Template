@@ -1,6 +1,9 @@
 type file
 id Bolero.Templates
 authors IntelliFactory
+projectUrl https://github.com/fsbolero/Template
+repositoryUrl https://github.com/fsbolero/Template
+repositoryType git
 description
     A set of tools and libraries to run F# applications in WebAssembly using Blazor.
 files
