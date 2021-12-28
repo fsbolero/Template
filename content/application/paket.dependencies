@@ -1,7 +1,21 @@
 source https://api.nuget.org/v3/index.json
 //#if (nightly)
-source https://ci.appveyor.com/nuget/bolero
-source https://ci.appveyor.com/nuget/bolero.templating.hotreload
+source https://nuget.pkg.github.com/fsbolero/index.json
 //#endif
 framework: net6.0
 storage: none
+
+nuget FSharp.Core content: none
+nuget Bolero BOLERO_PAKET_VERSION
+nuget Bolero.Build BOLERO_PAKET_VERSION
+//#if (hotreload_actual)
+nuget Bolero.HotReload BOLERO_PAKET_VERSION
+nuget Bolero.HotReload.Server BOLERO_PAKET_VERSION
+//#endif
+//#if (server)
+nuget Bolero.Server BOLERO_PAKET_VERSION
+nuget Microsoft.AspNetCore.Components.WebAssembly.Server >= 6.0.0
+//#else
+nuget System.Net.Http.Json >= 6.0.0
+//#endif
+nuget Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 6.0.0

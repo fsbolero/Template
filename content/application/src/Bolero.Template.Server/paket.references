@@ -1,0 +1,8 @@
+Bolero.Server
+//#if (hotreload_actual)
+Bolero.HotReload.Server
+//#endif
+Microsoft.AspNetCore.Components.WebAssembly.Server
+//#if (hostpage == "razor")
+Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+//#endif

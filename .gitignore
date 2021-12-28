@@ -6,5 +6,6 @@ build/
 .vs/
 *.user
 test-build/
-.paket/
 .ionide/
+content/*/.paket/
+.idea/

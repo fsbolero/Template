@@ -62,7 +62,7 @@
     "nightly": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Reference the nightly release of Bolero",
+      "description": "Reference the nightly release of Bolero (see https://github.com/fsbolero/template for authentication)",
       "dataType": "bool",
       "defaultValue": "false"
     },
@@ -90,6 +90,19 @@
           {"condition": "(!nightly)", "value": "0.*"}
         ]
       }
+    } ,
+    "bolero_paket_version": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "BOLERO_PAKET_VERSION",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {"condition": "(nightly)", "value": "prerelease"},
+          {"condition": "(!nightly)", "value": ""}
+        ]
+      }
     }
   },
   "sources": [
@@ -97,7 +110,6 @@
       "exclude": [
         "src/Bolero.Template.Client/Main.minimal.fs",
         "**/.template.config/**/*",
-        ".paket/*",
         "nuget.config"
       ],
       "modifiers": [
@@ -161,7 +173,9 @@
           "condition": "(!paket)",
           "exclude": [
             ".config/dotnet-tools.json",
-            "paket.dependencies"
+            ".paket/*",
+            "paket.dependencies",
+            "**/paket.references"
           ]
         },
         {
@@ -214,7 +228,7 @@
       "args": {
         "redirectStandardOutput": "false",
         "executable": "dotnet",
-        "args": "paket convert-from-nuget --force"
+        "args": "paket install"
       },
       "continueOnError": false
     }

@@ -1,0 +1,9 @@
+Bolero
+Bolero.Build
+//#if (hotreload_actual)
+Bolero.HotReload
+//#endif
+Microsoft.AspNetCore.Components.WebAssembly.DevServer
+//#if (!server)
+System.Net.Http.Json
+//#endif

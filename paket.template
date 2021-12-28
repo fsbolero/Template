@@ -7,21 +7,8 @@ repositoryType git
 description
     A set of tools and libraries to run F# applications in WebAssembly using Blazor.
 files
-    content/**/.config/*                        ==> content
-    content/**/.template.config/*               ==> content
-    content/**/*.sln                            ==> content
-    content/**/nuget.config                     ==> content
-    content/**/paket.dependencies               ==> content
-    content/**/*.fs                             ==> content
-    content/**/*.fsproj                         ==> content
-    content/**/*.html                           ==> content
-    content/**/*.cshtml                         ==> content
-    content/**/*.css                            ==> content
-    content/**/wwwroot/*.json                   ==> content
-    content/**/wwwroot/*.js                     ==> content
-    content/**/wwwroot/*.png                    ==> content
-    content/**/wwwroot/*.ico                    ==> content
-    content/**/data/*.json                      ==> content
+    content/**/*.* ==> content
     !**/paket-files/**/*
     !**/bin/**/*
     !**/obj/**/*
+    !**/Properties/**/*

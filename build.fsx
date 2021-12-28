@@ -5,6 +5,7 @@ open System.IO
 open Fake.Core
 open Fake.Core.TargetOperators
 open Fake.DotNet
+open Fake.IO
 open Fake.IO.FileSystemOperators
 open Utility
 
@@ -36,6 +37,7 @@ let variantsToTest =
 
 Target.description "Create the NuGet package containing the templates."
 Target.create "pack" <| fun o ->
+    Shell.cp_r ".paket" "content/application/.paket"
     Paket.pack <| fun p ->
         { p with
             OutputPath = buildOutputDir

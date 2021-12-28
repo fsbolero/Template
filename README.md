@@ -81,13 +81,30 @@ You can use the following options to customize the project being created:
 
 * Package management options:
 
-    * `--nightly`, `-ni`:
-
-        Reference the nightly release of Bolero.
-
     * `--paket`, `-p`:
 
         Use [Paket](https://fsprojects.github.io/paket) for package management.
+
+    * `--nightly`, `-ni`:
+
+        Reference the "nightly" prerelease of Bolero.
+
+        Starting with version 0.18, prereleases are published through GitHub Packages, and therefore require authentication.
+        Make sure that you have set it up before creating your project:
+
+        * Create a GitHub Personal Access Token [on this page](https://github.com/settings/tokens) with permission "read:packages".
+
+        * If you use the default NuGet for package management, add the source with the following command:
+
+            ```sh
+            dotnet nuget add source https://nuget.pkg.github.com/fsbolero/index.json -n "Bolero nightly" -u GITHUB_USERNAME -p GITHUB_TOKEN
+            ```
+
+        * If you use Paket, use the following command instead:
+
+            ```sh
+            dotnet paket config add-credentials https://nuget.pkg.github.com/fsbolero/index.json --username GITHUB_USERNAME --password GITHUB_TOKEN
+            ```
 
 ## Using this template
 
