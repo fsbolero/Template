@@ -1,6 +1,7 @@
 # Bolero Simple Template
 
-[![Build status](https://ci.appveyor.com/api/projects/status/2mo3n85bv4d5iv56?svg=true)](https://ci.appveyor.com/project/IntelliFactory/bolero-template)
+[![Build](https://github.com/fsbolero/Template/actions/workflows/build.yml/badge.svg)](https://github.com/fsbolero/Template/actions/workflows/build.yml)
+[![Nuget](https://img.shields.io/nuget/vpre/Bolero.Template?logo=nuget)](https://nuget.org/packages/Bolero.Template)
 
 
 This template can be used as a base to create a [Bolero](https://github.com/intellifactory/bolero) application.
