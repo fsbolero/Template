@@ -11,7 +11,7 @@ open Utility
 
 // Command-line parameters
 let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
-    (dotnetOutput "nbgv" "get-version -v SemVer2").Trim()
+    (dotnetOutput "nbgv" ["get-version"; "-v"; "SemVer2"]).Trim()
 )
 let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||> (&&)
 
@@ -27,12 +27,24 @@ let variantsToTest =
                 for htmlk, reloadv, htmlv in [("Reload", "true", "true"); ("NoReload", "false", "true"); ("NoHtml", "false", "false")] do
                     for minik, miniv in [("Minimal", "true"); ("Full", "false")] do
                         if not (miniv = "true" && htmlv = "true") then
-                            $"{minik}.Server{hostk}.{htmlk}.{pwak}", $"--server --minimal={miniv} --hostpage={hostv} --pwa={pwav} --html={htmlv} --hotreload={reloadv}"
+                            $"{minik}.Server{hostk}.{htmlk}.{pwak}", [
+                                "--server"
+                                $"--minimal={miniv}"
+                                $"--hostpage={hostv}"
+                                $"--pwa={pwav}"
+                                $"--html={htmlv}"
+                                $"--hotreload={reloadv}"
+                            ]
             // Client
             for htmlk, htmlv in [("Html", "true"); ("NoHtml", "false")] do
                 for minik, miniv in [("Minimal", "true"); ("Full", "false")] do
                     if not (miniv = "true" && htmlv = "true") then
-                        $"{minik}.NoServer.{htmlk}.{pwak}", $"--server=false --minimal={miniv} --pwa={pwav} --html={htmlv}"
+                        $"{minik}.NoServer.{htmlk}.{pwak}", [
+                            "--server=false"
+                            $"--minimal={miniv}"
+                            $"--pwa={pwav}"
+                            $"--html={htmlv}"
+                        ]
     ]
 
 Target.description "Create the NuGet package containing the templates."
@@ -48,7 +60,7 @@ Target.create "pack" <| fun o ->
 Target.description "Test all the template projects by building them."
 Target.create "test-build" <| fun o ->
     // Install the newly created template
-    dotnet "new" "-i %s" (packageOutputFile o)
+    dotnet "new" ["-i"; packageOutputFile o]
 
     // For each template variant, create and build a new project
     let testsDir = __SOURCE_DIRECTORY__ </> "test-build"
@@ -61,8 +73,14 @@ Target.create "test-build" <| fun o ->
         // Prepend a letter and change extension to avoid generating
         // identifiers that start with a number.
         let projectName = "Test." + name
-        dotnet' baseDir [] "new" "bolero-app --nightly %s -o %s" args projectName
-        dotnet' (baseDir </> projectName) [] "build" "-v n"
+        dotnet' baseDir [] "new" [
+            yield "bolero-app"
+            yield "--nightly"
+            yield! args
+            yield "-o"
+            yield projectName
+        ]
+        dotnet' (baseDir </> projectName) [] "build" ["-v"; "n"]
 
 Target.description "Run the full release pipeline."
 Target.create "release" ignore
