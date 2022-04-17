@@ -196,12 +196,12 @@ let dataPage model dispatch =
                 Main.EmptyData().Elt()
             | Some books ->
                 forEach books <| fun book ->
-                    tr [] [
-                        td [] [text book.title]
-                        td [] [text book.author]
-                        td [] [text (book.publishDate.ToString("yyyy-MM-dd"))]
-                        td [] [text book.isbn]
-                    ])
+                    tr {
+                        td { book.title }
+                        td { book.author }
+                        td { book.publishDate.ToString("yyyy-MM-dd") }
+                        td { book.isbn }
+                    })
         .Elt()
 
 //#if (server)
@@ -212,7 +212,7 @@ let signInPage model dispatch =
         .SignIn(fun _ -> dispatch SendSignIn)
         .ErrorNotification(
             cond model.signInFailed <| function
-            | false -> empty
+            | false -> empty()
             | true ->
                 Main.ErrorNotification()
                     .HideClass("is-hidden")
@@ -231,11 +231,11 @@ let menuItem (model: Model) (page: Page) (text: string) =
 
 let view model dispatch =
     Main()
-        .Menu(concat [
+        .Menu(concat {
             menuItem model Home "Home"
             menuItem model Counter "Counter"
             menuItem model Data "Download data"
-        ])
+        })
         .Body(
             cond model.page <| function
             | Home -> homePage model dispatch
@@ -251,7 +251,7 @@ let view model dispatch =
         )
         .Error(
             cond model.error <| function
-            | None -> empty
+            | None -> empty()
             | Some err ->
                 Main.ErrorNotification()
                     .Text(err)
@@ -261,188 +261,209 @@ let view model dispatch =
         .Elt()
 //#else
 let homePage model dispatch =
-    div [attr.``class`` "content"] [
-        h1 [attr.``class`` "title"] [text "Welcome to Bolero!"]
-        p [] [text "This application demonstrates Bolero's major features."]
-        ul [] [
-            li [] [
-                text "The entire application is driven by "
-                a [
+    div {
+        attr.``class`` "content"
+        h1 { attr.``class`` "title"; "Welcome to Bolero!" }
+        p { "This application demonstrates Bolero's major features." }
+        ul {
+            li {
+                "The entire application is driven by "
+                a {
                     attr.target "_blank"
                     attr.href "https://fsbolero.github.io/docs/Elmish"
-                ] [text "Elmish"]
-                text "."
-            ]
-            li [] [
-                text "The menu on the left switches pages based on "
-                a [
+                    "Elmish"
+                }
+                "."
+            }
+            li {
+                "The menu on the left switches pages based on "
+                a {
                     attr.target "_blank"
                     attr.href "https://fsbolero.github.io/docs/Routing"
-                ] [text "routes"]
-                text "."
-            ]
-            li [] [
-                text "The "
-                a [router.HRef Counter] [text "Counter"]
-                text " page demonstrates event handlers and data binding in "
-                a [
+                    "routes"
+                }
+                "."
+            }
+            li {
+                "The "
+                a { router.HRef Counter; "Counter" }
+                " page demonstrates event handlers and data binding in "
+                a {
                     attr.target "_blank"
                     attr.href "https://fsbolero.github.io/docs/Templating"
-                ] [text "HTML templates"]
-                text "."
-            ]
-            li [] [
-                text "The "
-                a [router.HRef Data] [text "Download data"]
+                    "HTML templates"
+                }
+                "."
+            }
+            li {
+                "The "
+                a { router.HRef Data; "Download data" }
 //#if (server)
-                text " page demonstrates the use of "
-                a [
+                " page demonstrates the use of "
+                a {
                     attr.target "_blank"
                     attr.href "https://fsbolero.github.io/docs/Remoting"
-                ] [text "remote functions"]
-                text "."
+                    "remote functions"
+                }
+                "."
 //#else
-                text " page demonstrates the use of HTTP requests to the server."
+                " page demonstrates the use of HTTP requests to the server."
 //#endif
-            ]
-            p [] [text "Enjoy writing awesome apps!"]
-        ]
-    ]
+            }
+            p { "Enjoy writing awesome apps!" }
+        }
+    }
 
 let counterPage model dispatch =
-    concat [
-        h1 [attr.``class`` "title"] [text "A simple counter"]
-        p [] [
-            button [
+    concat {
+        h1 { attr.``class`` "title"; "A simple counter" }
+        p {
+            button {
                 on.click (fun _ -> dispatch Decrement)
                 attr.``class`` "button"
-            ] [text "-"]
-            input [
+                "-"
+            }
+            input {
                 attr.``type`` "number"
                 attr.id "counter"
                 attr.``class`` "input"
                 bind.input.int model.counter (fun v -> dispatch (SetCounter v))
-            ]
-            button [
+            }
+            button {
                 on.click (fun _ -> dispatch Increment)
                 attr.``class`` "button"
-            ] [text "+"]
-        ]
-    ]
+                "+"
+            }
+        }
+    }
 
 //#if (server)
 let dataPage model (username: string) dispatch =
 //#else
 let dataPage model dispatch =
 //#endif
-    concat [
-        h1 [attr.``class`` "title"] [
-            text "Download data "
-            button [
+    concat {
+        h1 {
+            attr.``class`` "title"
+            "Download data "
+            button {
                 attr.``class`` "button"
                 on.click (fun _ -> dispatch GetBooks)
-            ] [text "Reload"]
-        ]
+                "Reload"
+            }
+        }
 //#if (server)
-        p [] [
-            textf "Signed in as %s. " username
-            button [
+        p {
+            $"Signed in as {username}. "
+            button {
                 attr.``class`` "button"
                 on.click (fun _ -> dispatch SendSignOut)
-            ] [text "Sign out"]
-        ]
+                "Sign out"
+            }
+        }
 //#endif
-        table [attr.``class`` "table is-fullwidth"] [
-            thead [] [
-                tr [] [
-                    th [] [text "Title"]
-                    th [] [text "Author"]
-                    th [] [text "Published"]
-                    th [] [text "ISBN"]
-                ]
-            ]
-            tbody [] [
+        table {
+            attr.``class`` "table is-fullwidth"
+            thead {
+                tr {
+                    th { "Title" }
+                    th { "Author" }
+                    th { "Published" }
+                    th { "ISBN" }
+                }
+            }
+            tbody {
                 cond model.books <| function
                 | None ->
-                    tr [] [
-                        td [attr.colspan 4] [text "Downloading book list..."]
-                    ]
+                    tr {
+                        td { attr.colspan 4; "Downloading book list..." }
+                    }
                 | Some books ->
                     forEach books <| fun book ->
-                        tr [] [
-                            td [] [text book.title]
-                            td [] [text book.author]
-                            td [] [text (book.publishDate.ToString("yyyy-MM-dd"))]
-                            td [] [text book.isbn]
-                        ]
-            ]
-        ]
-    ]
+                        tr {
+                            td { book.title }
+                            td { book.author }
+                            td { book.publishDate.ToString("yyyy-MM-dd") }
+                            td { book.isbn }
+                        }
+            }
+        }
+    }
 
 let errorNotification errorText closeCallback =
-    div [attr.``class`` "notification is-warning"] [
+    div {
+        attr.``class`` "notification is-warning"
         cond closeCallback <| function
-        | None -> empty
-        | Some closeCallback -> button [attr.``class`` "delete"; on.click closeCallback] []
+        | None -> empty()
+        | Some closeCallback -> button { attr.``class`` "delete"; on.click closeCallback }
         text errorText
-    ]
+    }
 
 //#if (server)
-let field content = div [attr.``class`` "field"] content
-let control content = div [attr.``class`` "control"] content
+let field (content: Node) = div { attr.``class`` "field"; content }
+let control (content: Node) = div { attr.``class`` "control"; content }
 
-let inputField fieldLabel inputAttrs =
-    field [
-        label [attr.``class`` "label"] [text fieldLabel]
-        control [input (attr.``class`` "input" :: inputAttrs)]
-    ]
+let inputField (fieldLabel: string) (inputAttrs: Attr) =
+    field (concat {
+        label { attr.``class`` "label"; fieldLabel }
+        control (input { attr.``class`` "input"; inputAttrs })
+    })
 
 let signInPage model dispatch =
-    concat [
-        h1 [attr.``class`` "title"] [text "Sign in"]
-        form [on.submit (fun _ -> dispatch SendSignIn)] [
-            inputField "Username" [
+    concat {
+        h1 { attr.``class`` "title"; "Sign in" }
+        form {
+            on.submit (fun _ -> dispatch SendSignIn)
+            inputField "Username" (
                 bind.input.string model.username (fun s -> dispatch (SetUsername s))
-            ]
-            inputField "Password" [
+            )
+            inputField "Password" (attrs {
                 attr.``type`` "password"
                 bind.input.string model.password (fun s -> dispatch (SetPassword s))
-            ]
-            field [
-                control [
-                    input [attr.``type`` "submit"; attr.value "Sign in"]
-                ]
-            ]
+            })
+            field (
+                control (
+                    input { attr.``type`` "submit"; attr.value "Sign in" }
+                )
+            )
             cond model.signInFailed <| function
-            | false -> empty
+            | false -> empty()
             | true -> errorNotification "Sign in failed. Use any username and the password \"password\"." None
-        ]
-    ]
+        }
+    }
 
 //#endif
 let menuItem (model: Model) (page: Page) (itemText: string) =
-    li [] [
-        a [
+    li {
+        a {
             attr.``class`` (if model.page = page then "is-active" else "")
             router.HRef page
-        ] [text itemText]
-    ]
+            itemText
+        }
+    }
 
 let view model dispatch =
-    div [attr.``class`` "columns"] [
-        aside [attr.``class`` "column sidebar is-narrow"] [
-            section [attr.``class`` "section"] [
-                nav [attr.``class`` "menu"] [
-                    ul [attr.``class`` "menu-list"] [
+    div {
+        attr.``class`` "columns"
+        aside {
+            attr.``class`` "column sidebar is-narrow"
+            section {
+                attr.``class`` "section"
+                nav {
+                    attr.``class`` "menu"
+                    ul {
+                        attr.``class`` "menu-list"
                         menuItem model Home "Home"
                         menuItem model Counter "Counter"
                         menuItem model Data "Download data"
-                    ]
-                ]
-            ]
-        ]
-        div [attr.``class`` "column"] [
-            section [attr.``class`` "section"] [
+                    }
+                }
+            }
+        }
+        div {
+            attr.``class`` "column"
+            section {
+                attr.``class`` "section"
                 cond model.page <| function
                 | Home -> homePage model dispatch
                 | Counter -> counterPage model dispatch
@@ -454,14 +475,15 @@ let view model dispatch =
 //#else
                     dataPage model dispatch
 //#endif
-                div [attr.id "notification-area"] [
+                div {
+                    attr.id "notification-area"
                     cond model.error <| function
-                    | None -> empty
+                    | None -> empty()
                     | Some err -> errorNotification err (Some (fun _ -> dispatch ClearError))
-                ]
-            ]
-        ]
-    ]
+                }
+            }
+        }
+    }
 //#endif
 
 type MyApp() =
