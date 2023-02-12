@@ -1,7 +1,7 @@
 bin/
 obj/
 paket-files/
-build/
+/build/
 .fake/
 .vs/
 *.user
