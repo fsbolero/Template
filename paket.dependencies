@@ -1,13 +1,8 @@
 source https://api.nuget.org/v3/index.json
-framework: net6.0
+framework: net7.0
 storage: none
 
 github fsbolero/bolero tools/Utility.fsx
-
-group fake
-source https://api.nuget.org/v3/index.json
-framework: net6.0
-storage: none
 
 nuget Fake.Core.Target
 nuget Fake.IO.FileSystem

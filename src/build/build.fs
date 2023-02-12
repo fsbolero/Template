@@ -1,5 +1,4 @@
-#r "paket: groupref fake //"
-#load "paket-files/fsbolero/bolero/tools/Utility.fsx"
+module Build
 
 open System.IO
 open Fake.Core
@@ -8,6 +7,33 @@ open Fake.DotNet
 open Fake.IO
 open Fake.IO.FileSystemOperators
 open Utility
+
+let ctx =
+    match System.Environment.GetCommandLineArgs() |> List.ofArray with
+    | cmd :: args -> Context.FakeExecutionContext.Create false cmd args
+    | _ -> failwith "Impossible"
+
+Context.setExecutionContext (Context.Fake ctx)
+
+let rec private getArgImpl prefix = function
+    | s :: m :: _ when s = prefix -> Some m
+    | _ :: rest -> getArgImpl prefix rest
+    | [] -> None
+
+let getArgOpt prefix = cache <| fun (o: TargetParameter) ->
+    getArgImpl prefix o.Context.Arguments
+
+let getArg prefix ``default`` =
+    getArgOpt prefix
+    >> Option.defaultValue ``default``
+
+let getArgWith prefix ``default`` = cache <| fun (o: TargetParameter) ->
+    match getArgImpl prefix o.Context.Arguments with
+    | Some x -> x
+    | None -> ``default`` o
+
+let getFlag flag = cache <| fun (o: TargetParameter) ->
+    List.contains flag o.Context.Arguments
 
 // Command-line parameters
 let version = getArgOpt "-v" >> Option.defaultWith (fun () ->
@@ -60,10 +86,10 @@ Target.create "pack" <| fun o ->
 Target.description "Test all the template projects by building them."
 Target.create "test-build" <| fun o ->
     // Install the newly created template
-    dotnet "new" ["-i"; packageOutputFile o]
+    dotnet "new" ["-i"; packageOutputFile o; "--force"]
 
     // For each template variant, create and build a new project
-    let testsDir = __SOURCE_DIRECTORY__ </> "test-build"
+    let testsDir = slnDir </> "test-build"
     if cleanTest o && Directory.Exists(testsDir) then
         Directory.Delete(testsDir, recursive = true)
     let now = System.DateTime.Now

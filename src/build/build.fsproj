@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <OutputType>exe</OutputType>
+    <OtherFlags>--define:UTILITY_FROM_PAKET</OtherFlags>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../paket-files/fsbolero/bolero/tools/Utility.fsx" />
+    <Compile Include="build.fs" />
+    <Content Include="paket.references" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

@@ -33,7 +33,7 @@ let page = doctypeHtml {
                 }
             }
         }
-        div { attr.id "main"; rootComp<Client.Main.MyApp> }
+        div { attr.id "main"; comp<Client.Main.MyApp> }
         boleroScript
 //#if (pwa)
         script { rawHtml "navigator.serviceWorker.register('service-worker.js');" }
