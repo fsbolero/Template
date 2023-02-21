@@ -6,9 +6,9 @@
     <OtherFlags>--define:UTILITY_FROM_PAKET</OtherFlags>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="../../paket-files/fsbolero/bolero/tools/Utility.fsx" />
+    <Compile Include="../paket-files/fsbolero/bolero/.build/Utility.fs" />
     <Compile Include="build.fs" />
     <Content Include="paket.references" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
