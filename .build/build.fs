@@ -8,13 +8,6 @@ open Fake.IO
 open Fake.IO.FileSystemOperators
 open Utility
 
-let ctx =
-    match System.Environment.GetCommandLineArgs() |> List.ofArray with
-    | cmd :: args -> Context.FakeExecutionContext.Create false cmd args
-    | _ -> failwith "Impossible"
-
-Context.setExecutionContext (Context.Fake ctx)
-
 let rec private getArgImpl prefix = function
     | s :: m :: _ when s = prefix -> Some m
     | _ :: rest -> getArgImpl prefix rest
@@ -115,5 +108,6 @@ Target.create "release" ignore
 "pack"
     ==> "test-build"
     ==> "release"
+|> ignore
 
 Target.runOrDefaultWithArguments "pack"

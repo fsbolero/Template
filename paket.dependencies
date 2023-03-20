@@ -2,7 +2,7 @@ source https://api.nuget.org/v3/index.json
 framework: net7.0
 storage: none
 
-github fsbolero/bolero tools/Utility.fsx
+github fsbolero/bolero .build/Utility.fs
 
 nuget Fake.Core.Target
 nuget Fake.IO.FileSystem

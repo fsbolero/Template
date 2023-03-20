@@ -158,4 +158,4 @@ NUGET
       System.Drawing.Common (>= 7.0)
 GITHUB
   remote: fsbolero/bolero
-    tools/Utility.fsx (d00f81d9d2fd017d1b46304006c1d22e39c5e8e9)
+    .build/Utility.fs (b71ed981fb0656fd170be0aaf056335d5100b9c8)
