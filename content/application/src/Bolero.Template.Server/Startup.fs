@@ -5,6 +5,7 @@ open Microsoft.AspNetCore.Authentication.Cookies
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Hosting
 open Bolero
 open Bolero.Remoting.Server
 open Bolero.Server
@@ -44,6 +45,9 @@ type Startup() =
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member this.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
+        if env.IsDevelopment() then
+            app.UseWebAssemblyDebugging()
+
         app
 //#if (!minimal)
             .UseAuthentication()
