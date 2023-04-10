@@ -31,7 +31,7 @@ type Startup() =
             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie()
                 .Services
-            .AddRemoting<BookService>()
+            .AddBoleroRemoting<BookService>()
 //#endif
 //#if (hostpage != "html")
             .AddBoleroHost()
@@ -49,12 +49,10 @@ type Startup() =
             app.UseWebAssemblyDebugging()
 
         app
-//#if (!minimal)
             .UseAuthentication()
-            .UseRemoting()
-//#endif
             .UseStaticFiles()
             .UseRouting()
+            .UseAuthorization()
             .UseBlazorFrameworkFiles()
             .UseEndpoints(fun endpoints ->
 //#if (hotreload_actual)
@@ -62,6 +60,7 @@ type Startup() =
                 endpoints.UseHotReload()
 #endif
 //#endif
+                endpoints.MapBoleroRemoting() |> ignore
 //#if (hostpage == "razor")
                 endpoints.MapBlazorHub() |> ignore
                 endpoints.MapFallbackToPage("/_Host") |> ignore)

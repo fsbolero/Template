@@ -16,7 +16,7 @@ module Program =
         let builder = WebAssemblyHostBuilder.CreateDefault(args)
         builder.RootComponents.Add<Main.MyApp>("#main")
 //#if (server)
-        builder.Services.AddRemoting(builder.HostEnvironment) |> ignore
+        builder.Services.AddBoleroRemoting(builder.HostEnvironment) |> ignore
 //#else
         builder.Services.AddScoped<HttpClient>(fun _ ->
             new HttpClient(BaseAddress = Uri builder.HostEnvironment.BaseAddress)) |> ignore
