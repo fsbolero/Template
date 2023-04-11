@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.22
+
+* Use endpoint routing for remote services.
+
 ## 0.21
 
 * [#39](https://github.com/fsbolero/Template/issues/39) Add link to Blazor-generated `CLIENT_ASSEMBLY_NAME.styles.css`.
