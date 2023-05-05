@@ -128,9 +128,10 @@
         {
           "condition": "(minimal)",
           "exclude": [
-            "src/Bolero.Template.Server/data/books.json",
             "src/Bolero.Template.Server/BookService.fs",
-            "src/Bolero.Template.Client/wwwroot/main.html",
+            "src/Bolero.Template.Client/wwwroot/books.json",
+            "src/Bolero.Template.Client/wwwroot/favicon.ico",
+            "src/Bolero.Template.Client/wwwroot/css/*",
             "src/Bolero.Template.Client/Main.fs"
           ],
           "include": [

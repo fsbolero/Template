@@ -9,15 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bolero Application</title>
     <base href="/">
+    <!-- //#if (!minimal) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-    <link rel="stylesheet" href="Bolero.Template.Client.styles.css">
     <link rel="stylesheet" href="css/index.css">
+    <!-- //#endif -->
+    <link rel="stylesheet" href="Bolero.Template.Client.styles.css">
     <!-- //#if (pwa) -->
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <!-- //#endif -->
   </head>
   <body>
+    <!-- //#if (!minimal) -->
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item has-text-weight-bold is-size-5" href="https://fsbolero.io">
@@ -27,6 +30,7 @@
         </a>
       </div>
     </nav>
+    <!-- //#endif -->
     <div id="main">@(await Html.RenderComponentAsync<Bolero.Template.Client.Main.MyApp>(BoleroHostConfig))</div>
     @Html.RenderBoleroScript(BoleroHostConfig)
     <!-- //#if (pwa) -->
