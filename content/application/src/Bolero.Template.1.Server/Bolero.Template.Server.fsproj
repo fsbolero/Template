@@ -13,7 +13,7 @@
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bolero.Template.Client\Bolero.Template.Client.fsproj" />
+    <ProjectReference Include="..\Bolero.Template.1.Client\Bolero.Template.1.Client.fsproj" />
   </ItemGroup>
   <!-- //#if (paket) -->
   <Import Project="..\..\.paket\Paket.Restore.targets" />

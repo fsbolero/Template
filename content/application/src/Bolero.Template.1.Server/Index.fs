@@ -1,9 +1,9 @@
-module Bolero.Template.Server.Index
+module Bolero.Template._1.Server.Index
 
 open Bolero
 open Bolero.Html
 open Bolero.Server.Html
-open Bolero.Template
+open Bolero.Template._1
 
 let page = doctypeHtml {
     head {
@@ -15,7 +15,7 @@ let page = doctypeHtml {
         link { attr.rel "stylesheet"; attr.href "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" }
         link { attr.rel "stylesheet"; attr.href "css/index.css" }
 //#endif
-        link { attr.rel "stylesheet"; attr.href "Bolero.Template.Client.styles.css" }
+        link { attr.rel "stylesheet"; attr.href "Bolero.Template._1.Client.styles.css" }
 //#if (pwa)
         link { attr.rel "manifest"; attr.href "manifest.json" }
         link { attr.rel "apple-touch-icon"; attr.sizes "512x512"; attr.href "icon-512.png" }

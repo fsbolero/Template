@@ -9,7 +9,7 @@
   "identity": "Bolero.Application.Template",
   "groupIdentity": "Bolero.Application",
   "shortName": "bolero-app",
-  "sourceName": "Bolero.Template",
+  "sourceName": "Bolero.Template.1",
   "preferNameDirectory": true,
   "symbols": {
     "minimal": {

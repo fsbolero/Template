@@ -1,3 +1,7 @@
+@page "/"
+@namespace Bolero.Template._1.Server
+@using Bolero.Server.RazorHost
+@inject IBoleroHostConfig BoleroHostConfig
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
     <link rel="stylesheet" href="css/index.css">
     <!-- //#endif -->
-    <link rel="stylesheet" href="Bolero.Template.Client.styles.css">
+    <link rel="stylesheet" href="Bolero.Template._1.Client.styles.css">
     <!-- //#if (pwa) -->
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
@@ -27,8 +31,8 @@
       </div>
     </nav>
     <!-- //#endif -->
-    <div id="main">Loading...</div>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <div id="main">@(await Html.RenderComponentAsync<Bolero.Template.1.Client.Main.MyApp>(BoleroHostConfig))</div>
+    @Html.RenderBoleroScript(BoleroHostConfig)
     <!-- //#if (pwa) -->
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <!-- //#endif -->

@@ -1,4 +1,4 @@
-namespace Bolero.Template.Client
+namespace Bolero.Template._1.Client
 
 open Microsoft.AspNetCore.Components.WebAssembly.Hosting
 //#if (server)

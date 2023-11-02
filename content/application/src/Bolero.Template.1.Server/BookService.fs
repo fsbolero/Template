@@ -1,4 +1,4 @@
-namespace Bolero.Template.Server
+namespace Bolero.Template._1.Server
 
 open System
 open System.IO
@@ -8,7 +8,7 @@ open Microsoft.AspNetCore.Hosting
 open Bolero
 open Bolero.Remoting
 open Bolero.Remoting.Server
-open Bolero.Template
+open Bolero.Template._1
 
 type BookService(ctx: IRemoteContext, env: IWebHostEnvironment) =
     inherit RemoteHandler<Client.Main.BookService>()

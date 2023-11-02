@@ -1,4 +1,4 @@
-namespace Bolero.Template.Server
+namespace Bolero.Template._1.Server
 
 open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Authentication.Cookies
@@ -9,7 +9,7 @@ open Microsoft.Extensions.Hosting
 open Bolero
 open Bolero.Remoting.Server
 open Bolero.Server
-open Bolero.Template
+open Bolero.Template._1
 //#if (hotreload_actual)
 open Bolero.Templating.Server
 //#endif
@@ -38,7 +38,7 @@ type Startup() =
 //#endif
 //#if (hotreload_actual)
 #if DEBUG
-            .AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.Client")
+            .AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.1.Client")
 #endif
 //#endif
         |> ignore
