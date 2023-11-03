@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.23
+
+* [#41](https://github.com/fsbolero/Template/issues/41) Fix issue where, when creating a project containing a dash, the solution file uses an underscore in the project path.
+
 ## 0.22
 
 * Use endpoint routing for remote services.
