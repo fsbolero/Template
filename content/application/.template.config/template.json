@@ -108,7 +108,7 @@
   "sources": [
     {
       "exclude": [
-        "src/Bolero.Template.Client/Main.minimal.fs",
+        "src/Bolero.Template.1.Client/Main.minimal.fs",
         "**/.template.config/**/*",
         "nuget.config"
       ],
@@ -116,54 +116,54 @@
         {
           "condition": "(server)",
           "rename": {
-            "src/Bolero.Template.Client/wwwroot/books.json": "src/Bolero.Template.Server/data/books.json"
+            "src/Bolero.Template.1.Client/wwwroot/books.json": "src/Bolero.Template.1.Server/data/books.json"
           }
         },
         {
           "condition": "(!server)",
           "exclude": [
-            "src/Bolero.Template.Server/**/*"
+            "src/Bolero.Template.1.Server/**/*"
           ]
         },
         {
           "condition": "(minimal)",
           "exclude": [
-            "src/Bolero.Template.Server/BookService.fs",
-            "src/Bolero.Template.Client/wwwroot/books.json",
-            "src/Bolero.Template.Client/wwwroot/favicon.ico",
-            "src/Bolero.Template.Client/wwwroot/css/*",
-            "src/Bolero.Template.Client/Main.fs"
+            "src/Bolero.Template.1.Server/BookService.fs",
+            "src/Bolero.Template.1.Client/wwwroot/books.json",
+            "src/Bolero.Template.1.Client/wwwroot/favicon.ico",
+            "src/Bolero.Template.1.Client/wwwroot/css/*",
+            "src/Bolero.Template.1.Client/Main.fs"
           ],
           "include": [
-            "src/Bolero.Template.Client/Main.minimal.fs"
+            "src/Bolero.Template.1.Client/Main.minimal.fs"
           ],
           "rename": {
-            "src/Bolero.Template.Client/Main.minimal.fs": "src/Bolero.Template.Client/Main.fs"
+            "src/Bolero.Template.1.Client/Main.minimal.fs": "src/Bolero.Template.1.Client/Main.fs"
           }
         },
         {
           "condition": "(!html)",
           "exclude": [
-            "src/Bolero.Template.Client/wwwroot/main.html"
+            "src/Bolero.Template.1.Client/wwwroot/main.html"
           ]
         },
         {
           "condition": "(hostpage != \"bolero\")",
           "exclude": [
-            "src/Bolero.Template.Server/Index.fs"
+            "src/Bolero.Template.1.Server/Index.fs"
           ]
         },
         {
           "condition": "(hostpage != \"razor\")",
           "exclude": [
-            "src/Bolero.Template.Server/Pages/_Host.cshtml",
-            "src/Bolero.Template.Server/HostModel.fs"
+            "src/Bolero.Template.1.Server/Pages/_Host.cshtml",
+            "src/Bolero.Template.1.Server/HostModel.fs"
           ]
         },
         {
           "condition": "(server && hostpage != \"html\")",
           "exclude": [
-            "src/Bolero.Template.Client/wwwroot/index.html"
+            "src/Bolero.Template.1.Client/wwwroot/index.html"
           ]
         },
         {
@@ -182,10 +182,10 @@
         {
           "condition": "(!pwa)",
           "exclude": [
-            "src/Bolero.Template.Client/wwwroot/icon-512.png",
-            "src/Bolero.Template.Client/wwwroot/manifest.json",
-            "src/Bolero.Template.Client/wwwroot/service-worker.js",
-            "src/Bolero.Template.Client/wwwroot/service-worker.published.js"
+            "src/Bolero.Template.1.Client/wwwroot/icon-512.png",
+            "src/Bolero.Template.1.Client/wwwroot/manifest.json",
+            "src/Bolero.Template.1.Client/wwwroot/service-worker.js",
+            "src/Bolero.Template.1.Client/wwwroot/service-worker.published.js"
           ]
         }
       ]
