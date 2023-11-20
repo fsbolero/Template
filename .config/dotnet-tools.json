@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "paket": {
-      "version": "7.2.1",
+      "version": "8.0.0",
       "commands": [
         "paket"
       ]
@@ -12,12 +12,6 @@
       "version": "3.6.133",
       "commands": [
         "nbgv"
-      ]
-    },
-    "fake-cli": {
-      "version": "6.0.0",
-      "commands": [
-        "fake"
       ]
     }
   }
