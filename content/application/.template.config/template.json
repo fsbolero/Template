@@ -103,6 +103,46 @@
           {"condition": "(!nightly)", "value": ""}
         ]
       }
+    },
+    "port_server": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "PORT_SERVER_HTTP",
+      "parameters": {
+        "low": "5000",
+        "high": "5049",
+        "fallback": "5000"
+      }
+    },
+    "port_client": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "PORT_CLIENT_HTTP",
+      "parameters": {
+        "low": "5050",
+        "high": "5099",
+        "fallback": "5050"
+      }
+    },
+    "port_server_ssl": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "PORT_SERVER_SSL",
+      "parameters": {
+        "low": "44300",
+        "high": "44349",
+        "fallback": "44320"
+      }
+    },
+    "port_client_ssl": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "PORT_CLIENT_SSL",
+      "parameters": {
+        "low": "44350",
+        "high": "44399",
+        "fallback": "44360"
+      }
     }
   },
   "sources": [
