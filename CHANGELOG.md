@@ -3,6 +3,7 @@
 ## 0.23
 
 * [#41](https://github.com/fsbolero/Template/issues/41) Fix issue where, when creating a project containing a dash, the solution file uses an underscore in the project path.
+* [#45](https://github.com/fsbolero/Template/issues/45) Add launchSettings that enable WebAssembly debugging.
 
 ## 0.22
 
