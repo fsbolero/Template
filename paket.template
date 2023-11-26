@@ -11,4 +11,3 @@ files
     !**/paket-files/**/*
     !**/bin/**/*
     !**/obj/**/*
-    !**/Properties/**/*
