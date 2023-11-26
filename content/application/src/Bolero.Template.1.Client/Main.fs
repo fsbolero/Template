@@ -489,6 +489,8 @@ let view model dispatch =
 type MyApp() =
     inherit ProgramComponent<Model, Message>()
 
+    override _.CssScope = CssScopes.MyApp
+
 //#if (!server)
     [<Inject>]
     member val HttpClient = Unchecked.defaultof<HttpClient> with get, set

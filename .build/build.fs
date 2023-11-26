@@ -37,7 +37,8 @@ let cleanTest o = getArg "--clean-test" "false" o |> System.Boolean.TryParse ||>
 // Constants
 let contentBaseDir = slnDir </> "content"
 let buildOutputDir = slnDir </> "build"
-let packageOutputFile o = buildOutputDir </> sprintf "Bolero.Templates.%s.nupkg" (version o)
+let packageName = "Bolero.Templates"
+let packageOutputFile o = buildOutputDir </> $"{packageName}.{version o}.nupkg"
 let variantsToTest =
     [
         for pwak, pwav in [("Pwa", "true"); ("NoPwa", "false")] do
@@ -76,11 +77,14 @@ Target.create "pack" <| fun o ->
             ToolType = ToolType.CreateLocalTool()
         }
 
+Target.description "Install the locally built template. Warning: uninstalls any previously installed version."
+Target.create "install" <| fun o ->
+    if (dotnetOutput "new" ["list"]).Contains("bolero-app") then
+        dotnet "new" ["uninstall"; packageName]
+    dotnet "new" ["install"; packageOutputFile o; "--force"]
+
 Target.description "Test all the template projects by building them."
 Target.create "test-build" <| fun o ->
-    // Install the newly created template
-    dotnet "new" ["-i"; packageOutputFile o; "--force"]
-
     // For each template variant, create and build a new project
     let testsDir = slnDir </> "test-build"
     if cleanTest o && Directory.Exists(testsDir) then
@@ -106,6 +110,7 @@ Target.create "release" ignore
 
 // Main dep path with soft dependencies
 "pack"
+    ==> "install"
     ==> "test-build"
     ==> "release"
 |> ignore

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <!-- //#if (pwa) -->
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     <!-- //#endif -->
@@ -24,9 +24,9 @@
     <!-- //#if (hotreload_actual) -->
     <PackageReference Include="Bolero.HotReload" Version="BOLERO_VERSION" />
     <!-- //#endif -->
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.*" />
     <!-- //#if (!server) -->
-    <PackageReference Include="System.Net.Http.Json" Version="7.0.*" />
+    <PackageReference Include="System.Net.Http.Json" Version="8.0.*" />
     <!-- //#endif -->
   </ItemGroup>
   <!-- //#endif -->

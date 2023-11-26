@@ -1,5 +1,5 @@
 source https://api.nuget.org/v3/index.json
-framework: net7.0
+framework: net8.0
 storage: none
 
 github fsbolero/bolero .build/Utility.fs
