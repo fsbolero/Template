@@ -77,13 +77,14 @@ Target.create "pack" <| fun o ->
             ToolType = ToolType.CreateLocalTool()
         }
 
-Target.description "Test all the template projects by building them."
-Target.create "test-build" <| fun o ->
-    // Install the newly created template
+Target.description "Install the locally built template. Warning: uninstalls any previously installed version."
+Target.create "install" <| fun o ->
     if (dotnetOutput "new" ["list"]).Contains("bolero-app") then
         dotnet "new" ["uninstall"; packageName]
     dotnet "new" ["install"; packageOutputFile o; "--force"]
 
+Target.description "Test all the template projects by building them."
+Target.create "test-build" <| fun o ->
     // For each template variant, create and build a new project
     let testsDir = slnDir </> "test-build"
     if cleanTest o && Directory.Exists(testsDir) then
@@ -109,6 +110,7 @@ Target.create "release" ignore
 
 // Main dep path with soft dependencies
 "pack"
+    ==> "install"
     ==> "test-build"
     ==> "release"
 |> ignore
