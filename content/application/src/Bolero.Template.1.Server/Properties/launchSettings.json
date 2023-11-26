@@ -19,7 +19,7 @@
     "Server": {
       "commandName": "Project",
       "launchBrowser": true,
-      "inspectUri": "{wsProtocol}://{url.hostname}:{url.prt}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "applicationUrl": "https://localhost:PORT_SERVER_SSL;http://localhost:PORT_SERVER_HTTP",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
