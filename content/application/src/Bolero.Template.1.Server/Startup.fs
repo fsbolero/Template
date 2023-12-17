@@ -14,38 +14,37 @@ open Bolero.Template._1
 open Bolero.Templating.Server
 //#endif
 
-type Startup() =
+module Program =
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-    member this.ConfigureServices(services: IServiceCollection) =
+    [<EntryPoint>]
+    let main args =
+        let builder = WebApplication.CreateBuilder(args)
+
 //#if (hostpage == "razor")
-        services.AddMvc().AddRazorRuntimeCompilation() |> ignore
+        builder.Services.AddMvc().AddRazorRuntimeCompilation() |> ignore
 //#else
-        services.AddMvc() |> ignore
+        builder.Services.AddMvc() |> ignore
 //#endif
-        services.AddServerSideBlazor() |> ignore
-        services
+        builder.Services.AddServerSideBlazor() |> ignore
 //#if (!minimal)
-            .AddAuthorization()
+        builder.Services.AddAuthorization()
             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie()
-                .Services
-            .AddBoleroRemoting<BookService>()
+            .AddCookie()
+        |> ignore
+        builder.Services.AddBoleroRemoting<BookService>() |> ignore
 //#endif
 //#if (hostpage != "html")
-            .AddBoleroHost()
+        builder.Services.AddBoleroHost() |> ignore
 //#endif
 //#if (hotreload_actual)
 #if DEBUG
-            .AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.1.Client")
+        builder.Services.AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.1.Client") |> ignore
 #endif
 //#endif
-        |> ignore
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    member this.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
-        if env.IsDevelopment() then
+        let app = builder.Build()
+
+        if app.Environment.IsDevelopment() then
             app.UseWebAssemblyDebugging()
 
         app
@@ -54,33 +53,25 @@ type Startup() =
             .UseRouting()
             .UseAuthorization()
             .UseBlazorFrameworkFiles()
-            .UseEndpoints(fun endpoints ->
+        |> ignore
+
 //#if (hotreload_actual)
 #if DEBUG
-                endpoints.UseHotReload()
+        app.UseHotReload()
 #endif
 //#endif
-                endpoints.MapBoleroRemoting() |> ignore
+        app.MapBoleroRemoting() |> ignore
 //#if (hostpage == "razor")
-                endpoints.MapBlazorHub() |> ignore
-                endpoints.MapFallbackToPage("/_Host") |> ignore)
+        app.MapBlazorHub() |> ignore
+        app.MapFallbackToPage("/_Host") |> ignore
 //#elseif (hostpage == "bolero")
-                endpoints.MapBlazorHub() |> ignore
-                endpoints.MapFallbackToBolero(Index.page) |> ignore)
+        app.MapBlazorHub() |> ignore
+        app.MapFallbackToBolero(Index.page) |> ignore
 //#elseif (hostpage == "html")
-                endpoints.MapControllers() |> ignore
-                endpoints.MapFallbackToFile("index.html") |> ignore)
+        app.MapControllers() |> ignore
+        app.MapFallbackToFile("index.html") |> ignore
 //#endif
         |> ignore
 
-module Program =
-
-    [<EntryPoint>]
-    let main args =
-        WebHost
-            .CreateDefaultBuilder(args)
-            .UseStaticWebAssets()
-            .UseStartup<Startup>()
-            .Build()
-            .Run()
+        app.Run()
         0
