@@ -98,6 +98,7 @@ type Message =
 //#if (server)
     | SetUsername of string
     | SetPassword of string
+    | ClearLoginForm
     | GetSignedInAs
     | RecvSignedInAs of option<string>
     | SendSignIn
@@ -111,7 +112,7 @@ type Message =
 //#if (server)
 let update remote message model =
     let onSignIn = function
-        | Some _ -> Cmd.ofMsg GetBooks
+        | Some _ -> Cmd.batch [ Cmd.ofMsg GetBooks; Cmd.ofMsg ClearLoginForm ]
         | None -> Cmd.none
 //#else
 let update (http: HttpClient) message model =
@@ -143,6 +144,10 @@ let update (http: HttpClient) message model =
         { model with username = s }, Cmd.none
     | SetPassword s ->
         { model with password = s }, Cmd.none
+    | ClearLoginForm ->
+        { model with
+            username = ""
+            password = "" }, Cmd.none
     | GetSignedInAs ->
         model, Cmd.OfAuthorized.either remote.getUsername () RecvSignedInAs Error
     | RecvSignedInAs username ->
