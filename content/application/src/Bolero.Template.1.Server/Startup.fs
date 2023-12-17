@@ -1,4 +1,4 @@
-namespace Bolero.Template._1.Server
+module Bolero.Template._1.Server.Program
 
 open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Authentication.Cookies
@@ -14,64 +14,62 @@ open Bolero.Template._1
 open Bolero.Templating.Server
 //#endif
 
-module Program =
-
-    [<EntryPoint>]
-    let main args =
-        let builder = WebApplication.CreateBuilder(args)
+[<EntryPoint>]
+let main args =
+    let builder = WebApplication.CreateBuilder(args)
 
 //#if (hostpage == "razor")
-        builder.Services.AddMvc().AddRazorRuntimeCompilation() |> ignore
+    builder.Services.AddMvc().AddRazorRuntimeCompilation() |> ignore
 //#else
-        builder.Services.AddMvc() |> ignore
+    builder.Services.AddMvc() |> ignore
 //#endif
-        builder.Services.AddServerSideBlazor() |> ignore
+    builder.Services.AddServerSideBlazor() |> ignore
 //#if (!minimal)
-        builder.Services.AddAuthorization()
-            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie()
-        |> ignore
-        builder.Services.AddBoleroRemoting<BookService>() |> ignore
+    builder.Services.AddAuthorization()
+        .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie()
+    |> ignore
+    builder.Services.AddBoleroRemoting<BookService>() |> ignore
 //#endif
 //#if (hostpage != "html")
-        builder.Services.AddBoleroHost() |> ignore
+    builder.Services.AddBoleroHost() |> ignore
 //#endif
 //#if (hotreload_actual)
 #if DEBUG
-        builder.Services.AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.1.Client") |> ignore
+    builder.Services.AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.1.Client") |> ignore
 #endif
 //#endif
 
-        let app = builder.Build()
+    let app = builder.Build()
 
-        if app.Environment.IsDevelopment() then
-            app.UseWebAssemblyDebugging()
+    if app.Environment.IsDevelopment() then
+        app.UseWebAssemblyDebugging()
 
-        app
-            .UseAuthentication()
-            .UseStaticFiles()
-            .UseRouting()
-            .UseAuthorization()
-            .UseBlazorFrameworkFiles()
-        |> ignore
+    app
+        .UseAuthentication()
+        .UseStaticFiles()
+        .UseRouting()
+        .UseAuthorization()
+        .UseBlazorFrameworkFiles()
+    |> ignore
 
 //#if (hotreload_actual)
 #if DEBUG
-        app.UseHotReload()
+    app.UseHotReload()
 #endif
 //#endif
-        app.MapBoleroRemoting() |> ignore
+    app.MapBoleroRemoting() |> ignore
 //#if (hostpage == "razor")
-        app.MapBlazorHub() |> ignore
-        app.MapFallbackToPage("/_Host") |> ignore
+    app.MapBlazorHub() |> ignore
+    app.MapFallbackToPage("/_Host") |> ignore
 //#elseif (hostpage == "bolero")
-        app.MapBlazorHub() |> ignore
-        app.MapFallbackToBolero(Index.page) |> ignore
+    app.MapBlazorHub() |> ignore
+    app.MapFallbackToBolero(Index.page) |> ignore
 //#elseif (hostpage == "html")
-        app.MapControllers() |> ignore
-        app.MapFallbackToFile("index.html") |> ignore
+    app.MapControllers() |> ignore
+    app.MapFallbackToFile("index.html") |> ignore
 //#endif
-        |> ignore
+    |> ignore
 
-        app.Run()
-        0
+    app.Run()
+    0
