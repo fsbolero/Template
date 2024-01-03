@@ -52,6 +52,39 @@
       ],
       "defaultValue":"bolero"
     },
+    "render": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "The type of rendering to use (ignored if server=false or hostpage!=bolero)",
+      "dataType": "choice",
+      "replaces": "RENDER_MODE",
+      "choices": [
+        {"choice":"InteractiveServer","description":"Use InteractiveServer render mode"},
+        {"choice":"InteractiveWebAssembly","description":"Use InteractiveWebAssembly render mode"},
+        {"choice":"InteractiveAuto","description":"Use InteractiveAuto render mode"},
+        {"choice":"Server","description":"Use classic server-side mode"},
+        {"choice":"WebAssembly","description":"Use classic client-side mode"}
+     ],
+      "defaultValue": "WebAssembly"
+    },
+    "isInteractive": {
+      "type": "computed",
+      "dataType": "bool",
+      "value": "(hostpage == \"bolero\" && (render == \"InteractiveServer\" || render == \"InteractiveWebAssembly\" || render == \"InteractiveAuto\"))"
+    },
+    "renderServer": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "RENDER_SERVER",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {"condition": "(render == \"Server\")", "value": "true"},
+          {"condition": "(render != \"Server\")", "value": "false"}
+        ]
+      }
+    },
     "pwa": {
       "type": "parameter",
       "isRequired": false,
