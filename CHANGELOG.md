@@ -2,7 +2,6 @@
 
 ## 0.24
 
-* Fix `--nightly` to use GitHub packages with `--githubUsername` and `--githubToken`.
 * [#50](https://github.com/fsbolero/Template/issues/50) Add option `--render` to decide the render mode. Possible values are:
     * `Server` for classic server-side mode.
     * `WebAssembly` for classic client-side mode.
