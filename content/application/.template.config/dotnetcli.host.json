@@ -21,6 +21,10 @@
       "longName": "hostpage",
       "shortName": "hp"
     },
+    "render": {
+      "longName": "render",
+      "shortName": "r"
+    },
     "pwa": {
       "longName": "pwa",
       "shortName": "pwa"

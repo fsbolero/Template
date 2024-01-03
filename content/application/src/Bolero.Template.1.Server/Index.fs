@@ -1,5 +1,9 @@
 module Bolero.Template._1.Server.Index
 
+//#if (isInteractive)
+open Microsoft.AspNetCore.Components
+open Microsoft.AspNetCore.Components.Web
+//#endif
 open Bolero
 open Bolero.Html
 open Bolero.Server.Html
@@ -38,10 +42,24 @@ let page = doctypeHtml {
             }
         }
 //#endif
-        div { attr.id "main"; comp<Client.Main.MyApp> }
+        div {
+            attr.id "main"
+//#if (isInteractive)
+            comp<Client.Main.MyApp> { attr.renderMode RenderMode.RENDER_MODE }
+//#else
+            comp<Client.Main.MyApp>
+//#endif
+        }
         boleroScript
 //#if (pwa)
         script { rawHtml "navigator.serviceWorker.register('service-worker.js');" }
 //#endif
     }
 }
+//#if (isInteractive)
+
+[<Route "/{*path}">]
+type Page() =
+    inherit Bolero.Component()
+    override _.Render() = page
+//#endif

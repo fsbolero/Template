@@ -55,6 +55,17 @@ let variantsToTest =
                                 $"--html={htmlv}"
                                 $"--hotreload={reloadv}"
                             ]
+                            if (hostv = "bolero") then
+                                for renderk, renderv in [("IntServer", "InteractiveServer");("IntWasm", "InteractiveWebAssembly");("IntAuto", "InteractiveAuto");] do
+                                    $"{minik}.{renderk}.{hostk}.{htmlk}.{pwak}", [
+                                        "--server"
+                                        $"--minimal={miniv}"
+                                        $"--hostpage={hostv}"
+                                        $"--pwa={pwav}"
+                                        $"--html={htmlv}"
+                                        $"--hotreload={reloadv}"
+                                        $"--render={renderv}"
+                                    ]
             // Client
             for htmlk, htmlv in [("Html", "true"); ("NoHtml", "false")] do
                 for minik, miniv in [("Minimal", "true"); ("Full", "false")] do

@@ -18,21 +18,28 @@ open Bolero.Templating.Server
 let main args =
     let builder = WebApplication.CreateBuilder(args)
 
-//#if (hostpage == "razor")
+//#if (isInteractive)
+    builder.Services.AddRazorComponents()
+        .AddInteractiveServerComponents()
+        .AddInteractiveWebAssemblyComponents()
+    |> ignore
+//#elseif (hostpage == "razor")
     builder.Services.AddMvc().AddRazorRuntimeCompilation() |> ignore
 //#else
     builder.Services.AddMvc() |> ignore
 //#endif
     builder.Services.AddServerSideBlazor() |> ignore
-//#if (!minimal)
     builder.Services.AddAuthorization()
         .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie()
     |> ignore
+//#if (!minimal)
     builder.Services.AddBoleroRemoting<BookService>() |> ignore
 //#endif
-//#if (hostpage != "html")
-    builder.Services.AddBoleroHost() |> ignore
+//#if (isInteractive)
+    builder.Services.AddBoleroComponents() |> ignore
+//#elseif (hostpage != "html")
+    builder.Services.AddBoleroHost(server = RENDER_SERVER) |> ignore
 //#endif
 //#if (hotreload_actual)
 #if DEBUG
@@ -50,7 +57,11 @@ let main args =
         .UseStaticFiles()
         .UseRouting()
         .UseAuthorization()
+//#if (isInteractive)
+        .UseAntiforgery()
+//#else
         .UseBlazorFrameworkFiles()
+//#endif
     |> ignore
 
 //#if (hotreload_actual)
@@ -59,7 +70,12 @@ let main args =
 #endif
 //#endif
     app.MapBoleroRemoting() |> ignore
-//#if (hostpage == "razor")
+//#if (isInteractive)
+    app.MapRazorComponents<Index.Page>()
+        .AddInteractiveServerRenderMode()
+        .AddInteractiveWebAssemblyRenderMode()
+        .AddAdditionalAssemblies(typeof<Client.Main.MyApp>.Assembly)
+//#elseif (hostpage == "razor")
     app.MapBlazorHub() |> ignore
     app.MapFallbackToPage("/_Host") |> ignore
 //#elseif (hostpage == "bolero")
