@@ -60,6 +60,22 @@ You can use the following options to customize the project being created:
 
         This is ignored if `server=false`.
 
+    * `--render`, `-r`:
+
+        Determines the render mode. Can be one of:
+
+        * `Server` for classic server-side mode.
+
+        * `WebAssembly` for classic client-side mode.
+
+        * `InteractiveServer` for server-side interactive render mode (see https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-8.0).
+
+        * `InteractiveWebAssembly` for client-side interactive render mode.
+
+        * `InteractiveAuto` for automatic interactive render mode (client-side if available, otherwise server-side while downloading the client-side runtime in the background).
+
+        This is ignored if `server=false`. Moreover, the `Interactive*` render modes are only compatible with `hostpage=bolero`.
+
     * `--html`, `-ht`:
 
         If `true` (the default), use HTML templates.
