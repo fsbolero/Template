@@ -19,12 +19,33 @@
       "dataType": "bool",
       "defaultValue": "false"
     },
-    "server": {
+    "render": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Include an ASP.NET Core server-side host",
-      "dataType": "bool",
-      "defaultValue": "true"
+      "description": "The type of rendering to use",
+      "dataType": "choice",
+      "replaces": "RENDER_MODE",
+      "choices": [
+        {"choice":"WebAssembly","description":"WebAssembly only (no server project)"},
+        {"choice":"InteractiveServer","description":"InteractiveServer render mode"},
+        {"choice":"InteractiveWebAssembly","description":"InteractiveWebAssembly render mode"},
+        {"choice":"InteractiveAuto","description":"InteractiveAuto render mode"},
+        {"choice":"LegacyServer","description":"Legacy server-side mode"},
+        {"choice":"LegacyWebAssembly","description":"Legacy client-side mode"}
+     ],
+      "defaultValue": "InteractiveWebAssembly"
+    },
+    "hostpage": {
+      "type": "parameter",
+      "isRequired": false,
+      "description": "How the static HTML content is generated with render=LegacyServer",
+      "dataType": "choice",
+      "choices": [
+        {"choice":"bolero","description":"A page defined with Bolero's html functions"},
+        {"choice":"html","description":"A plain index.html file"},
+        {"choice":"razor","description":"A dynamically compiled Razor page"}
+      ],
+      "defaultValue":"bolero"
     },
     "html": {
       "type": "parameter",
@@ -36,41 +57,19 @@
     "hotreload": {
       "type": "parameter",
       "isRequired": false,
-      "description": "Include hot reload for HTML templates (ignored if html=false or server=false)",
+      "description": "Include hot reload for HTML templates (ignored if html=false or render=WebAssembly)",
       "dataType": "bool",
       "defaultValue": "true"
     },
-    "hostpage": {
-      "type": "parameter",
-      "isRequired": false,
-      "description": "How the static HTML content is generated (ignored if server=false)",
-      "dataType": "choice",
-      "choices": [
-        {"choice":"bolero","description":"A page defined with Bolero's html functions"},
-        {"choice":"html","description":"A plain index.html file"},
-        {"choice":"razor","description":"A dynamically compiled Razor page"}
-      ],
-      "defaultValue":"bolero"
-    },
-    "render": {
-      "type": "parameter",
-      "isRequired": false,
-      "description": "The type of rendering to use (ignored if server=false or hostpage!=bolero)",
-      "dataType": "choice",
-      "replaces": "RENDER_MODE",
-      "choices": [
-        {"choice":"InteractiveServer","description":"Use InteractiveServer render mode"},
-        {"choice":"InteractiveWebAssembly","description":"Use InteractiveWebAssembly render mode"},
-        {"choice":"InteractiveAuto","description":"Use InteractiveAuto render mode"},
-        {"choice":"Server","description":"Use classic server-side mode"},
-        {"choice":"WebAssembly","description":"Use classic client-side mode"}
-     ],
-      "defaultValue": "WebAssembly"
+    "server": {
+      "type": "computed",
+      "dataType": "bool",
+      "value": "(render != \"WebAssembly\")"
     },
     "isInteractive": {
       "type": "computed",
       "dataType": "bool",
-      "value": "(hostpage == \"bolero\" && (render == \"InteractiveServer\" || render == \"InteractiveWebAssembly\" || render == \"InteractiveAuto\"))"
+      "value": "(render == \"InteractiveServer\" || render == \"InteractiveWebAssembly\" || render == \"InteractiveAuto\")"
     },
     "renderServer": {
       "type": "generated",
