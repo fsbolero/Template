@@ -52,7 +52,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' || contains(github.ref, 'releases') }}
     steps:
       - name: Download nupkg
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: nuget
 
