@@ -36,7 +36,7 @@ jobs:
           ./build.sh -t pack -c release
 
       - name: Upload nupkg
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: nuget
           path: build
@@ -57,7 +57,7 @@ jobs:
           name: nuget
 
       - name: Push to GitHub feed
-        run: dotnet nuget push nuget/*.nupkg
+        run: dotnet nuget push *.nupkg
                --api-key "${{secrets.GITHUB_TOKEN}}"
                --source "https://nuget.pkg.github.com/${{github.repository_owner}}/"
                --skip-duplicate
