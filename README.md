@@ -12,7 +12,7 @@ To learn more, you can check [the documentation](https://fsbolero.io/docs).
 
 To get started, you need the following installed:
 
-* .NET SDK 5.0. Download it [here](https://dotnet.microsoft.com/download/dotnet/5.0).
+* .NET SDK 8.0. Download it [here](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 ## Creating a project based on this template
 
@@ -42,39 +42,33 @@ You can use the following options to customize the project being created:
 
         If `false` (the default), the created project includes Bolero features such as routed pages, HTML templates and remoting.
 
-    * `--server`, `-s`:
+    * `--render`, `-r`:
 
-        If `true` (the default), the solution includes a `Server` project, which is an ASP.NET Core server that hosts the application.
+        Determines the render mode. Can be one of:
 
-        If `false`, the solution only contains the `Client` project that is compiled to WebAssembly.
+        * `InteractiveWebAssembly` (the default) for client-side interactive render mode.
+
+        * `InteractiveServer` for server-side interactive render mode (see https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-8.0).
+
+        * `InteractiveAuto` for automatic interactive render mode (client-side if available, otherwise server-side while downloading the client-side runtime in the background).
+
+        * `WebAssembly` for client-only WebAssembly without a server project.
+
+        * `LegacyServer` for classic (pre-.NET 8) server-side mode.
+
+        * `LegacyWebAssembly` for classic (pre-.NET 8) client-side mode.
 
     * `--hostpage`, `-hp`:
 
-        Determines how the server-side HTML page content is written. Can be one of:
+        Determines how the server-side HTML page content is written for `LegacyServer`. Can be one of:
 
-        * `bolero`: using Bolero.Html functions.
+        * `bolero` (the default): using Bolero.Html functions.
 
         * `razor`: using a dynamically-compiled Razor page.
 
         * `html`: using a plain .html file.
 
-        This is ignored if `server=false`.
-
-    * `--render`, `-r`:
-
-        Determines the render mode. Can be one of:
-
-        * `Server` for classic server-side mode.
-
-        * `WebAssembly` for classic client-side mode.
-
-        * `InteractiveServer` for server-side interactive render mode (see https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-8.0).
-
-        * `InteractiveWebAssembly` for client-side interactive render mode.
-
-        * `InteractiveAuto` for automatic interactive render mode (client-side if available, otherwise server-side while downloading the client-side runtime in the background).
-
-        This is ignored if `server=false`. Moreover, the `Interactive*` render modes are only compatible with `hostpage=bolero`.
+        This is ignored if `render` is not `LegacyServer`.
 
     * `--html`, `-ht`:
 

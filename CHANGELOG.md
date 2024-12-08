@@ -2,9 +2,10 @@
 
 ## 0.24
 
-* [#50](https://github.com/fsbolero/Template/issues/50) Add option `--render` to decide the render mode. Possible values are:
-    * `Server` for classic server-side mode.
-    * `WebAssembly` for classic client-side mode.
+* [#50](https://github.com/fsbolero/Template/issues/50) Replace option `--server` with `--render` to decide the render mode. Possible values are:
+    * `LegacyServer` for classic server-side mode.
+    * `LegacyWebAssembly` for classic client-side mode.
+    * `WebAssembly` for client-only WebAssembly mode without a server project.
     * `InteractiveServer` for server-side interactive render mode (see https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-8.0).
     * `InteractiveWebAssembly` for client-side interactive render mode.
     * `InteractiveAuto` for automatic interactive render mode (client-side if available, otherwise server-side while downloading the client-side runtime in the background).

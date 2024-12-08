@@ -40,25 +40,22 @@ let buildOutputDir = slnDir </> "build"
 let packageName = "Bolero.Templates"
 let packageOutputFile o = buildOutputDir </> $"{packageName}.{version o}.nupkg"
 let variantsToTest =
+    let serverModes = [
+        ("LegacyWasm","LegacyWebAssembly")
+        ("LegacyServer","LegacyServer")
+        ("IntServer", "InteractiveServer")
+        ("IntWasm", "InteractiveWebAssembly")
+        ("IntAuto", "InteractiveAuto")
+    ]
     [
         for pwak, pwav in [("Pwa", "true"); ("NoPwa", "false")] do
-            // Server
-            for hostk, hostv in [("Bolero", "bolero"); ("Razor", "razor"); ("Html", "html")] do
+            for minik, miniv in [("Minimal", "true"); ("Full", "false")] do
                 for htmlk, reloadv, htmlv in [("Reload", "true", "true"); ("NoReload", "false", "true"); ("NoHtml", "false", "false")] do
-                    for minik, miniv in [("Minimal", "true"); ("Full", "false")] do
-                        if not (miniv = "true" && htmlv = "true") then
-                            $"{minik}.Server{hostk}.{htmlk}.{pwak}", [
-                                "--server"
-                                $"--minimal={miniv}"
-                                $"--hostpage={hostv}"
-                                $"--pwa={pwav}"
-                                $"--html={htmlv}"
-                                $"--hotreload={reloadv}"
-                            ]
-                            if (hostv = "bolero") then
-                                for renderk, renderv in [("IntServer", "InteractiveServer");("IntWasm", "InteractiveWebAssembly");("IntAuto", "InteractiveAuto");] do
+                    if not (miniv = "true" && htmlv = "true") then
+                        for renderk, renderv in serverModes do
+                            if renderv.StartsWith("Legacy") then
+                                for hostk, hostv in [("Bolero", "bolero"); ("Razor", "razor"); ("Html", "html")] do
                                     $"{minik}.{renderk}.{hostk}.{htmlk}.{pwak}", [
-                                        "--server"
                                         $"--minimal={miniv}"
                                         $"--hostpage={hostv}"
                                         $"--pwa={pwav}"
@@ -66,12 +63,18 @@ let variantsToTest =
                                         $"--hotreload={reloadv}"
                                         $"--render={renderv}"
                                     ]
-            // Client
-            for htmlk, htmlv in [("Html", "true"); ("NoHtml", "false")] do
-                for minik, miniv in [("Minimal", "true"); ("Full", "false")] do
+                            else
+                                $"{minik}.{renderk}.{htmlk}.{pwak}", [
+                                    $"--minimal={miniv}"
+                                    $"--pwa={pwav}"
+                                    $"--html={htmlv}"
+                                    $"--hotreload={reloadv}"
+                                    $"--render={renderv}"
+                                ]
+                for htmlk, htmlv in [("Html", "true"); ("NoHtml", "false")] do
                     if not (miniv = "true" && htmlv = "true") then
-                        $"{minik}.NoServer.{htmlk}.{pwak}", [
-                            "--server=false"
+                        $"{minik}.Wasm.{htmlk}.{pwak}", [
+                            "--render=WebAssembly"
                             $"--minimal={miniv}"
                             $"--pwa={pwav}"
                             $"--html={htmlv}"
