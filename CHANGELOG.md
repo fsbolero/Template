@@ -14,6 +14,7 @@
 
 * [#41](https://github.com/fsbolero/Template/issues/41) Fix issue where, when creating a project containing a dash, the solution file uses an underscore in the project path.
 * [#45](https://github.com/fsbolero/Template/issues/45) Add launchSettings that enable WebAssembly debugging.
+* [#52](https://github.com/fsbolero/Template/issues/52) Fix namespace used in Razor host page.
 
 ## 0.22
 
