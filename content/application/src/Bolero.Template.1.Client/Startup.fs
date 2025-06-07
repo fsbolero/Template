@@ -14,7 +14,9 @@ module Program =
     [<EntryPoint>]
     let Main args =
         let builder = WebAssemblyHostBuilder.CreateDefault(args)
+//#if (!isInteractive)
         builder.RootComponents.Add<Main.MyApp>("#main")
+//#endif
 //#if (server)
         builder.Services.AddBoleroRemoting(builder.HostEnvironment) |> ignore
 //#else

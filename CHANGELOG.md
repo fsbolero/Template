@@ -10,6 +10,7 @@
     * `InteractiveWebAssembly` for client-side interactive render mode.
     * `InteractiveAuto` for automatic interactive render mode (client-side if available, otherwise server-side while downloading the client-side runtime in the background).
 * [#56](https://github.com/fsbolero/Template/issues/56) Update to paket 9.0.2
+* [#57](https://github.com/fsbolero/Template/issues/57) Remove call to RootComponents.Add when using InteractiveRenderMode
 
 ## 0.23
 
