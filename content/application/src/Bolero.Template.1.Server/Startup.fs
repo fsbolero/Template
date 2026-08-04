@@ -69,6 +69,7 @@ let main args =
     app.UseHotReload()
 #endif
 //#endif
+    app.MapStaticAssets() |> ignore
     app.MapBoleroRemoting() |> ignore
 //#if (isInteractive)
     app.MapRazorComponents<Index.Page>()
