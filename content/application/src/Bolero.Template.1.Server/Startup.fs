@@ -14,6 +14,8 @@ open Bolero.Template._1
 open Bolero.Templating.Server
 //#endif
 
+#nowarn 20 // Ignore the return value of app and builder methods
+
 [<EntryPoint>]
 let main args =
     let builder = WebApplication.CreateBuilder(args)
@@ -22,28 +24,26 @@ let main args =
     builder.Services.AddRazorComponents()
         .AddInteractiveServerComponents()
         .AddInteractiveWebAssemblyComponents()
-    |> ignore
 //#elseif (hostpage == "razor")
-    builder.Services.AddMvc().AddRazorRuntimeCompilation() |> ignore
+    builder.Services.AddMvc().AddRazorRuntimeCompilation()
 //#else
-    builder.Services.AddMvc() |> ignore
+    builder.Services.AddMvc()
 //#endif
-    builder.Services.AddServerSideBlazor() |> ignore
+    builder.Services.AddServerSideBlazor()
     builder.Services.AddAuthorization()
         .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie()
-    |> ignore
 //#if (!minimal)
-    builder.Services.AddBoleroRemoting<BookService>() |> ignore
+    builder.Services.AddBoleroRemoting<BookService>()
 //#endif
 //#if (isInteractive)
-    builder.Services.AddBoleroComponents() |> ignore
+    builder.Services.AddBoleroComponents()
 //#elseif (hostpage != "html")
-    builder.Services.AddBoleroHost(server = RENDER_SERVER) |> ignore
+    builder.Services.AddBoleroHost(server = RENDER_SERVER)
 //#endif
 //#if (hotreload_actual)
 #if DEBUG
-    builder.Services.AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.1.Client") |> ignore
+    builder.Services.AddHotReload(templateDir = __SOURCE_DIRECTORY__ + "/../Bolero.Template.1.Client")
 #endif
 //#endif
 
@@ -62,31 +62,29 @@ let main args =
 //#else
         .UseBlazorFrameworkFiles()
 //#endif
-    |> ignore
 
 //#if (hotreload_actual)
 #if DEBUG
     app.UseHotReload()
 #endif
 //#endif
-    app.MapStaticAssets() |> ignore
-    app.MapBoleroRemoting() |> ignore
+    app.MapStaticAssets()
+    app.MapBoleroRemoting()
 //#if (isInteractive)
     app.MapRazorComponents<Index.Page>()
         .AddInteractiveServerRenderMode()
         .AddInteractiveWebAssemblyRenderMode()
         .AddAdditionalAssemblies(typeof<Client.Main.MyApp>.Assembly)
 //#elseif (hostpage == "razor")
-    app.MapBlazorHub() |> ignore
-    app.MapFallbackToPage("/_Host") |> ignore
+    app.MapBlazorHub()
+    app.MapFallbackToPage("/_Host")
 //#elseif (hostpage == "bolero")
-    app.MapBlazorHub() |> ignore
-    app.MapFallbackToBolero(Index.page) |> ignore
+    app.MapBlazorHub()
+    app.MapFallbackToBolero(Index.page)
 //#elseif (hostpage == "html")
-    app.MapControllers() |> ignore
-    app.MapFallbackToFile("index.html") |> ignore
+    app.MapControllers()
+    app.MapFallbackToFile("index.html")
 //#endif
-    |> ignore
 
     app.Run()
     0
