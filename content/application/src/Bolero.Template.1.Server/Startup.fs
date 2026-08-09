@@ -52,15 +52,14 @@ let main args =
     if app.Environment.IsDevelopment() then
         app.UseWebAssemblyDebugging()
 
-    app
-        .UseAuthentication()
-        .UseStaticFiles()
-        .UseRouting()
-        .UseAuthorization()
+    app.UseAuthentication()
+    app.UseStaticFiles()
+    app.UseRouting()
+    app.UseAuthorization()
 //#if (isInteractive)
-        .UseAntiforgery()
+    app.UseAntiforgery()
 //#else
-        .UseBlazorFrameworkFiles()
+    app.UseBlazorFrameworkFiles()
 //#endif
 
 //#if (hotreload_actual)
