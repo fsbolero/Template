@@ -4,6 +4,7 @@ open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Authentication.Cookies
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.Hosting.StaticWebAssets
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Bolero
@@ -48,6 +49,10 @@ let main args =
 //#endif
 
     let app = builder.Build()
+
+#if DEBUG
+    StaticWebAssetsLoader.UseStaticWebAssets(app.Environment, app.Configuration)
+#endif
 
     if app.Environment.IsDevelopment() then
         app.UseWebAssemblyDebugging()
