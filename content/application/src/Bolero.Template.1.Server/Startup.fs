@@ -57,21 +57,22 @@ let main args =
     if app.Environment.IsDevelopment() then
         app.UseWebAssemblyDebugging()
 
+//#if (!isInteractive)
+    app.UseBlazorFrameworkFiles()
+//#endif
     app.UseAuthentication()
     app.UseStaticFiles()
     app.UseRouting()
     app.UseAuthorization()
 //#if (isInteractive)
     app.UseAntiforgery()
-//#else
-    app.UseBlazorFrameworkFiles()
 //#endif
-
 //#if (hotreload_actual)
 #if DEBUG
     app.UseHotReload()
 #endif
 //#endif
+
     app.MapStaticAssets()
     app.MapBoleroRemoting()
 //#if (isInteractive)
