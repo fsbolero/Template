@@ -52,7 +52,7 @@ let page = doctypeHtml {
         }
         boleroScript
 //#if (pwa)
-        script { rawHtml "navigator.serviceWorker.register('service-worker.js');" }
+        script { rawHtml "navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });" }
 //#endif
     }
 }
