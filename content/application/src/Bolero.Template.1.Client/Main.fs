@@ -175,10 +175,10 @@ let router = Router.infer SetPage (fun model -> model.page)
 //#if (html)
 type Main = Template<"wwwroot/main.html">
 
-let homePage model dispatch =
+let homePage model (dispatch: Message -> unit) =
     Main.Home().Elt()
 
-let counterPage model dispatch =
+let counterPage model (dispatch: Message -> unit) =
     Main.Counter()
         .Decrement(fun _ -> dispatch Decrement)
         .Increment(fun _ -> dispatch Increment)
@@ -186,9 +186,9 @@ let counterPage model dispatch =
         .Elt()
 
 //#if (server)
-let dataPage model (username: string) dispatch =
+let dataPage model (username: string) (dispatch: Message -> unit) =
 //#else
-let dataPage model dispatch =
+let dataPage model (dispatch: Message -> unit) =
 //#endif
     Main.Data()
         .Reload(fun _ -> dispatch GetBooks)
@@ -210,7 +210,7 @@ let dataPage model dispatch =
         .Elt()
 
 //#if (server)
-let signInPage model dispatch =
+let signInPage model (dispatch: Message -> unit) =
     Main.SignIn()
         .Username(model.username, fun s -> dispatch (SetUsername s))
         .Password(model.password, fun s -> dispatch (SetPassword s))
@@ -234,7 +234,7 @@ let menuItem (model: Model) (page: Page) (text: string) =
         .Text(text)
         .Elt()
 
-let view model dispatch =
+let view model (dispatch: Message -> unit) =
     Main()
         .Menu(concat {
             menuItem model Home "Home"
