@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.25
+
+* [#58](https://github.com/fsbolero/Template/issues/59) Target net10.0 by default.
+* When using HTML templates, add type annotations to disambiguate event handlers from the async versions that have been added in Bolero 0.25.
+
 ## 0.24
 
 * [#50](https://github.com/fsbolero/Template/issues/50) Replace option `--server` with `--render` to decide the render mode. Possible values are:
