@@ -79,8 +79,8 @@
         "evaluator": "C++",
         "datatype": "string",
         "cases": [
-          {"condition": "(render == \"Server\")", "value": "true"},
-          {"condition": "(render != \"Server\")", "value": "false"}
+          {"condition": "(render == \"LegacyServer\")", "value": "true"},
+          {"condition": "(render != \"LegacyServer\")", "value": "false"}
         ]
       }
     },
